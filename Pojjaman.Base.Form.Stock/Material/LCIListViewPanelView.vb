@@ -73,565 +73,564 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lvLevel2 As PJMListView
     Friend WithEvents chkIncludeCancel As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.lblAltName = New System.Windows.Forms.Label()
-      Me.txtAltName = New System.Windows.Forms.TextBox()
-      Me.txtlv5 = New System.Windows.Forms.TextBox()
-      Me.txtlv4 = New System.Windows.Forms.TextBox()
-      Me.txtlv3 = New System.Windows.Forms.TextBox()
-      Me.txtlv2 = New System.Windows.Forms.TextBox()
-      Me.txtlv1 = New System.Windows.Forms.TextBox()
-      Me.lblCode = New System.Windows.Forms.Label()
-      Me.lblName = New System.Windows.Forms.Label()
-      Me.txtName = New System.Windows.Forms.TextBox()
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.lblLevel4_5 = New System.Windows.Forms.Label()
-      Me.lblLevel3 = New System.Windows.Forms.Label()
-      Me.lblLevel2 = New System.Windows.Forms.Label()
-      Me.lblLevel1 = New System.Windows.Forms.Label()
-      Me.GroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.chkIncludeCancel = New System.Windows.Forms.CheckBox()
-      Me.txtFilterAltName = New System.Windows.Forms.TextBox()
-      Me.grpAmount = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.Label5 = New System.Windows.Forms.Label()
-      Me.Label6 = New System.Windows.Forms.Label()
-      Me.txtMinPrice = New System.Windows.Forms.TextBox()
-      Me.txtMaxPrice = New System.Windows.Forms.TextBox()
-      Me.Label7 = New System.Windows.Forms.Label()
-      Me.Label8 = New System.Windows.Forms.Label()
-      Me.txtFilterLv5 = New System.Windows.Forms.TextBox()
-      Me.txtFilterLv4 = New System.Windows.Forms.TextBox()
-      Me.txtFilterLv3 = New System.Windows.Forms.TextBox()
-      Me.txtFilterLv2 = New System.Windows.Forms.TextBox()
-      Me.txtFilterLv1 = New System.Windows.Forms.TextBox()
-      Me.Label3 = New System.Windows.Forms.Label()
-      Me.Label4 = New System.Windows.Forms.Label()
-      Me.txtFilterName = New System.Windows.Forms.TextBox()
-      Me.btnSearch = New System.Windows.Forms.Button()
-      Me.btnClearAll = New System.Windows.Forms.Button()
-      Me.Label2 = New System.Windows.Forms.Label()
-      Me.lvLevel1 = New Longkong.Pojjaman.Gui.Components.PJMListView()
-      Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-      Me.lvLevel2 = New Longkong.Pojjaman.Gui.Components.PJMListView()
-      Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-      Me.lvLevel3 = New Longkong.Pojjaman.Gui.Components.PJMListView()
-      Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-      Me.grbDetail.SuspendLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
-      Me.GroupBox1.SuspendLayout()
-      Me.grpAmount.SuspendLayout()
-      Me.SuspendLayout()
-      '
-      'grbDetail
-      '
-      Me.grbDetail.Controls.Add(Me.lblAltName)
-      Me.grbDetail.Controls.Add(Me.txtAltName)
-      Me.grbDetail.Controls.Add(Me.txtlv5)
-      Me.grbDetail.Controls.Add(Me.txtlv4)
-      Me.grbDetail.Controls.Add(Me.txtlv3)
-      Me.grbDetail.Controls.Add(Me.txtlv2)
-      Me.grbDetail.Controls.Add(Me.txtlv1)
-      Me.grbDetail.Controls.Add(Me.lblCode)
-      Me.grbDetail.Controls.Add(Me.lblName)
-      Me.grbDetail.Controls.Add(Me.txtName)
-      Me.grbDetail.Enabled = False
-      Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.grbDetail.Location = New System.Drawing.Point(9, 2)
-      Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(243, 90)
-      Me.grbDetail.TabIndex = 180
-      Me.grbDetail.TabStop = False
-      Me.grbDetail.Text = "รายละเอียดวัสดุ"
-      '
-      'lblAltName
-      '
-      Me.lblAltName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAltName.Location = New System.Drawing.Point(6, 63)
-      Me.lblAltName.Name = "lblAltName"
-      Me.lblAltName.Size = New System.Drawing.Size(79, 24)
-      Me.lblAltName.TabIndex = 124
-      Me.lblAltName.Text = "Other Name:"
-      Me.lblAltName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtAltName
-      '
-      Me.txtAltName.BackColor = System.Drawing.SystemColors.Window
-      Me.txtAltName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtAltName.Location = New System.Drawing.Point(86, 64)
-      Me.txtAltName.MaxLength = 200
-      Me.txtAltName.Name = "txtAltName"
-      Me.txtAltName.ReadOnly = True
-      Me.txtAltName.Size = New System.Drawing.Size(152, 22)
-      Me.txtAltName.TabIndex = 7
-      '
-      'txtlv5
-      '
-      Me.txtlv5.BackColor = System.Drawing.SystemColors.Window
-      Me.txtlv5.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv5.Location = New System.Drawing.Point(182, 16)
-      Me.txtlv5.MaxLength = 7
-      Me.txtlv5.Name = "txtlv5"
-      Me.txtlv5.ReadOnly = True
-      Me.txtlv5.Size = New System.Drawing.Size(56, 23)
-      Me.txtlv5.TabIndex = 4
-      '
-      'txtlv4
-      '
-      Me.txtlv4.BackColor = System.Drawing.SystemColors.Window
-      Me.txtlv4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv4.Location = New System.Drawing.Point(158, 16)
-      Me.txtlv4.MaxLength = 2
-      Me.txtlv4.Name = "txtlv4"
-      Me.txtlv4.ReadOnly = True
-      Me.txtlv4.Size = New System.Drawing.Size(24, 23)
-      Me.txtlv4.TabIndex = 3
-      '
-      'txtlv3
-      '
-      Me.txtlv3.BackColor = System.Drawing.SystemColors.Info
-      Me.txtlv3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv3.Location = New System.Drawing.Point(134, 16)
-      Me.txtlv3.MaxLength = 2
-      Me.txtlv3.Name = "txtlv3"
-      Me.txtlv3.ReadOnly = True
-      Me.txtlv3.Size = New System.Drawing.Size(24, 23)
-      Me.txtlv3.TabIndex = 2
-      '
-      'txtlv2
-      '
-      Me.txtlv2.BackColor = System.Drawing.SystemColors.Info
-      Me.txtlv2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv2.Location = New System.Drawing.Point(110, 16)
-      Me.txtlv2.MaxLength = 2
-      Me.txtlv2.Name = "txtlv2"
-      Me.txtlv2.ReadOnly = True
-      Me.txtlv2.Size = New System.Drawing.Size(24, 23)
-      Me.txtlv2.TabIndex = 1
-      '
-      'txtlv1
-      '
-      Me.txtlv1.BackColor = System.Drawing.SystemColors.Info
-      Me.txtlv1.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtlv1.Location = New System.Drawing.Point(86, 16)
-      Me.txtlv1.MaxLength = 2
-      Me.txtlv1.Name = "txtlv1"
-      Me.txtlv1.ReadOnly = True
-      Me.txtlv1.Size = New System.Drawing.Size(24, 23)
-      Me.txtlv1.TabIndex = 0
-      '
-      'lblCode
-      '
-      Me.lblCode.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCode.Location = New System.Drawing.Point(6, 16)
-      Me.lblCode.Name = "lblCode"
-      Me.lblCode.Size = New System.Drawing.Size(79, 20)
-      Me.lblCode.TabIndex = 123
-      Me.lblCode.Text = "LCI Code:"
-      Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblName
-      '
-      Me.lblName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblName.Location = New System.Drawing.Point(6, 40)
-      Me.lblName.Name = "lblName"
-      Me.lblName.Size = New System.Drawing.Size(79, 20)
-      Me.lblName.TabIndex = 122
-      Me.lblName.Text = "Name:"
-      Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtName
-      '
-      Me.txtName.BackColor = System.Drawing.SystemColors.Window
-      Me.txtName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtName.Location = New System.Drawing.Point(86, 40)
-      Me.txtName.MaxLength = 200
-      Me.txtName.Name = "txtName"
-      Me.txtName.ReadOnly = True
-      Me.txtName.Size = New System.Drawing.Size(152, 22)
-      Me.txtName.TabIndex = 6
-      '
-      'tgItem
-      '
-      Me.tgItem.AllowNew = False
-      Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.SystemColors.Window
-      Me.tgItem.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.tgItem.AutoColumnResize = True
-      Me.tgItem.CaptionVisible = False
-      Me.tgItem.Cellchanged = False
-      Me.tgItem.DataMember = ""
-      Me.tgItem.HeaderBackColor = System.Drawing.Color.Khaki
-      Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 266)
-      Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(760, 272)
-      Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgItem.TabIndex = 190
-      Me.tgItem.TreeManager = Nothing
-      '
-      'lblLevel4_5
-      '
-      Me.lblLevel4_5.AutoSize = True
-      Me.lblLevel4_5.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblLevel4_5.Location = New System.Drawing.Point(8, 251)
-      Me.lblLevel4_5.Name = "lblLevel4_5"
-      Me.lblLevel4_5.Size = New System.Drawing.Size(70, 14)
-      Me.lblLevel4_5.TabIndex = 189
-      Me.lblLevel4_5.Text = "Material List"
-      Me.lblLevel4_5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblLevel3
-      '
-      Me.lblLevel3.AutoSize = True
-      Me.lblLevel3.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
-      Me.lblLevel3.Location = New System.Drawing.Point(505, 91)
-      Me.lblLevel3.Name = "lblLevel3"
-      Me.lblLevel3.Size = New System.Drawing.Size(50, 16)
-      Me.lblLevel3.TabIndex = 188
-      Me.lblLevel3.Text = "Level3"
-      Me.lblLevel3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblLevel2
-      '
-      Me.lblLevel2.AutoSize = True
-      Me.lblLevel2.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
-      Me.lblLevel2.Location = New System.Drawing.Point(256, 91)
-      Me.lblLevel2.Name = "lblLevel2"
-      Me.lblLevel2.Size = New System.Drawing.Size(50, 16)
-      Me.lblLevel2.TabIndex = 187
-      Me.lblLevel2.Text = "Level2"
-      Me.lblLevel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblLevel1
-      '
-      Me.lblLevel1.AutoSize = True
-      Me.lblLevel1.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.lblLevel1.Location = New System.Drawing.Point(12, 91)
-      Me.lblLevel1.Name = "lblLevel1"
-      Me.lblLevel1.Size = New System.Drawing.Size(50, 16)
-      Me.lblLevel1.TabIndex = 186
-      Me.lblLevel1.Text = "Level1"
-      Me.lblLevel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'GroupBox1
-      '
-      Me.GroupBox1.Controls.Add(Me.chkIncludeCancel)
-      Me.GroupBox1.Controls.Add(Me.txtFilterAltName)
-      Me.GroupBox1.Controls.Add(Me.grpAmount)
-      Me.GroupBox1.Controls.Add(Me.txtFilterLv5)
-      Me.GroupBox1.Controls.Add(Me.txtFilterLv4)
-      Me.GroupBox1.Controls.Add(Me.txtFilterLv3)
-      Me.GroupBox1.Controls.Add(Me.txtFilterLv2)
-      Me.GroupBox1.Controls.Add(Me.txtFilterLv1)
-      Me.GroupBox1.Controls.Add(Me.Label3)
-      Me.GroupBox1.Controls.Add(Me.Label4)
-      Me.GroupBox1.Controls.Add(Me.txtFilterName)
-      Me.GroupBox1.Controls.Add(Me.btnSearch)
-      Me.GroupBox1.Controls.Add(Me.btnClearAll)
-      Me.GroupBox1.Controls.Add(Me.Label2)
-      Me.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.GroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.GroupBox1.Location = New System.Drawing.Point(255, 2)
-      Me.GroupBox1.Name = "GroupBox1"
-      Me.GroupBox1.Size = New System.Drawing.Size(513, 90)
-      Me.GroupBox1.TabIndex = 180
-      Me.GroupBox1.TabStop = False
-      Me.GroupBox1.Text = "ค้นหาวัสดุ/หมวดวัสดุ"
-      '
-      'chkIncludeCancel
-      '
-      Me.chkIncludeCancel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkIncludeCancel.Location = New System.Drawing.Point(436, 10)
-      Me.chkIncludeCancel.Name = "chkIncludeCancel"
-      Me.chkIncludeCancel.Size = New System.Drawing.Size(72, 24)
-      Me.chkIncludeCancel.TabIndex = 190
-      Me.chkIncludeCancel.TabStop = False
-      Me.chkIncludeCancel.Text = "รวมยกเลิก"
-      '
-      'txtFilterAltName
-      '
-      Me.txtFilterAltName.BackColor = System.Drawing.SystemColors.Window
-      Me.txtFilterAltName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterAltName.Location = New System.Drawing.Point(81, 64)
-      Me.txtFilterAltName.MaxLength = 200
-      Me.txtFilterAltName.Name = "txtFilterAltName"
-      Me.txtFilterAltName.Size = New System.Drawing.Size(152, 22)
-      Me.txtFilterAltName.TabIndex = 6
-      '
-      'grpAmount
-      '
-      Me.grpAmount.Controls.Add(Me.Label5)
-      Me.grpAmount.Controls.Add(Me.Label6)
-      Me.grpAmount.Controls.Add(Me.txtMinPrice)
-      Me.grpAmount.Controls.Add(Me.txtMaxPrice)
-      Me.grpAmount.Controls.Add(Me.Label7)
-      Me.grpAmount.Controls.Add(Me.Label8)
-      Me.grpAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grpAmount.Location = New System.Drawing.Point(236, 8)
-      Me.grpAmount.Name = "grpAmount"
-      Me.grpAmount.Size = New System.Drawing.Size(195, 78)
-      Me.grpAmount.TabIndex = 189
-      Me.grpAmount.TabStop = False
-      Me.grpAmount.Text = "ราคา"
-      '
-      'Label5
-      '
-      Me.Label5.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label5.ForeColor = System.Drawing.Color.Black
-      Me.Label5.Location = New System.Drawing.Point(6, 18)
-      Me.Label5.Name = "Label5"
-      Me.Label5.Size = New System.Drawing.Size(48, 18)
-      Me.Label5.TabIndex = 11
-      Me.Label5.Text = "From"
-      Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'Label6
-      '
-      Me.Label6.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label6.ForeColor = System.Drawing.Color.Black
-      Me.Label6.Location = New System.Drawing.Point(6, 42)
-      Me.Label6.Name = "Label6"
-      Me.Label6.Size = New System.Drawing.Size(48, 18)
-      Me.Label6.TabIndex = 11
-      Me.Label6.Text = "To"
-      Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtMinPrice
-      '
-      Me.txtMinPrice.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtMinPrice.Location = New System.Drawing.Point(56, 16)
-      Me.txtMinPrice.Name = "txtMinPrice"
-      Me.txtMinPrice.Size = New System.Drawing.Size(80, 22)
-      Me.txtMinPrice.TabIndex = 187
-      '
-      'txtMaxPrice
-      '
-      Me.txtMaxPrice.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtMaxPrice.Location = New System.Drawing.Point(56, 40)
-      Me.txtMaxPrice.Name = "txtMaxPrice"
-      Me.txtMaxPrice.Size = New System.Drawing.Size(80, 22)
-      Me.txtMaxPrice.TabIndex = 187
-      '
-      'Label7
-      '
-      Me.Label7.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label7.ForeColor = System.Drawing.Color.Black
-      Me.Label7.Location = New System.Drawing.Point(136, 18)
-      Me.Label7.Name = "Label7"
-      Me.Label7.Size = New System.Drawing.Size(56, 18)
-      Me.Label7.TabIndex = 11
-      Me.Label7.Text = "บาท/หน่วย"
-      Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'Label8
-      '
-      Me.Label8.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label8.ForeColor = System.Drawing.Color.Black
-      Me.Label8.Location = New System.Drawing.Point(136, 42)
-      Me.Label8.Name = "Label8"
-      Me.Label8.Size = New System.Drawing.Size(56, 18)
-      Me.Label8.TabIndex = 11
-      Me.Label8.Text = "บาท/หน่วย"
-      Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtFilterLv5
-      '
-      Me.txtFilterLv5.BackColor = System.Drawing.SystemColors.Window
-      Me.txtFilterLv5.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv5.Location = New System.Drawing.Point(177, 16)
-      Me.txtFilterLv5.MaxLength = 7
-      Me.txtFilterLv5.Name = "txtFilterLv5"
-      Me.txtFilterLv5.Size = New System.Drawing.Size(56, 23)
-      Me.txtFilterLv5.TabIndex = 4
-      '
-      'txtFilterLv4
-      '
-      Me.txtFilterLv4.BackColor = System.Drawing.SystemColors.Window
-      Me.txtFilterLv4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv4.Location = New System.Drawing.Point(153, 16)
-      Me.txtFilterLv4.MaxLength = 2
-      Me.txtFilterLv4.Name = "txtFilterLv4"
-      Me.txtFilterLv4.Size = New System.Drawing.Size(24, 23)
-      Me.txtFilterLv4.TabIndex = 3
-      '
-      'txtFilterLv3
-      '
-      Me.txtFilterLv3.BackColor = System.Drawing.SystemColors.Info
-      Me.txtFilterLv3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv3.Location = New System.Drawing.Point(129, 16)
-      Me.txtFilterLv3.MaxLength = 2
-      Me.txtFilterLv3.Name = "txtFilterLv3"
-      Me.txtFilterLv3.Size = New System.Drawing.Size(24, 23)
-      Me.txtFilterLv3.TabIndex = 2
-      '
-      'txtFilterLv2
-      '
-      Me.txtFilterLv2.BackColor = System.Drawing.SystemColors.Info
-      Me.txtFilterLv2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv2.Location = New System.Drawing.Point(105, 16)
-      Me.txtFilterLv2.MaxLength = 2
-      Me.txtFilterLv2.Name = "txtFilterLv2"
-      Me.txtFilterLv2.Size = New System.Drawing.Size(24, 23)
-      Me.txtFilterLv2.TabIndex = 1
-      '
-      'txtFilterLv1
-      '
-      Me.txtFilterLv1.BackColor = System.Drawing.SystemColors.Info
-      Me.txtFilterLv1.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterLv1.Location = New System.Drawing.Point(81, 16)
-      Me.txtFilterLv1.MaxLength = 2
-      Me.txtFilterLv1.Name = "txtFilterLv1"
-      Me.txtFilterLv1.Size = New System.Drawing.Size(24, 23)
-      Me.txtFilterLv1.TabIndex = 0
-      '
-      'Label3
-      '
-      Me.Label3.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label3.Location = New System.Drawing.Point(3, 16)
-      Me.Label3.Name = "Label3"
-      Me.Label3.Size = New System.Drawing.Size(79, 20)
-      Me.Label3.TabIndex = 123
-      Me.Label3.Text = "LCI Code:"
-      Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'Label4
-      '
-      Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label4.Location = New System.Drawing.Point(3, 40)
-      Me.Label4.Name = "Label4"
-      Me.Label4.Size = New System.Drawing.Size(79, 20)
-      Me.Label4.TabIndex = 122
-      Me.Label4.Text = "Name:"
-      Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtFilterName
-      '
-      Me.txtFilterName.BackColor = System.Drawing.SystemColors.Window
-      Me.txtFilterName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtFilterName.Location = New System.Drawing.Point(81, 40)
-      Me.txtFilterName.MaxLength = 200
-      Me.txtFilterName.Name = "txtFilterName"
-      Me.txtFilterName.Size = New System.Drawing.Size(152, 22)
-      Me.txtFilterName.TabIndex = 5
-      '
-      'btnSearch
-      '
-      Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnSearch.Location = New System.Drawing.Point(439, 34)
-      Me.btnSearch.Name = "btnSearch"
-      Me.btnSearch.Size = New System.Drawing.Size(64, 24)
-      Me.btnSearch.TabIndex = 184
-      Me.btnSearch.Text = "ค้นหา"
-      '
-      'btnClearAll
-      '
-      Me.btnClearAll.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnClearAll.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnClearAll.Location = New System.Drawing.Point(439, 62)
-      Me.btnClearAll.Name = "btnClearAll"
-      Me.btnClearAll.Size = New System.Drawing.Size(64, 24)
-      Me.btnClearAll.TabIndex = 184
-      Me.btnClearAll.Text = "Clear All"
-      '
-      'Label2
-      '
-      Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label2.Location = New System.Drawing.Point(3, 63)
-      Me.Label2.Name = "Label2"
-      Me.Label2.Size = New System.Drawing.Size(79, 24)
-      Me.Label2.TabIndex = 124
-      Me.Label2.Text = "Other Name:"
-      Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lvLevel1
-      '
-      Me.lvLevel1.AllowSort = True
-      Me.lvLevel1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
-      Me.lvLevel1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-      Me.lvLevel1.HideSelection = False
-      Me.lvLevel1.Location = New System.Drawing.Point(8, 107)
-      Me.lvLevel1.Name = "lvLevel1"
-      Me.lvLevel1.Size = New System.Drawing.Size(249, 144)
-      Me.lvLevel1.SortIndex = -1
-      Me.lvLevel1.SortOrder = System.Windows.Forms.SortOrder.None
-      Me.lvLevel1.TabIndex = 192
-      Me.lvLevel1.UseCompatibleStateImageBehavior = False
-      Me.lvLevel1.View = System.Windows.Forms.View.Details
-      '
-      'ColumnHeader1
-      '
-      Me.ColumnHeader1.Text = "Items"
-      Me.ColumnHeader1.Width = 223
-      '
-      'lvLevel2
-      '
-      Me.lvLevel2.AllowSort = True
-      Me.lvLevel2.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
-      Me.lvLevel2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-      Me.lvLevel2.HideSelection = False
-      Me.lvLevel2.Location = New System.Drawing.Point(257, 107)
-      Me.lvLevel2.Name = "lvLevel2"
-      Me.lvLevel2.Size = New System.Drawing.Size(249, 144)
-      Me.lvLevel2.SortIndex = -1
-      Me.lvLevel2.SortOrder = System.Windows.Forms.SortOrder.None
-      Me.lvLevel2.TabIndex = 192
-      Me.lvLevel2.UseCompatibleStateImageBehavior = False
-      Me.lvLevel2.View = System.Windows.Forms.View.Details
-      '
-      'ColumnHeader2
-      '
-      Me.ColumnHeader2.Text = "Items"
-      Me.ColumnHeader2.Width = 222
-      '
-      'lvLevel3
-      '
-      Me.lvLevel3.AllowSort = True
-      Me.lvLevel3.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3})
-      Me.lvLevel3.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-      Me.lvLevel3.HideSelection = False
-      Me.lvLevel3.Location = New System.Drawing.Point(506, 107)
-      Me.lvLevel3.Name = "lvLevel3"
-      Me.lvLevel3.Size = New System.Drawing.Size(260, 144)
-      Me.lvLevel3.SortIndex = -1
-      Me.lvLevel3.SortOrder = System.Windows.Forms.SortOrder.None
-      Me.lvLevel3.TabIndex = 192
-      Me.lvLevel3.UseCompatibleStateImageBehavior = False
-      Me.lvLevel3.View = System.Windows.Forms.View.Details
-      '
-      'ColumnHeader3
-      '
-      Me.ColumnHeader3.Text = "Items"
-      Me.ColumnHeader3.Width = 222
-      '
-      'LCIListViewPanelView
-      '
-      Me.Controls.Add(Me.lvLevel1)
-      Me.Controls.Add(Me.lvLevel2)
-      Me.Controls.Add(Me.lvLevel3)
-      Me.Controls.Add(Me.grbDetail)
-      Me.Controls.Add(Me.tgItem)
-      Me.Controls.Add(Me.lblLevel4_5)
-      Me.Controls.Add(Me.GroupBox1)
-      Me.Controls.Add(Me.lblLevel3)
-      Me.Controls.Add(Me.lblLevel2)
-      Me.Controls.Add(Me.lblLevel1)
-      Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Name = "LCIListViewPanelView"
-      Me.Size = New System.Drawing.Size(776, 544)
-      Me.grbDetail.ResumeLayout(False)
-      Me.grbDetail.PerformLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
-      Me.GroupBox1.ResumeLayout(False)
-      Me.GroupBox1.PerformLayout()
-      Me.grpAmount.ResumeLayout(False)
-      Me.grpAmount.PerformLayout()
-      Me.ResumeLayout(False)
-      Me.PerformLayout()
+            Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.lblAltName = New System.Windows.Forms.Label()
+            Me.txtAltName = New System.Windows.Forms.TextBox()
+            Me.txtlv5 = New System.Windows.Forms.TextBox()
+            Me.txtlv4 = New System.Windows.Forms.TextBox()
+            Me.txtlv3 = New System.Windows.Forms.TextBox()
+            Me.txtlv2 = New System.Windows.Forms.TextBox()
+            Me.txtlv1 = New System.Windows.Forms.TextBox()
+            Me.lblCode = New System.Windows.Forms.Label()
+            Me.lblName = New System.Windows.Forms.Label()
+            Me.txtName = New System.Windows.Forms.TextBox()
+            Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+            Me.lblLevel4_5 = New System.Windows.Forms.Label()
+            Me.lblLevel3 = New System.Windows.Forms.Label()
+            Me.lblLevel2 = New System.Windows.Forms.Label()
+            Me.lblLevel1 = New System.Windows.Forms.Label()
+            Me.GroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.chkIncludeCancel = New System.Windows.Forms.CheckBox()
+            Me.txtFilterAltName = New System.Windows.Forms.TextBox()
+            Me.grpAmount = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.Label5 = New System.Windows.Forms.Label()
+            Me.Label6 = New System.Windows.Forms.Label()
+            Me.txtMinPrice = New System.Windows.Forms.TextBox()
+            Me.txtMaxPrice = New System.Windows.Forms.TextBox()
+            Me.Label7 = New System.Windows.Forms.Label()
+            Me.Label8 = New System.Windows.Forms.Label()
+            Me.txtFilterLv5 = New System.Windows.Forms.TextBox()
+            Me.txtFilterLv4 = New System.Windows.Forms.TextBox()
+            Me.txtFilterLv3 = New System.Windows.Forms.TextBox()
+            Me.txtFilterLv2 = New System.Windows.Forms.TextBox()
+            Me.txtFilterLv1 = New System.Windows.Forms.TextBox()
+            Me.Label3 = New System.Windows.Forms.Label()
+            Me.Label4 = New System.Windows.Forms.Label()
+            Me.txtFilterName = New System.Windows.Forms.TextBox()
+            Me.btnSearch = New System.Windows.Forms.Button()
+            Me.btnClearAll = New System.Windows.Forms.Button()
+            Me.Label2 = New System.Windows.Forms.Label()
+            Me.lvLevel1 = New Longkong.Pojjaman.Gui.Components.PJMListView()
+            Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.lvLevel2 = New Longkong.Pojjaman.Gui.Components.PJMListView()
+            Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.lvLevel3 = New Longkong.Pojjaman.Gui.Components.PJMListView()
+            Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.grbDetail.SuspendLayout()
+            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.GroupBox1.SuspendLayout()
+            Me.grpAmount.SuspendLayout()
+            Me.SuspendLayout()
+            '
+            'grbDetail
+            '
+            Me.grbDetail.Controls.Add(Me.lblAltName)
+            Me.grbDetail.Controls.Add(Me.txtAltName)
+            Me.grbDetail.Controls.Add(Me.txtlv5)
+            Me.grbDetail.Controls.Add(Me.txtlv4)
+            Me.grbDetail.Controls.Add(Me.txtlv3)
+            Me.grbDetail.Controls.Add(Me.txtlv2)
+            Me.grbDetail.Controls.Add(Me.txtlv1)
+            Me.grbDetail.Controls.Add(Me.lblCode)
+            Me.grbDetail.Controls.Add(Me.lblName)
+            Me.grbDetail.Controls.Add(Me.txtName)
+            Me.grbDetail.Enabled = False
+            Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.grbDetail.Location = New System.Drawing.Point(9, 2)
+            Me.grbDetail.Name = "grbDetail"
+            Me.grbDetail.Size = New System.Drawing.Size(337, 90)
+            Me.grbDetail.TabIndex = 180
+            Me.grbDetail.TabStop = False
+            Me.grbDetail.Text = "รายละเอียดวัสดุ"
+            '
+            'lblAltName
+            '
+            Me.lblAltName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblAltName.Location = New System.Drawing.Point(6, 63)
+            Me.lblAltName.Name = "lblAltName"
+            Me.lblAltName.Size = New System.Drawing.Size(79, 24)
+            Me.lblAltName.TabIndex = 124
+            Me.lblAltName.Text = "Other Name:"
+            Me.lblAltName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtAltName
+            '
+            Me.txtAltName.BackColor = System.Drawing.SystemColors.Window
+            Me.txtAltName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtAltName.Location = New System.Drawing.Point(86, 64)
+            Me.txtAltName.MaxLength = 200
+            Me.txtAltName.Name = "txtAltName"
+            Me.txtAltName.ReadOnly = True
+            Me.txtAltName.Size = New System.Drawing.Size(245, 22)
+            Me.txtAltName.TabIndex = 7
+            '
+            'txtlv5
+            '
+            Me.txtlv5.BackColor = System.Drawing.SystemColors.Window
+            Me.txtlv5.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtlv5.Location = New System.Drawing.Point(182, 16)
+            Me.txtlv5.MaxLength = 15
+            Me.txtlv5.Name = "txtlv5"
+            Me.txtlv5.ReadOnly = True
+            Me.txtlv5.Size = New System.Drawing.Size(149, 23)
+            Me.txtlv5.TabIndex = 4
+            '
+            'txtlv4
+            '
+            Me.txtlv4.BackColor = System.Drawing.SystemColors.Window
+            Me.txtlv4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtlv4.Location = New System.Drawing.Point(158, 16)
+            Me.txtlv4.MaxLength = 2
+            Me.txtlv4.Name = "txtlv4"
+            Me.txtlv4.ReadOnly = True
+            Me.txtlv4.Size = New System.Drawing.Size(24, 23)
+            Me.txtlv4.TabIndex = 3
+            '
+            'txtlv3
+            '
+            Me.txtlv3.BackColor = System.Drawing.SystemColors.Info
+            Me.txtlv3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtlv3.Location = New System.Drawing.Point(134, 16)
+            Me.txtlv3.MaxLength = 2
+            Me.txtlv3.Name = "txtlv3"
+            Me.txtlv3.ReadOnly = True
+            Me.txtlv3.Size = New System.Drawing.Size(24, 23)
+            Me.txtlv3.TabIndex = 2
+            '
+            'txtlv2
+            '
+            Me.txtlv2.BackColor = System.Drawing.SystemColors.Info
+            Me.txtlv2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtlv2.Location = New System.Drawing.Point(110, 16)
+            Me.txtlv2.MaxLength = 2
+            Me.txtlv2.Name = "txtlv2"
+            Me.txtlv2.ReadOnly = True
+            Me.txtlv2.Size = New System.Drawing.Size(24, 23)
+            Me.txtlv2.TabIndex = 1
+            '
+            'txtlv1
+            '
+            Me.txtlv1.BackColor = System.Drawing.SystemColors.Info
+            Me.txtlv1.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtlv1.Location = New System.Drawing.Point(86, 16)
+            Me.txtlv1.MaxLength = 2
+            Me.txtlv1.Name = "txtlv1"
+            Me.txtlv1.ReadOnly = True
+            Me.txtlv1.Size = New System.Drawing.Size(24, 23)
+            Me.txtlv1.TabIndex = 0
+            '
+            'lblCode
+            '
+            Me.lblCode.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblCode.Location = New System.Drawing.Point(6, 16)
+            Me.lblCode.Name = "lblCode"
+            Me.lblCode.Size = New System.Drawing.Size(79, 20)
+            Me.lblCode.TabIndex = 123
+            Me.lblCode.Text = "LCI Code:"
+            Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblName
+            '
+            Me.lblName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblName.Location = New System.Drawing.Point(6, 40)
+            Me.lblName.Name = "lblName"
+            Me.lblName.Size = New System.Drawing.Size(79, 20)
+            Me.lblName.TabIndex = 122
+            Me.lblName.Text = "Name:"
+            Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtName
+            '
+            Me.txtName.BackColor = System.Drawing.SystemColors.Window
+            Me.txtName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtName.Location = New System.Drawing.Point(86, 40)
+            Me.txtName.MaxLength = 200
+            Me.txtName.Name = "txtName"
+            Me.txtName.ReadOnly = True
+            Me.txtName.Size = New System.Drawing.Size(245, 22)
+            Me.txtName.TabIndex = 6
+            '
+            'tgItem
+            '
+            Me.tgItem.AllowNew = False
+            Me.tgItem.AllowSorting = False
+            Me.tgItem.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.tgItem.AutoColumnResize = True
+            Me.tgItem.CaptionVisible = False
+            Me.tgItem.Cellchanged = False
+            Me.tgItem.DataMember = ""
+            Me.tgItem.HeaderBackColor = System.Drawing.Color.Khaki
+            Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
+            Me.tgItem.Location = New System.Drawing.Point(8, 266)
+            Me.tgItem.Name = "tgItem"
+            Me.tgItem.Size = New System.Drawing.Size(760, 272)
+            Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
+            Me.tgItem.TabIndex = 190
+            Me.tgItem.TreeManager = Nothing
+            '
+            'lblLevel4_5
+            '
+            Me.lblLevel4_5.AutoSize = True
+            Me.lblLevel4_5.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblLevel4_5.Location = New System.Drawing.Point(8, 251)
+            Me.lblLevel4_5.Name = "lblLevel4_5"
+            Me.lblLevel4_5.Size = New System.Drawing.Size(70, 14)
+            Me.lblLevel4_5.TabIndex = 189
+            Me.lblLevel4_5.Text = "Material List"
+            Me.lblLevel4_5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblLevel3
+            '
+            Me.lblLevel3.AutoSize = True
+            Me.lblLevel3.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+            Me.lblLevel3.Location = New System.Drawing.Point(505, 91)
+            Me.lblLevel3.Name = "lblLevel3"
+            Me.lblLevel3.Size = New System.Drawing.Size(50, 16)
+            Me.lblLevel3.TabIndex = 188
+            Me.lblLevel3.Text = "Level3"
+            Me.lblLevel3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblLevel2
+            '
+            Me.lblLevel2.AutoSize = True
+            Me.lblLevel2.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+            Me.lblLevel2.Location = New System.Drawing.Point(256, 91)
+            Me.lblLevel2.Name = "lblLevel2"
+            Me.lblLevel2.Size = New System.Drawing.Size(50, 16)
+            Me.lblLevel2.TabIndex = 187
+            Me.lblLevel2.Text = "Level2"
+            Me.lblLevel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblLevel1
+            '
+            Me.lblLevel1.AutoSize = True
+            Me.lblLevel1.Font = New System.Drawing.Font("Tahoma", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.lblLevel1.Location = New System.Drawing.Point(12, 91)
+            Me.lblLevel1.Name = "lblLevel1"
+            Me.lblLevel1.Size = New System.Drawing.Size(50, 16)
+            Me.lblLevel1.TabIndex = 186
+            Me.lblLevel1.Text = "Level1"
+            Me.lblLevel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'GroupBox1
+            '
+            Me.GroupBox1.Controls.Add(Me.chkIncludeCancel)
+            Me.GroupBox1.Controls.Add(Me.txtFilterAltName)
+            Me.GroupBox1.Controls.Add(Me.grpAmount)
+            Me.GroupBox1.Controls.Add(Me.txtFilterLv5)
+            Me.GroupBox1.Controls.Add(Me.txtFilterLv4)
+            Me.GroupBox1.Controls.Add(Me.txtFilterLv3)
+            Me.GroupBox1.Controls.Add(Me.txtFilterLv2)
+            Me.GroupBox1.Controls.Add(Me.txtFilterLv1)
+            Me.GroupBox1.Controls.Add(Me.Label3)
+            Me.GroupBox1.Controls.Add(Me.Label4)
+            Me.GroupBox1.Controls.Add(Me.txtFilterName)
+            Me.GroupBox1.Controls.Add(Me.btnSearch)
+            Me.GroupBox1.Controls.Add(Me.btnClearAll)
+            Me.GroupBox1.Controls.Add(Me.Label2)
+            Me.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.GroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.GroupBox1.Location = New System.Drawing.Point(352, 3)
+            Me.GroupBox1.Name = "GroupBox1"
+            Me.GroupBox1.Size = New System.Drawing.Size(618, 90)
+            Me.GroupBox1.TabIndex = 180
+            Me.GroupBox1.TabStop = False
+            Me.GroupBox1.Text = "ค้นหาวัสดุ/หมวดวัสดุ"
+            '
+            'chkIncludeCancel
+            '
+            Me.chkIncludeCancel.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.chkIncludeCancel.Location = New System.Drawing.Point(540, 12)
+            Me.chkIncludeCancel.Name = "chkIncludeCancel"
+            Me.chkIncludeCancel.Size = New System.Drawing.Size(72, 24)
+            Me.chkIncludeCancel.TabIndex = 190
+            Me.chkIncludeCancel.TabStop = False
+            Me.chkIncludeCancel.Text = "รวมยกเลิก"
+            '
+            'txtFilterAltName
+            '
+            Me.txtFilterAltName.BackColor = System.Drawing.SystemColors.Window
+            Me.txtFilterAltName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtFilterAltName.Location = New System.Drawing.Point(81, 64)
+            Me.txtFilterAltName.MaxLength = 200
+            Me.txtFilterAltName.Name = "txtFilterAltName"
+            Me.txtFilterAltName.Size = New System.Drawing.Size(243, 22)
+            Me.txtFilterAltName.TabIndex = 6
+            '
+            'grpAmount
+            '
+            Me.grpAmount.Controls.Add(Me.Label5)
+            Me.grpAmount.Controls.Add(Me.Label6)
+            Me.grpAmount.Controls.Add(Me.txtMinPrice)
+            Me.grpAmount.Controls.Add(Me.txtMaxPrice)
+            Me.grpAmount.Controls.Add(Me.Label7)
+            Me.grpAmount.Controls.Add(Me.Label8)
+            Me.grpAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.grpAmount.Location = New System.Drawing.Point(330, 10)
+            Me.grpAmount.Name = "grpAmount"
+            Me.grpAmount.Size = New System.Drawing.Size(195, 78)
+            Me.grpAmount.TabIndex = 189
+            Me.grpAmount.TabStop = False
+            Me.grpAmount.Text = "ราคา"
+            '
+            'Label5
+            '
+            Me.Label5.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label5.ForeColor = System.Drawing.Color.Black
+            Me.Label5.Location = New System.Drawing.Point(6, 18)
+            Me.Label5.Name = "Label5"
+            Me.Label5.Size = New System.Drawing.Size(48, 18)
+            Me.Label5.TabIndex = 11
+            Me.Label5.Text = "From"
+            Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'Label6
+            '
+            Me.Label6.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label6.ForeColor = System.Drawing.Color.Black
+            Me.Label6.Location = New System.Drawing.Point(6, 42)
+            Me.Label6.Name = "Label6"
+            Me.Label6.Size = New System.Drawing.Size(48, 18)
+            Me.Label6.TabIndex = 11
+            Me.Label6.Text = "To"
+            Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtMinPrice
+            '
+            Me.txtMinPrice.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtMinPrice.Location = New System.Drawing.Point(56, 16)
+            Me.txtMinPrice.Name = "txtMinPrice"
+            Me.txtMinPrice.Size = New System.Drawing.Size(80, 22)
+            Me.txtMinPrice.TabIndex = 187
+            '
+            'txtMaxPrice
+            '
+            Me.txtMaxPrice.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtMaxPrice.Location = New System.Drawing.Point(56, 40)
+            Me.txtMaxPrice.Name = "txtMaxPrice"
+            Me.txtMaxPrice.Size = New System.Drawing.Size(80, 22)
+            Me.txtMaxPrice.TabIndex = 187
+            '
+            'Label7
+            '
+            Me.Label7.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label7.ForeColor = System.Drawing.Color.Black
+            Me.Label7.Location = New System.Drawing.Point(136, 18)
+            Me.Label7.Name = "Label7"
+            Me.Label7.Size = New System.Drawing.Size(56, 18)
+            Me.Label7.TabIndex = 11
+            Me.Label7.Text = "บาท/หน่วย"
+            Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'Label8
+            '
+            Me.Label8.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label8.ForeColor = System.Drawing.Color.Black
+            Me.Label8.Location = New System.Drawing.Point(136, 42)
+            Me.Label8.Name = "Label8"
+            Me.Label8.Size = New System.Drawing.Size(56, 18)
+            Me.Label8.TabIndex = 11
+            Me.Label8.Text = "บาท/หน่วย"
+            Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtFilterLv5
+            '
+            Me.txtFilterLv5.BackColor = System.Drawing.SystemColors.Window
+            Me.txtFilterLv5.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtFilterLv5.Location = New System.Drawing.Point(177, 16)
+            Me.txtFilterLv5.MaxLength = 15
+            Me.txtFilterLv5.Name = "txtFilterLv5"
+            Me.txtFilterLv5.Size = New System.Drawing.Size(147, 23)
+            Me.txtFilterLv5.TabIndex = 4
+            '
+            'txtFilterLv4
+            '
+            Me.txtFilterLv4.BackColor = System.Drawing.SystemColors.Window
+            Me.txtFilterLv4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtFilterLv4.Location = New System.Drawing.Point(153, 16)
+            Me.txtFilterLv4.MaxLength = 2
+            Me.txtFilterLv4.Name = "txtFilterLv4"
+            Me.txtFilterLv4.Size = New System.Drawing.Size(24, 23)
+            Me.txtFilterLv4.TabIndex = 3
+            '
+            'txtFilterLv3
+            '
+            Me.txtFilterLv3.BackColor = System.Drawing.SystemColors.Info
+            Me.txtFilterLv3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtFilterLv3.Location = New System.Drawing.Point(129, 16)
+            Me.txtFilterLv3.MaxLength = 2
+            Me.txtFilterLv3.Name = "txtFilterLv3"
+            Me.txtFilterLv3.Size = New System.Drawing.Size(24, 23)
+            Me.txtFilterLv3.TabIndex = 2
+            '
+            'txtFilterLv2
+            '
+            Me.txtFilterLv2.BackColor = System.Drawing.SystemColors.Info
+            Me.txtFilterLv2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtFilterLv2.Location = New System.Drawing.Point(105, 16)
+            Me.txtFilterLv2.MaxLength = 2
+            Me.txtFilterLv2.Name = "txtFilterLv2"
+            Me.txtFilterLv2.Size = New System.Drawing.Size(24, 23)
+            Me.txtFilterLv2.TabIndex = 1
+            '
+            'txtFilterLv1
+            '
+            Me.txtFilterLv1.BackColor = System.Drawing.SystemColors.Info
+            Me.txtFilterLv1.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtFilterLv1.Location = New System.Drawing.Point(81, 16)
+            Me.txtFilterLv1.MaxLength = 2
+            Me.txtFilterLv1.Name = "txtFilterLv1"
+            Me.txtFilterLv1.Size = New System.Drawing.Size(24, 23)
+            Me.txtFilterLv1.TabIndex = 0
+            '
+            'Label3
+            '
+            Me.Label3.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label3.Location = New System.Drawing.Point(3, 16)
+            Me.Label3.Name = "Label3"
+            Me.Label3.Size = New System.Drawing.Size(79, 20)
+            Me.Label3.TabIndex = 123
+            Me.Label3.Text = "LCI Code:"
+            Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'Label4
+            '
+            Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label4.Location = New System.Drawing.Point(3, 40)
+            Me.Label4.Name = "Label4"
+            Me.Label4.Size = New System.Drawing.Size(79, 20)
+            Me.Label4.TabIndex = 122
+            Me.Label4.Text = "Name:"
+            Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtFilterName
+            '
+            Me.txtFilterName.BackColor = System.Drawing.SystemColors.Window
+            Me.txtFilterName.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.txtFilterName.Location = New System.Drawing.Point(81, 40)
+            Me.txtFilterName.MaxLength = 200
+            Me.txtFilterName.Name = "txtFilterName"
+            Me.txtFilterName.Size = New System.Drawing.Size(243, 22)
+            Me.txtFilterName.TabIndex = 5
+            '
+            'btnSearch
+            '
+            Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnSearch.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnSearch.Location = New System.Drawing.Point(543, 36)
+            Me.btnSearch.Name = "btnSearch"
+            Me.btnSearch.Size = New System.Drawing.Size(64, 24)
+            Me.btnSearch.TabIndex = 184
+            Me.btnSearch.Text = "ค้นหา"
+            '
+            'btnClearAll
+            '
+            Me.btnClearAll.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnClearAll.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnClearAll.Location = New System.Drawing.Point(543, 64)
+            Me.btnClearAll.Name = "btnClearAll"
+            Me.btnClearAll.Size = New System.Drawing.Size(64, 24)
+            Me.btnClearAll.TabIndex = 184
+            Me.btnClearAll.Text = "Clear All"
+            '
+            'Label2
+            '
+            Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label2.Location = New System.Drawing.Point(3, 63)
+            Me.Label2.Name = "Label2"
+            Me.Label2.Size = New System.Drawing.Size(79, 24)
+            Me.Label2.TabIndex = 124
+            Me.Label2.Text = "Other Name:"
+            Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lvLevel1
+            '
+            Me.lvLevel1.AllowSort = True
+            Me.lvLevel1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+            Me.lvLevel1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+            Me.lvLevel1.HideSelection = False
+            Me.lvLevel1.Location = New System.Drawing.Point(8, 107)
+            Me.lvLevel1.Name = "lvLevel1"
+            Me.lvLevel1.Size = New System.Drawing.Size(249, 144)
+            Me.lvLevel1.SortIndex = -1
+            Me.lvLevel1.SortOrder = System.Windows.Forms.SortOrder.None
+            Me.lvLevel1.TabIndex = 192
+            Me.lvLevel1.UseCompatibleStateImageBehavior = False
+            Me.lvLevel1.View = System.Windows.Forms.View.Details
+            '
+            'ColumnHeader1
+            '
+            Me.ColumnHeader1.Text = "Items"
+            Me.ColumnHeader1.Width = 223
+            '
+            'lvLevel2
+            '
+            Me.lvLevel2.AllowSort = True
+            Me.lvLevel2.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
+            Me.lvLevel2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+            Me.lvLevel2.HideSelection = False
+            Me.lvLevel2.Location = New System.Drawing.Point(257, 107)
+            Me.lvLevel2.Name = "lvLevel2"
+            Me.lvLevel2.Size = New System.Drawing.Size(249, 144)
+            Me.lvLevel2.SortIndex = -1
+            Me.lvLevel2.SortOrder = System.Windows.Forms.SortOrder.None
+            Me.lvLevel2.TabIndex = 192
+            Me.lvLevel2.UseCompatibleStateImageBehavior = False
+            Me.lvLevel2.View = System.Windows.Forms.View.Details
+            '
+            'ColumnHeader2
+            '
+            Me.ColumnHeader2.Text = "Items"
+            Me.ColumnHeader2.Width = 222
+            '
+            'lvLevel3
+            '
+            Me.lvLevel3.AllowSort = True
+            Me.lvLevel3.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3})
+            Me.lvLevel3.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+            Me.lvLevel3.HideSelection = False
+            Me.lvLevel3.Location = New System.Drawing.Point(506, 107)
+            Me.lvLevel3.Name = "lvLevel3"
+            Me.lvLevel3.Size = New System.Drawing.Size(260, 144)
+            Me.lvLevel3.SortIndex = -1
+            Me.lvLevel3.SortOrder = System.Windows.Forms.SortOrder.None
+            Me.lvLevel3.TabIndex = 192
+            Me.lvLevel3.UseCompatibleStateImageBehavior = False
+            Me.lvLevel3.View = System.Windows.Forms.View.Details
+            '
+            'ColumnHeader3
+            '
+            Me.ColumnHeader3.Text = "Items"
+            Me.ColumnHeader3.Width = 222
+            '
+            'LCIListViewPanelView
+            '
+            Me.Controls.Add(Me.lvLevel1)
+            Me.Controls.Add(Me.lvLevel2)
+            Me.Controls.Add(Me.lvLevel3)
+            Me.Controls.Add(Me.grbDetail)
+            Me.Controls.Add(Me.tgItem)
+            Me.Controls.Add(Me.lblLevel4_5)
+            Me.Controls.Add(Me.GroupBox1)
+            Me.Controls.Add(Me.lblLevel3)
+            Me.Controls.Add(Me.lblLevel2)
+            Me.Controls.Add(Me.lblLevel1)
+            Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Name = "LCIListViewPanelView"
+            Me.Size = New System.Drawing.Size(973, 544)
+            Me.grbDetail.ResumeLayout(False)
+            Me.grbDetail.PerformLayout()
+            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.GroupBox1.ResumeLayout(False)
+            Me.GroupBox1.PerformLayout()
+            Me.grpAmount.ResumeLayout(False)
+            Me.grpAmount.PerformLayout()
+            Me.ResumeLayout(False)
+            Me.PerformLayout()
 
-    End Sub
+        End Sub
 
 #End Region
 
@@ -1378,7 +1377,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csCode.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.CodeHeaderText}")
       csCode.NullText = ""
       csCode.ReadOnly = True
-      csCode.Width = 160
+            csCode.Width = 200
 
       Dim csDescription As New TreeTextColumn
       csDescription.MappingName = "Description"

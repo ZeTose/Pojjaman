@@ -46,28 +46,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
         Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
         <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
-            Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MatEquipmentDetail))
-            Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+            Me.components = New System.ComponentModel.Container()
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MatEquipmentDetail))
+            Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
             Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-            Me.txtName = New System.Windows.Forms.TextBox
-            Me.txtAltName = New System.Windows.Forms.TextBox
-            Me.txtlv1 = New System.Windows.Forms.TextBox
-            Me.txtlv5 = New System.Windows.Forms.TextBox
-            Me.txtlv4 = New System.Windows.Forms.TextBox
-            Me.txtlv3 = New System.Windows.Forms.TextBox
-            Me.txtlv2 = New System.Windows.Forms.TextBox
+            Me.txtName = New System.Windows.Forms.TextBox()
+            Me.txtAltName = New System.Windows.Forms.TextBox()
+            Me.txtlv1 = New System.Windows.Forms.TextBox()
+            Me.txtlv5 = New System.Windows.Forms.TextBox()
+            Me.txtlv4 = New System.Windows.Forms.TextBox()
+            Me.txtlv3 = New System.Windows.Forms.TextBox()
+            Me.txtlv2 = New System.Windows.Forms.TextBox()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-            Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-            Me.grbLCI = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-            Me.lblAltName = New System.Windows.Forms.Label
-            Me.lblName = New System.Windows.Forms.Label
-            Me.lblLCI = New System.Windows.Forms.Label
-            Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-            Me.lblItem = New System.Windows.Forms.Label
+            Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.grbLCI = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.lblAltName = New System.Windows.Forms.Label()
+            Me.lblName = New System.Windows.Forms.Label()
+            Me.lblLCI = New System.Windows.Forms.Label()
+            Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.lblItem = New System.Windows.Forms.Label()
             CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.grbLCI.SuspendLayout()
             Me.grbDetail.SuspendLayout()
             Me.SuspendLayout()
@@ -76,10 +77,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.tgItem.AllowNew = True
             Me.tgItem.AllowSorting = False
-            Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(255, Byte), CType(128, Byte))
+            Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
             Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.tgItem.AutoColumnResize = True
             Me.tgItem.BackgroundColor = System.Drawing.Color.DimGray
             Me.tgItem.CaptionBackColor = System.Drawing.Color.SaddleBrown
@@ -105,9 +106,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.BackcolorChanging = False
             Me.Validator.DataTable = Nothing
             Me.Validator.ErrorProvider = Me.ErrorProvider1
-            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.Validator.HasNewRow = False
-            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
             '
             'txtName
             '
@@ -124,7 +125,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtName, False)
             Me.txtName.Size = New System.Drawing.Size(248, 21)
             Me.txtName.TabIndex = 2
-            Me.txtName.Text = ""
             '
             'txtAltName
             '
@@ -141,7 +141,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtAltName, False)
             Me.txtAltName.Size = New System.Drawing.Size(248, 21)
             Me.txtAltName.TabIndex = 3
-            Me.txtAltName.Text = ""
             '
             'txtlv1
             '
@@ -161,7 +160,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtlv1, False)
             Me.txtlv1.Size = New System.Drawing.Size(24, 23)
             Me.txtlv1.TabIndex = 163
-            Me.txtlv1.Text = ""
             '
             'txtlv5
             '
@@ -172,15 +170,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtlv5, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtlv5, System.Drawing.Color.Empty)
             Me.txtlv5.Location = New System.Drawing.Point(200, 16)
-            Me.txtlv5.MaxLength = 4
+            Me.txtlv5.MaxLength = 15
             Me.Validator.SetMaxValue(Me.txtlv5, "")
             Me.Validator.SetMinValue(Me.txtlv5, "")
             Me.txtlv5.Name = "txtlv5"
             Me.Validator.SetRegularExpression(Me.txtlv5, "")
             Me.Validator.SetRequired(Me.txtlv5, False)
-            Me.txtlv5.Size = New System.Drawing.Size(56, 23)
+            Me.txtlv5.Size = New System.Drawing.Size(152, 23)
             Me.txtlv5.TabIndex = 167
-            Me.txtlv5.Text = ""
             '
             'txtlv4
             '
@@ -200,7 +197,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtlv4, False)
             Me.txtlv4.Size = New System.Drawing.Size(24, 23)
             Me.txtlv4.TabIndex = 166
-            Me.txtlv4.Text = ""
             '
             'txtlv3
             '
@@ -220,7 +216,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtlv3, False)
             Me.txtlv3.Size = New System.Drawing.Size(24, 23)
             Me.txtlv3.TabIndex = 165
-            Me.txtlv3.Text = ""
             '
             'txtlv2
             '
@@ -240,12 +235,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtlv2, False)
             Me.txtlv2.Size = New System.Drawing.Size(24, 23)
             Me.txtlv2.TabIndex = 164
-            Me.txtlv2.Text = ""
             '
             'ibtnBlank
             '
             Me.ibtnBlank.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
+            Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.ibtnBlank.Location = New System.Drawing.Point(8, 400)
             Me.ibtnBlank.Name = "ibtnBlank"
             Me.ibtnBlank.Size = New System.Drawing.Size(32, 32)
@@ -257,7 +251,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'ibtnDelRow
             '
             Me.ibtnDelRow.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
+            Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.ibtnDelRow.Location = New System.Drawing.Point(40, 400)
             Me.ibtnDelRow.Name = "ibtnDelRow"
             Me.ibtnDelRow.Size = New System.Drawing.Size(32, 32)
@@ -322,8 +316,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'grbDetail
             '
             Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.grbDetail.Controls.Add(Me.ibtnBlank)
             Me.grbDetail.Controls.Add(Me.ibtnDelRow)
             Me.grbDetail.Controls.Add(Me.tgItem)
@@ -354,7 +348,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Name = "MatEquipmentDetail"
             Me.Size = New System.Drawing.Size(776, 464)
             CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.grbLCI.ResumeLayout(False)
+            Me.grbLCI.PerformLayout()
             Me.grbDetail.ResumeLayout(False)
             Me.ResumeLayout(False)
 
@@ -398,7 +394,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             csLineNumber.MappingName = "lcil_linenumber"
             csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatEquipmentDetail.LineNumberHeaderText}")
             csLineNumber.NullText = ""
-            csLineNumber.Width = 30
+            csLineNumber.Width = 20
             csLineNumber.DataAlignment = HorizontalAlignment.Center
             csLineNumber.ReadOnly = True
             csLineNumber.TextBox.Name = "lcil_linenumber"
@@ -409,6 +405,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             csCode.NullText = ""
             csCode.ReadOnly = True
             csCode.TextBox.Name = "Code"
+            csCode.Width = 160
 
             Dim csButton As New DataGridButtonColumn
             csButton.MappingName = "Button"
