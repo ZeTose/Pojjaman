@@ -1840,7 +1840,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             AddHandler txtDueDate.Validated, AddressOf Me.ChangeProperty
             AddHandler dtpDueDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtCreditPrd.TextChanged, AddressOf Me.ChangeProperty
+            AddHandler txtCreditPrd.TextChanged, AddressOf Me.TextHandler
+            AddHandler txtCreditPrd.Validated, AddressOf Me.ChangeProperty
 
             AddHandler txtTaxBase.TextChanged, AddressOf Me.ChangeProperty
             AddHandler txtDiscountRate.TextChanged, AddressOf Me.ChangeProperty
