@@ -1138,113 +1138,121 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      If Me.m_entity.Status.Value = 0 _
-          OrElse Me.m_entity.Status.Value >= 3 _
-          OrElse Me.m_entity.DocStatus.Value = 0 _
-          OrElse Me.m_entity.DocStatus.Value = 2 Then   '{-1 ยังไม่บันทึก, 0 ยกเลิก  , 1 ในมือ  , 2 เช็คผ่าน }
-        If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
-          grbOutgoingCheck.Enabled = False
-        Else
-          For Each ctrl As Control In grbOutgoingCheck.Controls
-            If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
-              'MessageBox.Show(Me.m_entity.Supplier.Id)
-              If ctrl.Name = "txtrecipient" And Me.m_entity.Supplier.invisible = True Then   'เช็คว่าเป็นเงินสดย่อยถึงให้เปลี่ยนชื่อคนรับได้ 
-                'MessageBox.Show(ctrl.Name & " isTrue")
-              Else
-                ctrl.Enabled = False
-                'MessageBox.Show(ctrl.Name & " isFalse")
-              End If
-            End If
-          Next
-          dtpIssueDate.Enabled = True
-          txtIssueDate.Enabled = True
-          txtBankAccountCode.Enabled = False
-          btnBankAccountFind.Enabled = False
-          btnBankAccountEdit.Enabled = False
-          If m_entity.Status.Value = 3 AndAlso m_entity.DocStatus.Value <> 2 Then 'ยังไม่ผ่าน
-            txtNote.Enabled = True
-            If CBool(Configuration.GetConfig("CanEditOutgoingCheckRecipient")) Then
-              txtrecipient.Enabled = True
-              txtCode.Enabled = True
-              txtIssueDate.Enabled = True
-              dtpIssueDate.Enabled = True
-              chkAutorun.Enabled = True
-            End If
-          End If
-          If txtCqCode.Text.Length = 0 OrElse txtDueDate.Text.Length = 0 Then
-            txtCqCode.Enabled = True
-            txtDueDate.Enabled = True
-            dtpDueDate.Enabled = True
-            chkACPayeeOnly.Enabled = True
-            chkCheckHandler.Enabled = True
-            If m_entity.Bankacct Is Nothing OrElse m_entity.Bankacct.BankCode Is Nothing Then
-              txtBankAccountCode.Enabled = True
-              btnBankAccountFind.Enabled = True
-              btnBankAccountEdit.Enabled = True
-            End If
-            txtNote.Enabled = True
-            'txtBankAccountCode.Enabled = True
-            'btnBankAccountFind.Enabled = True
-            'btnBankAccountEdit.Enabled = True
-          Else
-            txtCqCode.Enabled = False
-            txtDueDate.Enabled = False
-            dtpDueDate.Enabled = False
-            'txtBankAccountCode.Enabled = False
-            'btnBankAccountFind.Enabled = False
-            'btnBankAccountEdit.Enabled = False
-          End If
-        End If
+            If Me.m_entity.Status.Value = 0 _
+                OrElse Me.m_entity.Status.Value >= 3 _
+                OrElse Me.m_entity.DocStatus.Value = 0 _
+                OrElse Me.m_entity.DocStatus.Value = 2 _
+                OrElse Me.m_entity.DocStatus.Value = 4 _
+                Then   '{3 ยังไม่บันทึก, 0 ยกเลิก  , 1 ในมือ  , 2 เช็คผ่าน,4 เช็คในมือผู้ขาย }
+                If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+                    grbOutgoingCheck.Enabled = False
+                Else
+                    For Each ctrl As Control In grbOutgoingCheck.Controls
+                        If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
+                            'MessageBox.Show(Me.m_entity.Supplier.Id)
+                            If ctrl.Name = "txtrecipient" And Me.m_entity.Supplier.invisible = True Then   'เช็คว่าเป็นเงินสดย่อยถึงให้เปลี่ยนชื่อคนรับได้ 
+                                'MessageBox.Show(ctrl.Name & " isTrue")
+                            Else
+                                ctrl.Enabled = False
+                                'MessageBox.Show(ctrl.Name & " isFalse")
+                            End If
+                        End If
+                    Next
+                    dtpIssueDate.Enabled = True
+                    txtIssueDate.Enabled = True
+                    txtBankAccountCode.Enabled = False
+                    btnBankAccountFind.Enabled = False
+                    btnBankAccountEdit.Enabled = False
+                    If m_entity.Status.Value = 3 AndAlso m_entity.DocStatus.Value <> 2 Then 'ยังไม่ผ่าน
+                        txtNote.Enabled = True
+                        If CBool(Configuration.GetConfig("CanEditOutgoingCheckRecipient")) Then
+                            txtrecipient.Enabled = True
+                            txtCode.Enabled = True
+                            txtIssueDate.Enabled = True
+                            dtpIssueDate.Enabled = True
+                            chkAutorun.Enabled = True
+                        End If
+                    End If
+                    If txtCqCode.Text.Length = 0 OrElse txtDueDate.Text.Length = 0 Then
+                        txtCqCode.Enabled = True
+                        txtDueDate.Enabled = True
+                        dtpDueDate.Enabled = True
+                        chkACPayeeOnly.Enabled = True
+                        chkCheckHandler.Enabled = True
+                        If m_entity.Bankacct Is Nothing OrElse m_entity.Bankacct.BankCode Is Nothing Then
+                            txtBankAccountCode.Enabled = True
+                            btnBankAccountFind.Enabled = True
+                            btnBankAccountEdit.Enabled = True
+                        End If
+                        txtNote.Enabled = True
+                        'txtBankAccountCode.Enabled = True
+                        'btnBankAccountFind.Enabled = True
+                        'btnBankAccountEdit.Enabled = True
+                    Else
+                        txtCqCode.Enabled = False
+                        txtDueDate.Enabled = False
+                        dtpDueDate.Enabled = False
+                        'txtBankAccountCode.Enabled = False
+                        'btnBankAccountFind.Enabled = False
+                        'btnBankAccountEdit.Enabled = False
+                    End If
+                End If
 
-      Else
+            Else
 
-        If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
-          grbOutgoingCheck.Enabled = True
-        Else
-          For Each ctrl As Control In grbOutgoingCheck.Controls
-            If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
-              ctrl.Enabled = True
+                If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
+                    grbOutgoingCheck.Enabled = True
+                Else
+                    For Each ctrl As Control In grbOutgoingCheck.Controls
+                        If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
+                            ctrl.Enabled = True
+                        End If
+                    Next
+                    dtpIssueDate.Enabled = True
+                    txtCqCode.Enabled = True
+                    txtDueDate.Enabled = True
+                    dtpDueDate.Enabled = True
+                    txtBankAccountCode.Enabled = True
+                    btnBankAccountFind.Enabled = True
+                    btnBankAccountEdit.Enabled = True
+                    chkACPayeeOnly.Enabled = True
+                    chkCheckHandler.Enabled = True
+                End If
             End If
-          Next
-          dtpIssueDate.Enabled = True
-          txtCqCode.Enabled = True
-          txtDueDate.Enabled = True
-          dtpDueDate.Enabled = True
-          txtBankAccountCode.Enabled = True
-          btnBankAccountFind.Enabled = True
-          btnBankAccountEdit.Enabled = True
-          chkACPayeeOnly.Enabled = True
-          chkCheckHandler.Enabled = True
-        End If
-      End If
       If txtrecipient.Text.Length = 0 Then
         txtrecipient.Enabled = True
         chkACPayeeOnly.Enabled = True
         chkCheckHandler.Enabled = True
-      End If
-      If txtSupplierCode.Text.Length = 0 Then ' OrElse m_entity.Supplier.invisible Then
-        txtSupplierCode.Enabled = True
-        btnSupplierFind.Enabled = True
-      End If
-      Me.cmbStatus.Enabled = False
-      Me.ibtnBlank.Enabled = True
-      Me.ibtnDelRow.Enabled = True
-      Me.btnExport.Enabled = True
+            End If
 
-      '==Checking for addin
-      Dim hasExport As Boolean = False
-      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
-        If a.FileName.ToLower.Contains("textexport") Then
-          hasExport = True
-        End If
-      Next
+            If Me.m_entity.DocStatus.Value = 1 And Me.m_entity.Status.Value > 0 Then
+                chkACPayeeOnly.Enabled = True
+                chkCheckHandler.Enabled = True
+            End If
 
-      Me.btnExport.Visible = hasExport
-      Me.cmbExportType.Visible = hasExport
-      Me.chkExportCheck.Visible = hasExport
-      Me.ibtnBlank.Visible = hasExport
-      Me.ibtnDelRow.Visible = hasExport
-    End Sub
+            If txtSupplierCode.Text.Length = 0 Then ' OrElse m_entity.Supplier.invisible Then
+                txtSupplierCode.Enabled = True
+                btnSupplierFind.Enabled = True
+            End If
+            Me.cmbStatus.Enabled = False
+            Me.ibtnBlank.Enabled = True
+            Me.ibtnDelRow.Enabled = True
+            Me.btnExport.Enabled = True
+
+            '==Checking for addin
+            Dim hasExport As Boolean = False
+            For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+                If a.FileName.ToLower.Contains("textexport") Then
+                    hasExport = True
+                End If
+            Next
+
+            Me.btnExport.Visible = hasExport
+            Me.cmbExportType.Visible = hasExport
+            Me.chkExportCheck.Visible = hasExport
+            Me.ibtnBlank.Visible = hasExport
+            Me.ibtnDelRow.Visible = hasExport
+        End Sub
 
     ' เคลียร์ข้อมูลใน control
     Public Overrides Sub ClearDetail()
