@@ -673,24 +673,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  existsId = True
           'End If
 
-          If item.Entity.EndCalcDate.ToString("yyyyMMdd") <= Me.DepreDate.ToString("yyyyMMdd") OrElse item.Entity.EndCalcDate.ToString("yyyyMMdd") <= DateTime.Now.ToString("yyyyMMdd") Then
-            item.Set_Depreamnt(0)
-            item.Set_Depreopeningamnt(0)
-            item.Set_Writeoffamt(0)
-            item.Set_Deprebase(0)
-            item.Set_BuyPrice(0)
+                    If item.Entity.EndCalcDate.ToString("yyyyMMdd") <= Me.DepreDate.ToString("yyyyMMdd") OrElse (item.Entity.EndCalcDate.ToString("yyyyMMdd") <= Me.DepreDate.ToString("yyyyMMdd") AndAlso item.Entity.EndCalcDate.ToString("yyyyMMdd") <= DateTime.Now.ToString("yyyyMMdd")) Then
+                        item.Set_Depreamnt(0)
+                        item.Set_Depreopeningamnt(0)
+                        item.Set_Writeoffamt(0)
+                        item.Set_Deprebase(0)
+                        item.Set_BuyPrice(0)
 
-            item.GetDepreciationFromDB(Me, item.Entity, True)
-          Else
-            item.Set_Depreamnt(0)
-            item.Set_Depreopeningamnt(0)
-            item.Set_Writeoffamt(0)
-            item.Set_Deprebase(0)
-            item.Set_BuyPrice(0)
+                        item.GetDepreciationFromDB(Me, item.Entity, True)
+                    Else
+                        item.Set_Depreamnt(0)
+                        item.Set_Depreopeningamnt(0)
+                        item.Set_Writeoffamt(0)
+                        item.Set_Deprebase(0)
+                        item.Set_BuyPrice(0)
 
-            'ReCalculate Depreciation Amount
-            item.GetDepreciationFromDB(Me, item.Entity, False)
-          End If
+                        'ReCalculate Depreciation Amount
+                        item.GetDepreciationFromDB(Me, item.Entity, False)
+                    End If
         End If
       Next
     End Sub
