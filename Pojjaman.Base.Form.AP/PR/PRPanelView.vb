@@ -144,8 +144,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'grbDetail
             '
             Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
             Me.grbDetail.Controls.Add(Me.chkClosed)
             Me.grbDetail.Controls.Add(Me.btnApproveStore)
@@ -241,6 +241,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtRate, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtRate, System.Drawing.Color.Empty)
             Me.txtRate.Location = New System.Drawing.Point(6, 35)
+            Me.Validator.SetMaxValue(Me.txtRate, "")
             Me.Validator.SetMinValue(Me.txtRate, "")
             Me.txtRate.Name = "txtRate"
             Me.Validator.SetRegularExpression(Me.txtRate, "")
@@ -268,6 +269,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
             Me.txtUnit1.Location = New System.Drawing.Point(74, 35)
+            Me.Validator.SetMaxValue(Me.txtUnit1, "")
             Me.Validator.SetMinValue(Me.txtUnit1, "")
             Me.txtUnit1.Name = "txtUnit1"
             Me.Validator.SetRegularExpression(Me.txtUnit1, "")
@@ -294,6 +296,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
             Me.txtUnit2.Location = New System.Drawing.Point(142, 35)
+            Me.Validator.SetMaxValue(Me.txtUnit2, "")
             Me.Validator.SetMinValue(Me.txtUnit2, "")
             Me.txtUnit2.Name = "txtUnit2"
             Me.Validator.SetRegularExpression(Me.txtUnit2, "")
@@ -308,6 +311,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
             Me.txtLanguage.Location = New System.Drawing.Point(210, 35)
+            Me.Validator.SetMaxValue(Me.txtLanguage, "")
             Me.Validator.SetMinValue(Me.txtLanguage, "")
             Me.txtLanguage.Name = "txtLanguage"
             Me.Validator.SetRegularExpression(Me.txtLanguage, "")
@@ -392,6 +396,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
             Me.txtGross.Location = New System.Drawing.Point(770, 481)
+            Me.Validator.SetMaxValue(Me.txtGross, "")
             Me.Validator.SetMinValue(Me.txtGross, "")
             Me.txtGross.Name = "txtGross"
             Me.txtGross.ReadOnly = True
@@ -456,6 +461,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ErrorProvider1.SetIconPadding(Me.txtReceivingDate, -15)
             Me.Validator.SetInvalidBackColor(Me.txtReceivingDate, System.Drawing.Color.Empty)
             Me.txtReceivingDate.Location = New System.Drawing.Point(120, 40)
+            Me.Validator.SetMaxValue(Me.txtReceivingDate, "")
             Me.Validator.SetMinValue(Me.txtReceivingDate, "")
             Me.txtReceivingDate.Name = "txtReceivingDate"
             Me.Validator.SetRegularExpression(Me.txtReceivingDate, "")
@@ -471,6 +477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, -15)
             Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
             Me.txtDocDate.Location = New System.Drawing.Point(392, 16)
+            Me.Validator.SetMaxValue(Me.txtDocDate, "")
             Me.Validator.SetMinValue(Me.txtDocDate, "")
             Me.txtDocDate.Name = "txtDocDate"
             Me.Validator.SetRegularExpression(Me.txtDocDate, "")
@@ -510,6 +517,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
             Me.txtCostCenterName.Location = New System.Drawing.Point(264, 64)
+            Me.Validator.SetMaxValue(Me.txtCostCenterName, "")
             Me.Validator.SetMinValue(Me.txtCostCenterName, "")
             Me.txtCostCenterName.Name = "txtCostCenterName"
             Me.txtCostCenterName.ReadOnly = True
@@ -527,6 +535,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtRequestorName, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtRequestorName, System.Drawing.Color.Empty)
             Me.txtRequestorName.Location = New System.Drawing.Point(264, 88)
+            Me.Validator.SetMaxValue(Me.txtRequestorName, "")
             Me.Validator.SetMinValue(Me.txtRequestorName, "")
             Me.txtRequestorName.Name = "txtRequestorName"
             Me.txtRequestorName.ReadOnly = True
@@ -568,10 +577,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ErrorProvider1.SetIconPadding(Me.txtRequestorCode, -15)
             Me.Validator.SetInvalidBackColor(Me.txtRequestorCode, System.Drawing.Color.Empty)
             Me.txtRequestorCode.Location = New System.Drawing.Point(120, 88)
+            Me.Validator.SetMaxValue(Me.txtRequestorCode, "")
             Me.Validator.SetMinValue(Me.txtRequestorCode, "")
             Me.txtRequestorCode.Name = "txtRequestorCode"
             Me.Validator.SetRegularExpression(Me.txtRequestorCode, "")
-            Me.Validator.SetRequired(Me.txtRequestorCode, False)
+            Me.Validator.SetRequired(Me.txtRequestorCode, True)
             Me.txtRequestorCode.Size = New System.Drawing.Size(144, 21)
             Me.txtRequestorCode.TabIndex = 4
             '
@@ -581,8 +591,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.tgItem.AllowSorting = False
             Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(222, Byte), Integer), CType(CType(236, Byte), Integer))
             Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.tgItem.AutoColumnResize = True
             Me.tgItem.CaptionVisible = False
             Me.tgItem.Cellchanged = False
@@ -673,6 +683,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
             Me.txtNote.Location = New System.Drawing.Point(120, 112)
             Me.txtNote.MaxLength = 250
+            Me.Validator.SetMaxValue(Me.txtNote, "")
             Me.Validator.SetMinValue(Me.txtNote, "")
             Me.txtNote.Multiline = True
             Me.txtNote.Name = "txtNote"
@@ -702,10 +713,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ErrorProvider1.SetIconPadding(Me.txtCostCenterCode, -15)
             Me.Validator.SetInvalidBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
             Me.txtCostCenterCode.Location = New System.Drawing.Point(120, 64)
+            Me.Validator.SetMaxValue(Me.txtCostCenterCode, "")
             Me.Validator.SetMinValue(Me.txtCostCenterCode, "")
             Me.txtCostCenterCode.Name = "txtCostCenterCode"
             Me.Validator.SetRegularExpression(Me.txtCostCenterCode, "")
-            Me.Validator.SetRequired(Me.txtCostCenterCode, False)
+            Me.Validator.SetRequired(Me.txtCostCenterCode, True)
             Me.txtCostCenterCode.Size = New System.Drawing.Size(144, 21)
             Me.txtCostCenterCode.TabIndex = 3
             '

@@ -653,7 +653,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetMinValue(Me.txtCostCenterCode, "")
             Me.txtCostCenterCode.Name = "txtCostCenterCode"
             Me.Validator.SetRegularExpression(Me.txtCostCenterCode, "")
-            Me.Validator.SetRequired(Me.txtCostCenterCode, False)
+            Me.Validator.SetRequired(Me.txtCostCenterCode, True)
             Me.txtCostCenterCode.Size = New System.Drawing.Size(144, 21)
             Me.txtCostCenterCode.TabIndex = 9
             '
@@ -669,7 +669,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetMinValue(Me.txtRequestorCode, "")
             Me.txtRequestorCode.Name = "txtRequestorCode"
             Me.Validator.SetRegularExpression(Me.txtRequestorCode, "")
-            Me.Validator.SetRequired(Me.txtRequestorCode, False)
+            Me.Validator.SetRequired(Me.txtRequestorCode, True)
             Me.txtRequestorCode.Size = New System.Drawing.Size(144, 21)
             Me.txtRequestorCode.TabIndex = 11
             '
