@@ -709,8 +709,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler cmbCostMethod.SelectedIndexChanged, AddressOf ChangeProperty
       AddHandler cmbInvMethod.SelectedIndexChanged, AddressOf ChangeProperty
-      AddHandler cmbTaxType.SelectedIndexChanged, AddressOf ChangeProperty
-      AddHandler txtBranch.TextChanged, AddressOf ChangeProperty
+            AddHandler cmbTaxType.SelectedIndexChanged, AddressOf ChangeProperty
+
+            AddHandler txtBranch.TextChanged, AddressOf TextHandler
+            AddHandler txtBranch.Validated, AddressOf ChangeProperty
+
     End Sub
     Private Sub SetUpCustomize()
       Dim isCustomize As Boolean = ConfigurationUserControl.GetConfig(0, ConfigType.AddIns, "textexport")
@@ -725,21 +728,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtBuilkID.Visible = False
         txtBuilkPaymentTrackID.Visible = False
       End If
-    End Sub
-    Public Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-      Select Case CType(sender, Control).Name.ToLower
-        Case "txttaxrate"
-          Dim txt As String = Me.txtTaxRate.Text
-          Dim val As Decimal
-          If txt.Length > 0 AndAlso IsNumeric(txt) Then
-            val = CDec(txt)
-          Else
-            val = 0
-          End If
-          Me.SetFilterValue("CompanyTaxRate", val)
-          txtTaxRate.Text = Configuration.FormatToString(val, 2)
-      End Select
-    End Sub
+        End Sub
+        Private txtbranchchanged As Boolean = False
+        Public Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
+            If Not m_isInitialized Then
+                Return
+            End If
+            Select Case CType(sender, Control).Name.ToLower
+                Case "txttaxrate"
+                    Dim txt As String = Me.txtTaxRate.Text
+                    Dim val As Decimal
+                    If txt.Length > 0 AndAlso IsNumeric(txt) Then
+                        val = CDec(txt)
+                    Else
+                        val = 0
+                    End If
+                    Me.SetFilterValue("CompanyTaxRate", val)
+                    txtTaxRate.Text = Configuration.FormatToString(val, 2)
+                Case "txtbranch"
+                    txtbranchchanged = True
+
+            End Select
+        End Sub
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
       If Not m_isInitialized Then
         Return
@@ -796,10 +806,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case txtBuilkPaymentTrackID.Name.ToLower
           Me.SetFilterValue("BuilkPaymentTrackID", txtBuilkPaymentTrackID.Text)
           dirtyFlag = True
-        Case "txtbranch"
-          Me.SetFilterValue("CompanyTaxBranchId", txtBranch.Text)
-          dirtyFlag = True
-      End Select
+                Case "txtbranch"
+                    If txtbranchchanged Then
+
+                        If IsNumeric(txtBranch.Text) Then
+                            txtbranchchanged = False
+                            Me.SetFilterValue("CompanyTaxBranchId", CInt(txtBranch.Text))
+                            dirtyFlag = True
+                        End If
+
+                        Me.m_isInitialized = False
+                        Me.txtBranch.Text = Configuration.BranchString(CInt(GetFilterValue("CompanyTaxBranchId")))
+                        Me.m_isInitialized = True
+
+                    End If
+
+            End Select
       Dirty = Dirty Or dirtyFlag
       CheckFormEnable()
     End Sub
@@ -872,7 +894,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBuilkID.Text = GetFilterValue("BuilkID").ToString
       Me.txtBuilkPaymentTrackID.Text = GetFilterValue("BuilkPaymentTrackID").ToString
 
-      Me.txtBranch.Text = GetFilterValue("CompanyTaxBranchId").ToString
+            Me.txtBranch.Text = Configuration.BranchString(CInt(GetFilterValue("CompanyTaxBranchId")))
 
       Dim tmpCostMethod As New CodeDescription(CInt(GetFilterValue("CompanyCostMethod")))
       CodeDescription.ComboSelect(Me.cmbCostMethod, tmpCostMethod)

@@ -92,275 +92,287 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_creditType = New CreditType(2)
       'Me.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Supplier).Account
       m_contactCollection = New SupplierContactCollection(Me)
-      'm_SupplierLCICostLink = New SupplierLCICostLink
-    End Sub
-    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-      MyBase.Construct(dr, aliasPrefix)
-      With Me
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
-          .Note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_authorizeAmount") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_authorizeAmount") Then
-          .AuthorizeAmount = CDec(dr(aliasPrefix & Me.Prefix & "_authorizeAmount"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_creditPeriod") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_creditPeriod") Then
-          .CreditPeriod = CInt(dr(aliasPrefix & Me.Prefix & "_creditPeriod"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_birthdate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_birthdate") Then
-          .BirthDate = CDate(dr(aliasPrefix & Me.Prefix & "_birthdate"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_CheckAmountOnHand") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_CheckAmountOnHand") Then
-          .CheckAmountOnHand = CDec(dr(aliasPrefix & Me.Prefix & "_CheckAmountOnHand"))
-        End If
+            'm_SupplierLCICostLink = New SupplierLCICostLink
+            Me.m_branchId = -1
+        End Sub
+        Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+            MyBase.Construct(dr, aliasPrefix)
+            With Me
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
+                    .Note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_authorizeAmount") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_authorizeAmount") Then
+                    .AuthorizeAmount = CDec(dr(aliasPrefix & Me.Prefix & "_authorizeAmount"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_creditPeriod") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_creditPeriod") Then
+                    .CreditPeriod = CInt(dr(aliasPrefix & Me.Prefix & "_creditPeriod"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_birthdate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_birthdate") Then
+                    .BirthDate = CDate(dr(aliasPrefix & Me.Prefix & "_birthdate"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_CheckAmountOnHand") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_CheckAmountOnHand") Then
+                    .CheckAmountOnHand = CDec(dr(aliasPrefix & Me.Prefix & "_CheckAmountOnHand"))
+                End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_creditAmount") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_creditAmount") Then
-          .CreditAmount = CDec(dr(aliasPrefix & Me.Prefix & "_creditAmount"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_creditType") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_creditType") Then
-          .CreditType.Value = CInt(dr(aliasPrefix & Me.Prefix & "_creditType"))
-        End If
-        If dr.Table.Columns.Contains("spg_id") Then
-          If Not dr.IsNull("spg_id") Then
-            .Group = New SupplierGroup(dr, "")
-          End If
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_group") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_group") Then
-            .Group = New SupplierGroup(CInt(dr(aliasPrefix & Me.Prefix & "_group")))
-          End If
-        End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_creditAmount") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_creditAmount") Then
+                    .CreditAmount = CDec(dr(aliasPrefix & Me.Prefix & "_creditAmount"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_creditType") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_creditType") Then
+                    .CreditType.Value = CInt(dr(aliasPrefix & Me.Prefix & "_creditType"))
+                End If
+                If dr.Table.Columns.Contains("spg_id") Then
+                    If Not dr.IsNull("spg_id") Then
+                        .Group = New SupplierGroup(dr, "")
+                    End If
+                Else
+                    If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_group") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_group") Then
+                        .Group = New SupplierGroup(CInt(dr(aliasPrefix & Me.Prefix & "_group")))
+                    End If
+                End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_province") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_province") Then
-          .Province = CStr(dr(aliasPrefix & Me.Prefix & "_province"))
-        End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_province") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_province") Then
+                    .Province = CStr(dr(aliasPrefix & Me.Prefix & "_province"))
+                End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastContactDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastContactDate") Then
-          .LastContactDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastContactDate"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastPayDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastPayDate") Then
-          .LastPayDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastPayDate"))
-        End If
-        If dr.Table.Columns.Contains("coordinator.employee_id") Then
-          If Not dr.IsNull("coordinator.employee_id") Then
-            .Coordinator = New Employee(dr, "coordinator.")
-          End If
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_coordinator") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_coordinator") Then
-            .Coordinator = New Employee(CInt(dr(aliasPrefix & Me.Prefix & "_coordinator")))
-          End If
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_creditPeriodFromTransport") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_creditPeriodFromTransport") Then
-          .CreditPeriodFromTransport = CInt(dr(aliasPrefix & Me.Prefix & "_creditPeriodFromTransport"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_billRecDates") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_billRecDates") Then
-          .BillRecDates = CStr(dr(aliasPrefix & Me.Prefix & "_billRecDates"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_billrecDays") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_billrecDays") Then
-          .BillrecDays = CStr(dr(aliasPrefix & Me.Prefix & "_billrecDays"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_billRecWeeks") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_billRecWeeks") Then
-          .BillRecWeeks = CStr(dr(aliasPrefix & Me.Prefix & "_billRecWeeks"))
-        End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastContactDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastContactDate") Then
+                    .LastContactDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastContactDate"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastPayDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastPayDate") Then
+                    .LastPayDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastPayDate"))
+                End If
+                If dr.Table.Columns.Contains("coordinator.employee_id") Then
+                    If Not dr.IsNull("coordinator.employee_id") Then
+                        .Coordinator = New Employee(dr, "coordinator.")
+                    End If
+                Else
+                    If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_coordinator") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_coordinator") Then
+                        .Coordinator = New Employee(CInt(dr(aliasPrefix & Me.Prefix & "_coordinator")))
+                    End If
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_creditPeriodFromTransport") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_creditPeriodFromTransport") Then
+                    .CreditPeriodFromTransport = CInt(dr(aliasPrefix & Me.Prefix & "_creditPeriodFromTransport"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_billRecDates") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_billRecDates") Then
+                    .BillRecDates = CStr(dr(aliasPrefix & Me.Prefix & "_billRecDates"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_billrecDays") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_billrecDays") Then
+                    .BillrecDays = CStr(dr(aliasPrefix & Me.Prefix & "_billrecDays"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_billRecWeeks") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_billRecWeeks") Then
+                    .BillRecWeeks = CStr(dr(aliasPrefix & Me.Prefix & "_billRecWeeks"))
+                End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_receiveDates") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_receiveDates") Then
-          .ReceiveDates = CStr(dr(aliasPrefix & Me.Prefix & "_receiveDates"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_receiveDays") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_receiveDays") Then
-          .ReceiveDays = CType(dr(aliasPrefix & Me.Prefix & "_receiveDays"), String)
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_receiveWeeks") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_receiveWeeks") Then
-          .ReceiveWeeks = CStr(dr(aliasPrefix & Me.Prefix & "_receiveWeeks"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_pjmid") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_pjmid") Then
-          .PJMID = CInt(dr(aliasPrefix & Me.Prefix & "_pjmid"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_invisible") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_invisible") Then
-          .invisible = CBool(dr(aliasPrefix & Me.Prefix & "_invisible"))
-        End If
-        If dr.Table.Columns.Contains("supplier_notgetitems") Then
-          If Not dr.IsNull("supplier_notgetitems") Then
-            .NotGetItems = CBool(dr("supplier_notgetitems"))
-          End If
-        End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_receiveDates") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_receiveDates") Then
+                    .ReceiveDates = CStr(dr(aliasPrefix & Me.Prefix & "_receiveDates"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_receiveDays") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_receiveDays") Then
+                    .ReceiveDays = CType(dr(aliasPrefix & Me.Prefix & "_receiveDays"), String)
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_receiveWeeks") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_receiveWeeks") Then
+                    .ReceiveWeeks = CStr(dr(aliasPrefix & Me.Prefix & "_receiveWeeks"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_pjmid") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_pjmid") Then
+                    .PJMID = CInt(dr(aliasPrefix & Me.Prefix & "_pjmid"))
+                End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_invisible") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_invisible") Then
+                    .invisible = CBool(dr(aliasPrefix & Me.Prefix & "_invisible"))
+                End If
+                If dr.Table.Columns.Contains("supplier_notgetitems") Then
+                    If Not dr.IsNull("supplier_notgetitems") Then
+                        .NotGetItems = CBool(dr("supplier_notgetitems"))
+                    End If
+                End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_builkid") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_builkid") Then
-          .BuilkID = CStr(dr(aliasPrefix & Me.Prefix & "_builkid"))
-        Else
-          .BuilkID = ""
-        End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_builkid") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_builkid") Then
+                    .BuilkID = CStr(dr(aliasPrefix & Me.Prefix & "_builkid"))
+                Else
+                    .BuilkID = ""
+                End If
 
-      End With
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_branch") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_branch") Then
+                    .m_branchId = CInt(dr(aliasPrefix & Me.Prefix & "_branch"))
+                Else
+                    .m_branchId = -1
+                End If
 
-      Dim deh As New DataRowHelper(dr)
-      Me.MCAccount = deh.GetValue(Of String)("supplier_kbankmcaccount")
-      Me.MCBank = deh.GetValue(Of String)("supplier_kbankmcbank")
-      Me.DCAccount = deh.GetValue(Of String)("supplier_kbankdcaccount")
-      Me.DCBank = deh.GetValue(Of String)("supplier_kbankdcbank")
 
-      'If m_contactCollection Is Nothing Then
-      m_contactCollection = New SupplierContactCollection(Me)
-      'End If
+            End With
 
-      'm_SupplierLCICostLink = New SupplierLCICostLink(Me)
-      'Hack ����͡
-      'LoadImage()
+            Dim deh As New DataRowHelper(dr)
+            Me.MCAccount = deh.GetValue(Of String)("supplier_kbankmcaccount")
+            Me.MCBank = deh.GetValue(Of String)("supplier_kbankmcbank")
+            Me.DCAccount = deh.GetValue(Of String)("supplier_kbankdcaccount")
+            Me.DCBank = deh.GetValue(Of String)("supplier_kbankdcbank")
 
-    End Sub
-    Public Overloads Sub LoadImage(ByVal reader As IDataReader)
-      Me.Image = Field.GetImage(reader, "supplier_image")
-      Me.Map = Field.GetImage(reader, "supplier_map")
-    End Sub
-    Public Overloads Sub LoadImage()
-      If Not Me.Originated Then
-        Return
-      End If
+            'If m_contactCollection Is Nothing Then
+            m_contactCollection = New SupplierContactCollection(Me)
+            'End If
 
-      Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
-      Dim conn As New SqlConnection(sqlConString)
-      Dim sql As String = "select supplier_image , supplier_map from SupplierImage where supplier_id = " & Me.Id
+            'm_SupplierLCICostLink = New SupplierLCICostLink(Me)
+            'Hack ����͡
+            'LoadImage()
 
-      conn.Open()
+        End Sub
+        Public Overloads Sub LoadImage(ByVal reader As IDataReader)
+            Me.Image = Field.GetImage(reader, "supplier_image")
+            Me.Map = Field.GetImage(reader, "supplier_map")
+        End Sub
+        Public Overloads Sub LoadImage()
+            If Not Me.Originated Then
+                Return
+            End If
 
-      Dim cmd As SqlCommand = conn.CreateCommand
-      cmd.CommandText = sql
+            Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+            Dim conn As New SqlConnection(sqlConString)
+            Dim sql As String = "select supplier_image , supplier_map from SupplierImage where supplier_id = " & Me.Id
 
-      Dim reader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
-      If reader.Read Then
-        LoadImage(reader)
-      End If
-      conn.Close()
-      reader = Nothing
-      conn = Nothing
-    End Sub
+            conn.Open()
+
+            Dim cmd As SqlCommand = conn.CreateCommand
+            cmd.CommandText = sql
+
+            Dim reader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
+            If reader.Read Then
+                LoadImage(reader)
+            End If
+            conn.Close()
+            reader = Nothing
+            conn = Nothing
+        End Sub
 #End Region
 
 #Region "Properties"
-    Public Shared ReadOnly Property AllMinData As DataTable
-      Get
-        If m_allMinData Is Nothing Then
-          Supplier.RefreshAllMinData()
-        End If
-        Return m_allMinData
-      End Get
-    End Property
-    Public Property ContactCollection() As SupplierContactCollection
-      Get
-        'If m_contactCollection Is Nothing Then
-        '  m_contactCollection = New SupplierContactCollection(Me)
-        'End If
-        Return m_contactCollection
-      End Get
-      Set(ByVal Value As SupplierContactCollection)
-        m_contactCollection = Value
-      End Set
-    End Property
-    Public Property SupplierLCICostLink() As SupplierLCICostLink      Get        Return m_SupplierLCICostLink      End Get      Set(ByVal Value As SupplierLCICostLink)        m_SupplierLCICostLink = Value      End Set    End Property    Public Property CreditAmount() As Decimal      Get        Return m_creditAmount      End Get      Set(ByVal Value As Decimal)        OnPropertyChanged(Me, New PropertyChangedEventArgs("CreditAmount", m_creditAmount, Value))        m_creditAmount = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CheckAmountOnHand() As Decimal      Get        Return m_checkAmountOnHand      End Get      Set(ByVal Value As Decimal)        OnPropertyChanged(Me, New PropertyChangedEventArgs("CheckAmountOnHand", m_checkAmountOnHand, Value))        m_checkAmountOnHand = Value      End Set    End Property    Public Property LastContactDate() As Date      Get        Return m_lastContactDate      End Get      Set(ByVal Value As Date)        OnPropertyChanged(Me, New PropertyChangedEventArgs("LastContactDate", m_lastContactDate, Value))        m_lastContactDate = Value      End Set    End Property    Public Property LastPayDate() As Date      Get        Return m_lastPayDate      End Get      Set(ByVal Value As Date)        OnPropertyChanged(Me, New PropertyChangedEventArgs("LastPayDate", m_lastPayDate, Value))        m_lastPayDate = Value      End Set    End Property    Public Property Coordinator() As Employee      Get        Return m_coordinator      End Get      Set(ByVal Value As Employee)        OnPropertyChanged(Me, New PropertyChangedEventArgs("Coordinator", m_coordinator, Value))        m_coordinator = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        OnPropertyChanged(Me, New PropertyChangedEventArgs("CreditPeriod", m_creditPeriod, Value))        m_creditPeriod = Value      End Set    End Property    Public Property CreditPeriodFromTransport() As Integer      Get        Return m_creditPeriodFromTransport      End Get      Set(ByVal Value As Integer)        OnPropertyChanged(Me, New PropertyChangedEventArgs("CreditPeriodFromTransport", m_creditPeriodFromTransport, Value))        m_creditPeriodFromTransport = Value      End Set    End Property    Public Property Group() As SupplierGroup      Get        Return m_group      End Get      Set(ByVal Value As SupplierGroup)        OnPropertyChanged(Me, New PropertyChangedEventArgs("Group", m_group, Value))        m_group = Value      End Set    End Property    Public Property AuthorizeAmount() As Decimal      Get        Return m_authorizeAmount      End Get      Set(ByVal Value As Decimal)        OnPropertyChanged(Me, New PropertyChangedEventArgs("AuthorizeAmount", m_authorizeAmount, Value))        m_authorizeAmount = Value      End Set    End Property    Public Property BirthDate() As Date      Get        Return m_birthDate      End Get      Set(ByVal Value As Date)        OnPropertyChanged(Me, New PropertyChangedEventArgs("BirthDate", m_birthDate, Value))        m_birthDate = Value      End Set    End Property    Public Property CreditType() As CreditType      Get        Return m_creditType      End Get      Set(ByVal Value As CreditType)        OnPropertyChanged(Me, New PropertyChangedEventArgs("CreditType", m_creditType, Value))        m_creditType = Value      End Set    End Property    'Public Property ReceiveDay() As DayOfWeek    '    Get    '        Return m_receiveDay    '    End Get    '    Set(ByVal Value As DayOfWeek)    '        OnPropertyChanged(Me, New PropertyChangedEventArgs("ReceiveDay", m_receiveDay, Value))    '        m_receiveDay = Value    '    End Set    'End Property    Public Property ReceiveDays() As String      Get
-        Return m_receiveDays
-      End Get
-      Set(ByVal Value As String)
-        m_receiveDays = Value
-      End Set
-    End Property    Public Property ReceiveDates() As String      Get
-        Return m_receiveDates
-      End Get
-      Set(ByVal Value As String)
-        m_receiveDates = Value
-      End Set
-    End Property    'Public Property ReceiveDate() As Integer    '    Get    '        Return m_receiveDate    '    End Get    '    Set(ByVal Value As Integer)    '        OnPropertyChanged(Me, New PropertyChangedEventArgs("ReceiveDate", m_receiveDate, Value))    '        m_receiveDate = Value    '    End Set    'End Property    Public Property ReceiveWeeks() As String
-      Get
-        Return m_receiveWeeks
-      End Get
-      Set(ByVal Value As String)
-        m_receiveWeeks = Value
-      End Set
-    End Property    Public Property BillrecDays() As String
-      Get
-        Return m_billrecDays
-      End Get
-      Set(ByVal Value As String)
-        m_billrecDays = Value
-      End Set
-    End Property    Public Property BillRecDates() As String      Get
-        Return m_billRecDates
-      End Get
-      Set(ByVal Value As String)
-        m_billRecDates = Value
-      End Set
-    End Property    Public Property BillRecWeeks() As String      Get
-        Return m_billRecWeeks
-      End Get
-      Set(ByVal Value As String)
-        m_billRecWeeks = Value
-      End Set
-    End Property    Public Property invisible() As Boolean      Get
-        Return Me.m_invisible
-      End Get
-      Set(ByVal Value As Boolean)
-        Me.m_invisible = Value
-      End Set
-    End Property    Public Property NotGetItems() As Boolean      Get
-        Return Me.m_notGetItems
-      End Get
-      Set(ByVal Value As Boolean)
-        Me.m_notGetItems = Value
-      End Set
-    End Property    Public Overrides ReadOnly Property ClassName() As String
-      Get
-        Return "Supplier"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property DetailPanelTitle() As String
-      Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.Supplier.DetailLabel}"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property DetailPanelIcon() As String
-      Get
-        Return "Icons.16x16.Supplier"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property ListPanelIcon() As String
-      Get
-        Return "Icons.16x16.Supplier"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property ListPanelTitle() As String
-      Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.Supplier.ListLabel}"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property Prefix() As String
-      Get
-        Return "supplier"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property TabPageText() As String
-      Get
-        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Name & ")"
-        If tpt.EndsWith("()") Then
-          tpt.TrimEnd("()".ToCharArray)
-        End If
-        Return tpt
-      End Get
-    End Property
-    Public Overrides ReadOnly Property GetSprocName() As String
-      Get
-        Return "GetSupplier"
-      End Get
-    End Property
-    Public Overrides ReadOnly Property UseSiteConnString() As Boolean
-      Get
-        Return True
-      End Get
-    End Property
-    Private m_builkid As String
-    Public Property BuilkID() As String
-      Get
-        Return m_builkid
-      End Get
-      Set(ByVal value As String)
-        m_builkid = value
-      End Set
-    End Property
+        Public Shared ReadOnly Property AllMinData As DataTable
+            Get
+                If m_allMinData Is Nothing Then
+                    Supplier.RefreshAllMinData()
+                End If
+                Return m_allMinData
+            End Get
+        End Property
+        Public Property ContactCollection() As SupplierContactCollection
+            Get
+                'If m_contactCollection Is Nothing Then
+                '  m_contactCollection = New SupplierContactCollection(Me)
+                'End If
+                Return m_contactCollection
+            End Get
+            Set(ByVal Value As SupplierContactCollection)
+                m_contactCollection = Value
+            End Set
+        End Property
+        Public Property SupplierLCICostLink() As SupplierLCICostLink            Get                Return m_SupplierLCICostLink            End Get            Set(ByVal Value As SupplierLCICostLink)                m_SupplierLCICostLink = Value            End Set        End Property        Public Property CreditAmount() As Decimal            Get                Return m_creditAmount            End Get            Set(ByVal Value As Decimal)                OnPropertyChanged(Me, New PropertyChangedEventArgs("CreditAmount", m_creditAmount, Value))                m_creditAmount = Value            End Set        End Property        Public Property Note() As String            Get                Return m_note            End Get            Set(ByVal Value As String)                m_note = Value            End Set        End Property        Public Property CheckAmountOnHand() As Decimal            Get                Return m_checkAmountOnHand            End Get            Set(ByVal Value As Decimal)                OnPropertyChanged(Me, New PropertyChangedEventArgs("CheckAmountOnHand", m_checkAmountOnHand, Value))                m_checkAmountOnHand = Value            End Set        End Property        Public Property LastContactDate() As Date            Get                Return m_lastContactDate            End Get            Set(ByVal Value As Date)                OnPropertyChanged(Me, New PropertyChangedEventArgs("LastContactDate", m_lastContactDate, Value))                m_lastContactDate = Value            End Set        End Property        Public Property LastPayDate() As Date            Get                Return m_lastPayDate            End Get            Set(ByVal Value As Date)                OnPropertyChanged(Me, New PropertyChangedEventArgs("LastPayDate", m_lastPayDate, Value))                m_lastPayDate = Value            End Set        End Property        Public Property Coordinator() As Employee            Get                Return m_coordinator            End Get            Set(ByVal Value As Employee)                OnPropertyChanged(Me, New PropertyChangedEventArgs("Coordinator", m_coordinator, Value))                m_coordinator = Value            End Set        End Property        Public Property CreditPeriod() As Integer            Get                Return m_creditPeriod            End Get            Set(ByVal Value As Integer)                OnPropertyChanged(Me, New PropertyChangedEventArgs("CreditPeriod", m_creditPeriod, Value))                m_creditPeriod = Value            End Set        End Property        Public Property CreditPeriodFromTransport() As Integer            Get                Return m_creditPeriodFromTransport            End Get            Set(ByVal Value As Integer)                OnPropertyChanged(Me, New PropertyChangedEventArgs("CreditPeriodFromTransport", m_creditPeriodFromTransport, Value))                m_creditPeriodFromTransport = Value            End Set        End Property        Public Property Group() As SupplierGroup            Get                Return m_group            End Get            Set(ByVal Value As SupplierGroup)                OnPropertyChanged(Me, New PropertyChangedEventArgs("Group", m_group, Value))                m_group = Value            End Set        End Property        Public Property AuthorizeAmount() As Decimal            Get                Return m_authorizeAmount            End Get            Set(ByVal Value As Decimal)                OnPropertyChanged(Me, New PropertyChangedEventArgs("AuthorizeAmount", m_authorizeAmount, Value))                m_authorizeAmount = Value            End Set        End Property        Public Property BirthDate() As Date            Get                Return m_birthDate            End Get            Set(ByVal Value As Date)                OnPropertyChanged(Me, New PropertyChangedEventArgs("BirthDate", m_birthDate, Value))                m_birthDate = Value            End Set        End Property        Public Property CreditType() As CreditType            Get                Return m_creditType            End Get            Set(ByVal Value As CreditType)                OnPropertyChanged(Me, New PropertyChangedEventArgs("CreditType", m_creditType, Value))                m_creditType = Value            End Set        End Property        'Public Property ReceiveDay() As DayOfWeek        '    Get        '        Return m_receiveDay        '    End Get        '    Set(ByVal Value As DayOfWeek)        '        OnPropertyChanged(Me, New PropertyChangedEventArgs("ReceiveDay", m_receiveDay, Value))        '        m_receiveDay = Value        '    End Set        'End Property        Public Property ReceiveDays() As String            Get
+                Return m_receiveDays
+            End Get
+            Set(ByVal Value As String)
+                m_receiveDays = Value
+            End Set
+        End Property        Public Property ReceiveDates() As String            Get
+                Return m_receiveDates
+            End Get
+            Set(ByVal Value As String)
+                m_receiveDates = Value
+            End Set
+        End Property        'Public Property ReceiveDate() As Integer        '    Get        '        Return m_receiveDate        '    End Get        '    Set(ByVal Value As Integer)        '        OnPropertyChanged(Me, New PropertyChangedEventArgs("ReceiveDate", m_receiveDate, Value))        '        m_receiveDate = Value        '    End Set        'End Property        Public Property ReceiveWeeks() As String
+            Get
+                Return m_receiveWeeks
+            End Get
+            Set(ByVal Value As String)
+                m_receiveWeeks = Value
+            End Set
+        End Property        Public Property BillrecDays() As String
+            Get
+                Return m_billrecDays
+            End Get
+            Set(ByVal Value As String)
+                m_billrecDays = Value
+            End Set
+        End Property        Public Property BillRecDates() As String            Get
+                Return m_billRecDates
+            End Get
+            Set(ByVal Value As String)
+                m_billRecDates = Value
+            End Set
+        End Property        Public Property BillRecWeeks() As String            Get
+                Return m_billRecWeeks
+            End Get
+            Set(ByVal Value As String)
+                m_billRecWeeks = Value
+            End Set
+        End Property        Public Property invisible() As Boolean            Get
+                Return Me.m_invisible
+            End Get
+            Set(ByVal Value As Boolean)
+                Me.m_invisible = Value
+            End Set
+        End Property        Public Property NotGetItems() As Boolean            Get
+                Return Me.m_notGetItems
+            End Get
+            Set(ByVal Value As Boolean)
+                Me.m_notGetItems = Value
+            End Set
+        End Property        Public Overrides ReadOnly Property ClassName() As String
+            Get
+                Return "Supplier"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property DetailPanelTitle() As String
+            Get
+                Return "${res:Longkong.Pojjaman.BusinessLogic.Supplier.DetailLabel}"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property DetailPanelIcon() As String
+            Get
+                Return "Icons.16x16.Supplier"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property ListPanelIcon() As String
+            Get
+                Return "Icons.16x16.Supplier"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property ListPanelTitle() As String
+            Get
+                Return "${res:Longkong.Pojjaman.BusinessLogic.Supplier.ListLabel}"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property Prefix() As String
+            Get
+                Return "supplier"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property TabPageText() As String
+            Get
+                Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Name & ")"
+                If tpt.EndsWith("()") Then
+                    tpt.TrimEnd("()".ToCharArray)
+                End If
+                Return tpt
+            End Get
+        End Property
+        Public Overrides ReadOnly Property GetSprocName() As String
+            Get
+                Return "GetSupplier"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property UseSiteConnString() As Boolean
+            Get
+                Return True
+            End Get
+        End Property
+        Private m_builkid As String
+        Public Property BuilkID() As String
+            Get
+                Return m_builkid
+            End Get
+            Set(ByVal value As String)
+                m_builkid = value
+            End Set
+        End Property
+
+        Private m_branchId As Integer
+        Public Property BranchId() As Integer            Get                Return m_branchId            End Get            Set(ByVal Value As Integer)                m_branchId = Value            End Set        End Property
+
 #End Region
 
 #Region "Cache Memo"
@@ -570,7 +582,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@supplier_kbankmcaccount", Me.MCAccount))
       paramArrayList.Add(New SqlParameter("@supplier_kbankmcbank", Me.MCBank))
       paramArrayList.Add(New SqlParameter("@supplier_faxforexport", Me.FaxforExport))
-      paramArrayList.Add(New SqlParameter("@supplier_builkid", Me.BuilkID))
+            paramArrayList.Add(New SqlParameter("@supplier_builkid", Me.BuilkID))
+            paramArrayList.Add(New SqlParameter("@supplier_branch", Me.BranchId))
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
       ' ���ҧ SqlParameter �ҡ ArrayList ...
@@ -606,16 +619,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 trans.Rollback()
                 Me.ResetID(oldid)
                 ResetCode(oldcode, oldautogen)
-                Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, CommandType.StoredProcedure _
-                   , "GetSupplierDupplicate" _
-                   , New SqlParameter("@supplier_taxId", Me.TaxId) _
-                   , New SqlParameter("@supplier_Id", Me.Id) _
-                   )
+                                Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, CommandType.StoredProcedure _
+                                   , "GetSupplierDupplicate" _
+                                   , New SqlParameter("@supplier_branchId", Me.BranchId) _
+                                   , New SqlParameter("@supplier_taxId", Me.TaxId) _
+                                   , New SqlParameter("@supplier_Id", Me.Id) _
+                                   )
                 Dim dupcode As String
                 If ds.Tables(0).Rows.Count > 0 Then
                   dupcode = CStr(ds.Tables(0).Rows(0)(0))
                 End If
-                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicateTaxId}"), New String() {Me.TaxId.ToString, dupcode})
+                                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SupplierDupplicateTaxIdBranchId}"), New String() {Me.TaxId.ToString, Me.BranchId.ToString, dupcode})
               Case -13
                 trans.Rollback()
                 Me.ResetID(oldid)

@@ -519,12 +519,32 @@ Namespace Longkong.AdobeForm
         '	data = reFunc1.Replace(data, AddressOf DoStringFunc1)
         'Loop
 
-        If data.ToLower.StartsWith("company") Then
-          Dim config As Object = Configuration.GetConfig(data)
-          If Not config Is Nothing Then
-            data = config.ToString
-          End If
-        End If
+                If data.ToLower.StartsWith("company") Then
+
+                    If data.ToLower = "companytaxbranchhead" Then
+                        data = "companytaxbranchid"
+                        Dim config As Object = Configuration.GetConfig(data)
+                        If Not config Is Nothing Then
+                            data = config.ToString
+                            If CInt(data) = 0 Then
+                                data = "X"
+                            Else
+                                data = ""
+                            End If
+                        End If
+                    ElseIf data.ToLower = "companytaxbranchid" Then
+                        Dim config As Object = Configuration.GetConfig(data)
+                        If Not config Is Nothing Then
+                            data = Configuration.BranchString(CInt(config))
+                        End If
+                    Else
+                        Dim config As Object = Configuration.GetConfig(data)
+                        If Not config Is Nothing Then
+                            data = config.ToString
+                        End If
+                    End If
+
+                End If
 
         If data <> savedData Then
           If data.StartsWith("=") Then

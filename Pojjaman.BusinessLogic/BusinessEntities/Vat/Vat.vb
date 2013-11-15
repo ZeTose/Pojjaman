@@ -470,6 +470,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             myDatatable.Columns.Add(New DataColumn("vati_runnumber", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("SupplierButton", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("vati_printName", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("vati_taxId", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("vati_branchId", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("vati_printaddress", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("vati_taxbase", GetType(String)))    'เอาไว้แสดง
             myDatatable.Columns.Add(New DataColumn("vati_realtaxbase", GetType(Decimal)))    'เก็บค่าเต็มๆ
@@ -507,6 +509,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Public Shared Function GetVatAmount(ByVal valueBeforeVat As Decimal, ByVal vatRate As Decimal) As Decimal
             Return (valueBeforeVat * vatRate) / 100
         End Function
+
+
+
 #End Region
 
 #Region "Methods"
@@ -1144,6 +1149,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     dr("vati_refdoc") = item.Refdoc
                     dr("vati_refdoctype") = item.RefdocType
                     dr("vati_customTaxAmount") = item.UseCustomTaxAmount
+                    dr("vati_taxId") = item.TaxId
+                    dr("vati_branchId") = item.BranchId
                     .Rows.Add(dr)
                 Next
             End With
@@ -1653,6 +1660,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpi = New DocPrintingItem
                 dpi.Mapping = "PrintName"
                 dpi.Value = Me.ItemCollection.Item(0).PrintName
+                dpi.DataType = "System.String"
+                dpiColl.Add(dpi)
+
+                'TaxId
+                dpi = New DocPrintingItem
+                dpi.Mapping = "TaxId"
+                dpi.Value = Me.ItemCollection.Item(0).TaxId
+                dpi.DataType = "System.String"
+                dpiColl.Add(dpi)
+
+                'TaxBranchId
+                dpi = New DocPrintingItem
+                dpi.Mapping = "TaxBranchId"
+                dpi.Value = Configuration.BranchString(Me.ItemCollection.Item(0).BranchId)
+                dpi.DataType = "System.String"
+                dpiColl.Add(dpi)
+
+                'TaxBranchHead
+                dpi = New DocPrintingItem
+                dpi.Mapping = "TaxBranchHead"
+                If Me.ItemCollection.Item(0).BranchId = 0 Then
+                    dpi.Value = "X"
+                Else
+                    dpi.Value = ""
+                End If
                 dpi.DataType = "System.String"
                 dpiColl.Add(dpi)
 
@@ -2587,6 +2619,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerFax", "System.String"))
             dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerContact", "System.String"))
             dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PrintName", "System.String"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxId", "System.String"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxBranchId", "System.String"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxBranchHead", "System.String"))
             dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PrintAddress", "System.String"))
             dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocCode", "System.String"))
             dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
@@ -2895,6 +2930,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_docDate As Date
         Private m_printName As String
         Private m_printAddress As String
+
         Private m_taxBase As Decimal
         Private m_taxRate As Decimal = CDec(Configuration.GetConfig("CompanyTaxRate"))
         Private m_taxAmt As Decimal
@@ -2917,6 +2953,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
         Public Sub New()
             MyBase.New()
+            Me.m_branchId = -1
             Me.m_group = New VatGroup
         End Sub
         Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -3001,6 +3038,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If dr.Table.Columns.Contains(aliasPrefix & "vati_customTaxAmount") AndAlso Not dr.IsNull(aliasPrefix & "vati_customTaxAmount") Then
                     .m_useCustomTaxAmt = CBool(dr(aliasPrefix & "vati_customTaxAmount"))
                 End If
+
+                If dr.Table.Columns.Contains(aliasPrefix & "vati_taxId") AndAlso Not dr.IsNull(aliasPrefix & "vati_taxId") Then
+                    .m_taxId = CStr(dr(aliasPrefix & "vati_taxId"))
+                End If
+
+                If dr.Table.Columns.Contains(aliasPrefix & "vati_branchId") AndAlso Not dr.IsNull(aliasPrefix & "vati_branchId") Then
+                    .m_branchId = CInt(dr(aliasPrefix & "vati_branchId"))
+                Else
+                    .m_branchId = -1
+                End If
+
             End With
         End Sub
         Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -3145,6 +3193,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 m_printAddress = Value
             End Set
         End Property
+
+        Private m_branchId As Integer
+        Public Property BranchId() As Integer            Get                Return m_branchId            End Get            Set(ByVal Value As Integer)                m_branchId = Value            End Set        End Property
+
+        Private m_taxId As String
+        Public Property TaxId() As String
+            Get
+                Return m_taxId
+            End Get
+            Set(ByVal Value As String)
+                m_taxId = Value
+            End Set
+        End Property
+
         Public Property TaxBase() As Decimal
             Get
                 Return m_taxBase
@@ -3244,14 +3306,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim proposedDocDate As Object = row("vati_docdate")
             Dim proposedPrintName As Object = row("vati_printname")
             Dim proposedPrintAddress As Object = row("vati_printaddress")
-
+            Dim proposedTaxId As Object = row("vati_taxId")
+            Dim proposedBranchId As Object = row("vati_branchId")
             Dim isBlankRow As Boolean = False
             If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
                 And (IsDBNull(proposedTaxRate) OrElse CStr(proposedTaxRate).Length = 0 OrElse CInt(proposedTaxRate) = 0) _
                 And (IsDBNull(proposedCode) OrElse CStr(proposedCode).Length = 0) _
                 And (IsDBNull(proposedPrintName) OrElse CStr(proposedPrintName).Length = 0) _
                 And (IsDBNull(proposedPrintAddress) OrElse CStr(proposedPrintAddress).Length = 0) _
-                And (IsDBNull(proposedDocDate) OrElse CStr(proposedDocDate).Length = 0 OrElse CDate(proposedDocDate).Equals(Date.MinValue)) Then
+                And (IsDBNull(proposedDocDate) OrElse CStr(proposedDocDate).Length = 0 OrElse CDate(proposedDocDate).Equals(Date.MinValue)) _
+                And (IsDBNull(proposedTaxId) OrElse CStr(proposedTaxId).Length = 0) _
+                And (IsDBNull(proposedBranchId) OrElse CStr(proposedBranchId).Length = 0) _
+                Then
                 isBlankRow = True
             End If
 
@@ -3283,6 +3349,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim proposedDocDate As Object = row("vati_docdate")
             Dim proposedPrintName As Object = row("vati_printname")
             Dim proposedPrintAddress As Object = row("vati_printaddress")
+            Dim proposedTaxId As Object = row("vati_taxId")
+            Dim proposedBranchId As Object = row("vati_branchId")
 
             Dim flag As Boolean = True
             If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
@@ -3291,6 +3359,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 And (IsDBNull(proposedPrintName) OrElse CStr(proposedPrintName).Length = 0) _
                 And (IsDBNull(proposedPrintAddress) OrElse CStr(proposedPrintAddress).Length = 0) _
                 And (IsDBNull(proposedDocDate) OrElse CStr(proposedDocDate).Length = 0 OrElse CDate(proposedDocDate).Equals(Date.MinValue)) _
+                And (IsDBNull(proposedTaxId) OrElse CStr(proposedTaxId).Length = 0) _
+                And (IsDBNull(proposedBranchId) OrElse CStr(proposedBranchId).Length = 0) _
                 Then
                 flag = False
             End If
@@ -3309,6 +3379,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             row("vati_linenumber") = Me.LineNumber
             row("vati_code") = Me.Code
             row("vati_printname") = Me.PrintName
+            row("vati_taxId") = Me.TaxId
+            row("vati_branchId") = Configuration.BranchString(Me.BranchId)
             row("vati_printaddress") = Me.PrintAddress
             row("vati_docdate") = Me.DocDate
 
@@ -3771,6 +3843,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi = New DocPrintingItem
             dpi.Mapping = "Amount"
             dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'TaxRate
+            dpi = New DocPrintingItem
+            dpi.Mapping = "TaxRate"
+            dpi.Value = Configuration.FormatToString(Me.TaxRate, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'TaxRate
+            dpi = New DocPrintingItem
+            dpi.Mapping = "TaxAmount"
+            dpi.Value = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'TaxId
+            dpi = New DocPrintingItem
+            dpi.Mapping = "TaxId"
+            dpi.Value = Me.TaxId
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'TaxBranchId
+            dpi = New DocPrintingItem
+            dpi.Mapping = "TaxBranchId"
+            dpi.Value = Configuration.BranchString(Me.BranchId)
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'TaxBranchHead
+            dpi = New DocPrintingItem
+            dpi.Mapping = "TaxBranchHead"
+            If Me.BranchId = 0 Then
+                dpi.Value = "X"
+            Else
+                dpi.Value = ""
+            End If
             dpi.DataType = "System.String"
             dpiColl.Add(dpi)
 
