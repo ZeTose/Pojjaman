@@ -1171,7 +1171,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return New SaveErrorException(ex.ToString)
             End Try
         End Function
-        Private Function GetCurrencyConversion() As Decimal
+        Public Function GetCurrencyConversion() As Decimal
             If TypeOf Me.RefDoc Is IHasCurrency Then
                 Return CType(Me.RefDoc, IHasCurrency).Currency.Conversion
             End If
@@ -1282,8 +1282,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 OnGlChanged()
                 '--------------------------------------------------
                 vi.DocDate = Me.RefDoc.Date
-                vi.PrintName = Me.RefDoc.Person.Name
-                vi.PrintAddress = Me.RefDoc.Person.BillingAddress
+                If TypeOf (Me.RefDoc.Person) Is Supplier Then
+
+                    vi.PrintName = CType(Me.RefDoc.Person, Supplier).Name
+                    vi.PrintAddress = CType(Me.RefDoc.Person, Supplier).BillingAddress
+                    vi.TaxId = CType(Me.RefDoc.Person, Supplier).TaxId
+                    vi.BranchId = CType(Me.RefDoc.Person, Supplier).BranchId
+
+                ElseIf TypeOf (Me.RefDoc.Person) Is Customer Then
+
+                    vi.PrintName = CType(Me.RefDoc.Person, Customer).Name
+                    vi.PrintAddress = CType(Me.RefDoc.Person, Customer).BillingAddress
+                    vi.TaxId = CType(Me.RefDoc.Person, Customer).TaxId
+                    vi.BranchId = CType(Me.RefDoc.Person, Customer).BranchId
+
+                Else
+
+                    vi.PrintName = Me.RefDoc.Person.Name
+                    vi.PrintAddress = Me.RefDoc.Person.BillingAddress
+
+                End If
+
 
                 vi.TaxBase = Me.RefDoc.TaxBase * Me.GetCurrencyConversion()
                 '--------------------------------------------------
@@ -1400,8 +1419,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 'ไม่มี Vatitem เลย
                 Dim vitem As New VatItem
                 vitem.DocDate = Me.RefDoc.Date
-                vitem.PrintName = Me.RefDoc.Person.Name
-                vitem.PrintAddress = Me.RefDoc.Person.BillingAddress
+                'vitem.PrintName = Me.RefDoc.Person.Name
+                'vitem.PrintAddress = Me.RefDoc.Person.BillingAddress
+
+                If TypeOf (Me.RefDoc.Person) Is Supplier Then
+
+                    vitem.PrintName = CType(Me.RefDoc.Person, Supplier).Name
+                    vitem.PrintAddress = CType(Me.RefDoc.Person, Supplier).BillingAddress
+                    vitem.TaxId = CType(Me.RefDoc.Person, Supplier).TaxId
+                    vitem.BranchId = CType(Me.RefDoc.Person, Supplier).BranchId
+
+                ElseIf TypeOf (Me.RefDoc.Person) Is Customer Then
+
+                    vitem.PrintName = CType(Me.RefDoc.Person, Customer).Name
+                    vitem.PrintAddress = CType(Me.RefDoc.Person, Customer).BillingAddress
+                    vitem.TaxId = CType(Me.RefDoc.Person, Customer).TaxId
+                    vitem.BranchId = CType(Me.RefDoc.Person, Customer).BranchId
+
+                Else
+
+                    vitem.PrintName = Me.RefDoc.Person.Name
+                    vitem.PrintAddress = Me.RefDoc.Person.BillingAddress
+
+                End If
+
                 vitem.TaxBase = Me.RefDoc.TaxBase * Me.GetCurrencyConversion()
                 vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
                 Me.ItemCollection.Add(vitem)

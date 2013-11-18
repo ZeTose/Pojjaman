@@ -2090,7 +2090,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           lastCode = newCode
           vitem.DocDate = Me.DocDate
           vitem.PrintName = Me.Supplier.Name
-          vitem.PrintAddress = Me.Supplier.BillingAddress
+                    vitem.PrintAddress = Me.Supplier.BillingAddress
+                    vitem.TaxId = Me.Supplier.TaxId
+                    vitem.BranchId = Me.Supplier.BranchId
           vitem.TaxBase = item.TaxBase - item.DeductTaxBase
           vitem.Amount = item.VatAmt '- item.DeductVatAmt
           'vitem.TaxBase = item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
@@ -2113,7 +2115,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       vitem.Code = CodeGenerator.Generate(ptn, vitem.GetLastCode(pattern), Me.DocDate)
       vitem.DocDate = Me.DocDate
       vitem.PrintName = Me.Supplier.Name
-      vitem.PrintAddress = Me.Supplier.BillingAddress
+            vitem.PrintAddress = Me.Supplier.BillingAddress
+            vitem.TaxId = Me.Supplier.TaxId
+            vitem.BranchId = Me.Supplier.BranchId
       vitem.TaxBase = Me.GetMaximumTaxBase
       vitem.Amount = Me.GetVatAmt
       vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))

@@ -18,6 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Function GetBeforeTax() As Decimal
     Property TaxBase() As Decimal
 
+
   End Interface
 
   Public Interface IHasVat

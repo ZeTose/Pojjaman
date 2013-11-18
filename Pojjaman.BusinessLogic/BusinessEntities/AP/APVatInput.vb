@@ -1152,7 +1152,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           lastCode = newCode
           vitem.DocDate = Me.DocDate
           vitem.PrintName = Me.Supplier.Name
-          vitem.PrintAddress = Me.Supplier.BillingAddress
+                    vitem.PrintAddress = Me.Supplier.BillingAddress
+                    vitem.TaxId = Me.Supplier.TaxId
+                    vitem.BranchId = Me.Supplier.BranchId
           If item.EntityId = 59 Then
             Dim tb As Decimal = 0
             If item.TaxBase > 0 AndAlso item.BeforeTax <> item.TaxBase Then
@@ -1189,7 +1191,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       vitem.Code = CodeGenerator.Generate(ptn, vitem.GetLastCode(pattern), Me.DocDate)
       vitem.DocDate = Me.DocDate
       vitem.PrintName = Me.Supplier.Name
-      vitem.PrintAddress = Me.Supplier.BillingAddress
+            vitem.PrintAddress = Me.Supplier.BillingAddress
+            vitem.TaxId = Me.Supplier.TaxId
+            vitem.BranchId = Me.Supplier.BranchId
       vitem.TaxBase = Me.GetMaximumTaxBase
       vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
       Me.Vat.ItemCollection.Add(vitem)

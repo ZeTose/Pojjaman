@@ -2360,41 +2360,57 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
         Private Sub SetVatInputAfterAmountChange()
             Dim nv As String = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-            If m_isInitialized Then
-                If Me.txtInvoiceDate.Text.Trim.Equals(nv) Then
-                    Me.txtInvoiceDate.Text = ""
-                End If
-                'Me.txtInvoiceDate.Text = ""
-                'Me.chkAutoRunVat.Enabled = True
-                'Me.dtpInvoiceDate.Enabled = True
-                'Me.txtInvoiceDate.ReadOnly = False
-                If Me.m_entity.TaxType.Value = 0 Then
-                    'ไม่มี Vat
-                    'SetVatToNoDoc()
-                    'Me.chkAutoRunVat.Enabled = False
-                    'Me.dtpInvoiceDate.Enabled = False
-                    'Me.txtInvoiceDate.ReadOnly = True
-                    Me.txtInvoiceDate.Text = ""
-
-                    Me.VatInputEnabled(False)
-
-                    ' Me.m_isInitialized = False
-
-                    Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-                    Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-                    Me.dtpInvoiceDate.Value = Now
-
-                    'Me.m_isInitialized = True
-                ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
-                    'ไม่มี Vatitem
-                    Me.m_entity.Vat.ItemCollection().Add(New VatItem)
-                    Me.VatInputEnabled(True)
-                Else
-                    'มี Vatitem ใบเดียว
-                    Me.VatInputEnabled(True)
-                End If
-
+            Dim temp As Boolean = m_isInitialized
+            m_isInitialized = False
+            'If m_isInitialized Then
+            If Me.txtInvoiceDate.Text.Trim.Equals(nv) Then
+                Me.txtInvoiceDate.Text = ""
             End If
+            'Me.txtInvoiceDate.Text = ""
+            'Me.chkAutoRunVat.Enabled = True
+            'Me.dtpInvoiceDate.Enabled = True
+            'Me.txtInvoiceDate.ReadOnly = False
+            If Me.m_entity.TaxType.Value = 0 Then
+                'ไม่มี Vat
+                'SetVatToNoDoc()
+                'Me.chkAutoRunVat.Enabled = False
+                'Me.dtpInvoiceDate.Enabled = False
+                'Me.txtInvoiceDate.ReadOnly = True
+                Me.txtInvoiceDate.Text = ""
+
+                Me.VatInputEnabled(False)
+
+                ' Me.m_isInitialized = False
+
+                Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+                Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+                Me.dtpInvoiceDate.Value = Now
+
+                'Me.m_isInitialized = True
+            ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
+                'ไม่มี Vatitem
+                Me.m_entity.Vat.ItemCollection().Add(New VatItem)
+                Dim myVatitem As VatItem
+                myVatitem = Me.m_entity.Vat.ItemCollection(0)
+                'myVatitem.PrintAddress = Me.m_entity.Customer.BillingAddress
+                'myVatitem.PrintName = Me.m_entity.Customer.Name
+                'myVatitem.TaxId = Me.m_entity.Customer.TaxId
+                'myVatitem.BranchId = Me.m_entity.Customer.BranchId
+                myVatitem.TaxBase = Me.m_entity.Vat.RefDoc.TaxBase * Me.m_entity.Vat.GetCurrencyConversion()
+                Me.VatInputEnabled(True)
+            Else
+                'มี Vatitem ใบเดียว
+                Dim myVatitem As VatItem
+                myVatitem = Me.m_entity.Vat.ItemCollection(0)
+                'myVatitem.PrintAddress = Me.m_entity.Customer.BillingAddress
+                'myVatitem.PrintName = Me.m_entity.Customer.Name
+                'myVatitem.TaxId = Me.m_entity.Customer.TaxId
+                'myVatitem.BranchId = Me.m_entity.Customer.BranchId
+                myVatitem.TaxBase = Me.m_entity.Vat.RefDoc.TaxBase * Me.m_entity.Vat.GetCurrencyConversion()
+                Me.VatInputEnabled(True)
+            End If
+            m_isInitialized = temp
+            'End If
         End Sub
         Public Sub SetStatus()
             MyBase.SetStatusBarMessage()
@@ -2852,6 +2868,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 myVatitem.PrintName = Me.m_entity.Customer.Name
                 myVatitem.TaxId = Me.m_entity.Customer.TaxId
                 myVatitem.BranchId = Me.m_entity.Customer.BranchId
+                myVatitem.TaxBase = myVat.RefDoc.TaxBase * myVat.GetCurrencyConversion()
+
             End If
         End Sub
         'Cost Center

@@ -3224,6 +3224,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 vitem.DocDate = Me.m_entity.DocDate
                 vitem.PrintName = Me.m_entity.Supplier.Name
                 vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                vitem.TaxId = Me.m_entity.Supplier.TaxId
+                vitem.BranchId = Me.m_entity.Supplier.BranchId
                 vitem.TaxBase = Me.m_entity.TaxBase
                 vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
                 Me.m_entity.Vat.ItemCollection.Clear()

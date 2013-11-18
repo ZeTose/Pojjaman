@@ -3248,6 +3248,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     vitem.DocDate = Me.DocDate
                     vitem.PrintName = Me.Customer.Name
                     vitem.PrintAddress = Me.Customer.BillingAddress
+                    vitem.TaxId = Me.Customer.TaxId
+                    vitem.BranchId = Me.Customer.BranchId
                     If TypeOf item Is VariationOrderDe Then
                         vitem.TaxBase = -item.TaxBase
                     Else
@@ -3272,6 +3274,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.DocDate = Me.DocDate
             vitem.PrintName = Me.Customer.Name
             vitem.PrintAddress = Me.Customer.BillingAddress
+            vitem.TaxId = Me.Customer.TaxId
+            vitem.BranchId = Me.Customer.BranchId
             vitem.TaxBase = Me.GetMaximumTaxBase
             vitem.TaxRate = TaxRate
             Me.Vat.ItemCollection.Add(vitem)

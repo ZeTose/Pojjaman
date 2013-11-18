@@ -3113,6 +3113,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                             For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
                                 vitem.PrintName = Me.m_entity.Customer.Name
                                 vitem.PrintAddress = Me.m_entity.Customer.BillingAddress
+                                vitem.TaxId = Me.m_entity.Customer.TaxId
+                                vitem.BranchId = Me.m_entity.Customer.BranchId
+
                             Next
                             Me.m_entity.CreditPeriod = Me.m_entity.Customer.CreditPeriod
                             Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
@@ -3881,6 +3884,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
                 vitem.PrintName = Me.m_entity.Customer.Name
                 vitem.PrintAddress = Me.m_entity.Customer.BillingAddress
+                vitem.TaxId = Me.m_entity.Customer.TaxId
+                vitem.BranchId = Me.m_entity.Customer.BranchId
             Next
             Me.RefreshBlankGrid()
             RefreshBlankDocGrid()

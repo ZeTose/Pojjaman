@@ -1401,12 +1401,53 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_treeManager.SelectedRow("vati_taxId") = CType(supplier, Supplier).TaxId
             Me.m_treeManager.SelectedRow("vati_branchId") = Configuration.BranchString(CType(supplier, Supplier).BranchId)
     End Sub
-    Private Sub SetCustomer(ByVal customer As ISimpleEntity)
-      Me.m_treeManager.SelectedRow("vati_printname") = CType(customer, Customer).Name
-            Me.m_treeManager.SelectedRow("vati_printaddress") = CType(customer, Customer).BillingAddress
-            Me.m_treeManager.SelectedRow("vati_taxId") = CType(customer, Supplier).TaxId
-            Me.m_treeManager.SelectedRow("vati_branchId") = Configuration.BranchString(CType(customer, Supplier).BranchId)
-    End Sub
+        Private Sub SetCustomer(ByVal customer As ISimpleEntity)
+
+            'Me.m_treeManager.SelectedRow("vati_printname") = CType(customer, Customer).Name
+            'Me.m_treeManager.SelectedRow("vati_printaddress") = CType(customer, Customer).BillingAddress
+            'Me.m_treeManager.SelectedRow("vati_taxId") = CType(customer, Customer).TaxId
+            'Me.m_treeManager.SelectedRow("vati_branchId") = Configuration.BranchString(CType(customer, Customer).BranchId)
+
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            Dim doc As VatItem = Me.CurrentItem
+
+            If doc Is Nothing Then
+                doc = New VatItem
+
+                If Me.m_vat.ItemCollection.Count.Equals(0) Then
+                    If Me.m_vat.RefDoc.GetMaximumTaxBase - Me.m_vat.RefDoc.TaxBase > 0 Then
+                        doc.TaxBase = Me.m_vat.RefDoc.GetMaximumTaxBase - Me.m_vat.RefDoc.TaxBase
+                        Me.m_vat.ItemCollection.Add(doc)
+                    Else
+                        msgServ.ShowMessage("${res:Global.Error.MaximumTaxBase}")
+                        Return
+                    End If
+                Else
+                    Dim mVat As Decimal = 0
+                    For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+                        If IsNumeric(row("vati_taxbase")) Then
+                            mVat += CDec(row("vati_taxbase"))
+                        End If
+                    Next
+                    If Me.m_vat.VatTaxBase - mVat > 0 Then
+                        doc.TaxBase = Me.m_vat.VatTaxBase - mVat
+                        Me.m_vat.ItemCollection.Add(doc)
+                    Else
+                        msgServ.ShowMessageFormatted("${res:Global.Error.OverTaxBase}", New String() {Configuration.FormatToString(Me.m_vat.VatTaxBase, DigitConfig.Price)})
+                        Return
+                    End If
+
+                End If
+
+                Me.m_treeManager.SelectedRow.Tag = doc
+            End If
+
+            doc.PrintName = CType(customer, Customer).Name
+            doc.PrintAddress = CType(customer, Customer).BillingAddress
+            doc.TaxId = CType(customer, Customer).TaxId
+            doc.BranchId = CType(customer, Customer).BranchId
+
+        End Sub
     Private Sub btnAutorun_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       'm_allSelected = Not m_allSelected
       Dim i As Integer = 0

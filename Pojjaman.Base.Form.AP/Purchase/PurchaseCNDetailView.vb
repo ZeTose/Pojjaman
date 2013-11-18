@@ -3388,7 +3388,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If dirtyFlag Then
               For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
                 vitem.PrintName = Me.m_entity.Supplier.Name
-                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                                vitem.TaxId = Me.m_entity.Supplier.TaxId
+                                vitem.BranchId = Me.m_entity.Supplier.BranchId
               Next
               Me.m_entity.CreditPeriod = Me.m_entity.Supplier.CreditPeriod
               Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
@@ -3412,7 +3414,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If dirtyFlag Then
               For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
                 vitem.PrintName = Me.m_entity.Supplier.Name
-                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                                vitem.TaxId = Me.m_entity.Supplier.TaxId
+                                vitem.BranchId = Me.m_entity.Supplier.BranchId
               Next
               Me.m_entity.CreditPeriod = Me.m_entity.Supplier.CreditPeriod
               Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
@@ -4328,7 +4332,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Or Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
       For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
         vitem.PrintName = Me.m_entity.Supplier.Name
-        vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                vitem.TaxId = Me.m_entity.Supplier.TaxId
+                vitem.BranchId = Me.m_entity.Supplier.BranchId
       Next
       Me.RefreshBlankGrid()
       RefreshBlankDocGrid()

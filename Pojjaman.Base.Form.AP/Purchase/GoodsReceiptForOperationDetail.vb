@@ -1803,7 +1803,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
                 For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
                   vitem.PrintName = Me.m_entity.Supplier.Name
-                  vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                                    vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                                    vitem.TaxId = Me.m_entity.Supplier.TaxId
+                                    vitem.BranchId = Me.m_entity.Supplier.BranchId
+
                 Next
                 Me.RefreshBlankGrid()
                 UpdateAmount()
@@ -2414,7 +2417,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
       For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
         vitem.PrintName = Me.m_entity.Supplier.Name
-        vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                vitem.TaxId = Me.m_entity.Supplier.TaxId
+                vitem.BranchId = Me.m_entity.Supplier.BranchId
       Next
       m_isInitialized = flag
 

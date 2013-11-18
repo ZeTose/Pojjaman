@@ -1789,6 +1789,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             vitem.DocDate = Me.DocDate
                             vitem.PrintName = Me.Customer.Name
                             vitem.PrintAddress = Me.Customer.BillingAddress
+                            vitem.TaxId = Me.Customer.TaxId
+                            vitem.BranchId = Me.Customer.BranchId
                             If Not item.DeductedTaxBase.HasValue Then
                                 Dim sv As New SimpleVat
                                 sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId)
@@ -1839,6 +1841,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         vitem.DocDate = Me.DocDate
                         vitem.PrintName = Me.Customer.Name
                         vitem.PrintAddress = Me.Customer.BillingAddress
+                        vitem.TaxId = Me.Customer.TaxId
+                        vitem.BranchId = Me.Customer.BranchId
                         If Not item.DeductedTaxBase.HasValue Then
                             Dim sv As New SimpleVat
                             sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
@@ -1883,6 +1887,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         vitem.DocDate = Me.DocDate
                         vitem.PrintName = Me.Customer.Name
                         vitem.PrintAddress = Me.Customer.BillingAddress
+                        vitem.TaxId = Me.Customer.TaxId
+                        vitem.BranchId = Me.Customer.BranchId
                         If Not item.DeductedTaxBase.HasValue Then
                             Dim sv As New SimpleVat
                             sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
@@ -1927,6 +1933,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         vitem.DocDate = Me.DocDate
                         vitem.PrintName = Me.Customer.Name
                         vitem.PrintAddress = Me.Customer.BillingAddress
+                        vitem.TaxId = Me.Customer.TaxId
+                        vitem.BranchId = Me.Customer.BranchId
                         If Not item.DeductedTaxBase.HasValue Then
                             Dim sv As New SimpleVat
                             sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
@@ -2029,6 +2037,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.DocDate = Me.DocDate
             vitem.PrintName = Me.Customer.Name
             vitem.PrintAddress = Me.Customer.BillingAddress
+            vitem.TaxId = Me.Customer.TaxId
+            vitem.BranchId = Me.Customer.BranchId
             vitem.TaxBase = Me.GetMaximumTaxBase
             vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
             vitem.CcId = GetAllCC.Id  'GetVatCC.Id

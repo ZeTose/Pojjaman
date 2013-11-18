@@ -3395,6 +3395,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                                 For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
                                     vitem.PrintName = Me.m_entity.Supplier.Name
                                     vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                                    vitem.TaxId = Me.m_entity.Supplier.TaxId
+                                    vitem.BranchId = Me.m_entity.Supplier.BranchId
+
                                 Next
                                 Me.m_entity.AdvancePayItemCollection.Clear()
                                 Me.RefreshBlankGrid()
@@ -4253,6 +4256,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
                 vitem.PrintName = Me.m_entity.Supplier.Name
                 vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+                vitem.TaxId = Me.m_entity.Supplier.TaxId
+                vitem.BranchId = Me.m_entity.Supplier.BranchId
             Next
             Me.m_entity.AdvancePayItemCollection.Clear()
             m_isInitialized = flag
