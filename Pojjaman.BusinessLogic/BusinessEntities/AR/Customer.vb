@@ -101,7 +101,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_coordinator = New Employee
       Me.m_creditType = New CreditType(2)
             'Me.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Customer).Account
-            Me.m_branchId = -1
+            Me.m_branchId = 0
         End Sub
         Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
             MyBase.Construct(dr, aliasPrefix)
