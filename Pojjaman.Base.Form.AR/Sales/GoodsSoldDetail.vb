@@ -2850,6 +2850,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 myVatitem = Me.m_entity.Vat.ItemCollection(0)
                 myVatitem.PrintAddress = Me.m_entity.Customer.BillingAddress
                 myVatitem.PrintName = Me.m_entity.Customer.Name
+                myVatitem.TaxId = Me.m_entity.Customer.TaxId
+                myVatitem.BranchId = Me.m_entity.Customer.BranchId
             End If
         End Sub
         'Cost Center

@@ -1193,7 +1193,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtAccount.Text = m_entity.Account.Code
       txtAccountName.Text = m_entity.Account.Name
       txtAuthorizeAmount.Text = Configuration.FormatToString(m_entity.AuthorizeAmount, DigitConfig.Price)
-      txtTaxID.Text = m_entity.TaxId
+            txtTaxID.Text = m_entity.TaxId
+            txtBranch.Text = Configuration.BranchString(m_entity.BranchId)
       txtContact.Text = m_entity.Contact
       txtIdNo.Text = Me.m_entity.IdNo
       txtNote.Text = Me.m_entity.Note

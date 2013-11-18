@@ -235,7 +235,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Cache Memo"
-        Public Shared Sub RefreshCustomerCollection(ByVal Key As Object)
+        Public Shared Sub RefreshCustomerCollection(ByVal Key As Object, Optional ByVal ForceRefresh As Boolean = False)
             If IsNumeric(Key) Then
                 If CInt(Key) = 0 Then
                     Return
@@ -261,7 +261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     Next
                 Else
                     Dim drow As DataRow = CType(m_CustomerCollection(Key), DataRow)
-                    If Not Sync(drow) Then
+                    If Not Sync(drow) Or ForceRefresh Then
                         Dim dt As DataTable = RefreshCustomer(Key)
                         For Each row As DataRow In dt.Rows
                             Dim drh As New DataRowHelper(row)
@@ -301,7 +301,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             )
             If ds.Tables(0).Rows.Count > 0 Then
                 Dim drh2 As New DataRowHelper(ds.Tables(0).Rows(0))
-                If drh2.GetValue(Of Date)("cust_lastEditDate").Equals(drh.GetValue(Of Date)("cust_lastEditDate")) Then
+                If drh2.GetValue(Of DateTime)("cust_lastEditDate").Equals(drh.GetValue(Of DateTime)("cust_lastEditDate")) Then
                     Return True
                 End If
             Else
@@ -439,8 +439,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@cust_receiveDates", Me.ReceiveDates))
       paramArrayList.Add(New SqlParameter("@cust_receiveDays", Me.ReceiveDays))
       paramArrayList.Add(New SqlParameter("@cust_receiveWeeks", Me.ReceiveWeeks))
-      paramArrayList.Add(New SqlParameter("@cust_summaryDiscount", Me.SummaryDiscount.Rate))
-      paramArrayList.Add(New SqlParameter("@cust_taxId", Me.TaxId))
+            paramArrayList.Add(New SqlParameter("@cust_summaryDiscount", Me.SummaryDiscount.Rate))
+
+            paramArrayList.Add(New SqlParameter("@cust_taxId", Me.TaxId))
+            paramArrayList.Add(New SqlParameter("@cust_branch", Me.BranchId))
+
       paramArrayList.Add(New SqlParameter("@cust_taxRate", Me.TaxRate))
       paramArrayList.Add(New SqlParameter("@cust_Idno", Me.IdNo))
       paramArrayList.Add(New SqlParameter("@cust_note", Me.Note))
@@ -509,7 +512,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "Insert" & Me.TableName & "Image", sqlparams)
         End If
-        trans.Commit()
+                trans.Commit()
+                RefreshCustomerCollection(Me.Id, True)
         Try
           RefreshInfoList()
           m_infolistNeedsRefreshing = True

@@ -1397,11 +1397,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetSupplier(ByVal supplier As ISimpleEntity)
       Me.m_treeManager.SelectedRow("vati_printname") = CType(supplier, Supplier).Name
-      Me.m_treeManager.SelectedRow("vati_printaddress") = CType(supplier, Supplier).BillingAddress
+            Me.m_treeManager.SelectedRow("vati_printaddress") = CType(supplier, Supplier).BillingAddress
+            Me.m_treeManager.SelectedRow("vati_taxId") = CType(supplier, Supplier).TaxId
+            Me.m_treeManager.SelectedRow("vati_branchId") = Configuration.BranchString(CType(supplier, Supplier).BranchId)
     End Sub
     Private Sub SetCustomer(ByVal customer As ISimpleEntity)
       Me.m_treeManager.SelectedRow("vati_printname") = CType(customer, Customer).Name
-      Me.m_treeManager.SelectedRow("vati_printaddress") = CType(customer, Customer).BillingAddress
+            Me.m_treeManager.SelectedRow("vati_printaddress") = CType(customer, Customer).BillingAddress
+            Me.m_treeManager.SelectedRow("vati_taxId") = CType(customer, Supplier).TaxId
+            Me.m_treeManager.SelectedRow("vati_branchId") = Configuration.BranchString(CType(customer, Supplier).BranchId)
     End Sub
     Private Sub btnAutorun_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       'm_allSelected = Not m_allSelected

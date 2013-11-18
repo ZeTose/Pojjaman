@@ -376,45 +376,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Cache Memo"
-    Public Shared Sub RefreshSupplierCollection(ByVal Key As Object, ByVal includeInvisible As Boolean)
-      If IsNumeric(Key) Then
-        If CInt(Key) = 0 Then
-          Return
-        End If
-      End If
+        Public Shared Sub RefreshSupplierCollection(ByVal Key As Object, ByVal includeInvisible As Boolean, Optional ByVal ForceRefresh As Boolean = False)
+            If IsNumeric(Key) Then
+                If CInt(Key) = 0 Then
+                    Return
+                End If
+            End If
 
-      If m_SupplierCollection Is Nothing Then
-        m_SupplierCollection = New Hashtable
+            If m_SupplierCollection Is Nothing Then
+                m_SupplierCollection = New Hashtable
 
-        Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
-        For Each row As DataRow In dt.Rows
-          Dim drh As New DataRowHelper(row)
-          If Not m_SupplierCollection.Contains(drh.GetValue(Of Integer)("supplier_id")) Then
-            m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
-            m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower.Trim, row)
-          End If
-        Next
-      Else
-        If Not m_SupplierCollection.Contains(Key) Then
-          Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
-          For Each row As DataRow In dt.Rows
-            Dim drh As New DataRowHelper(row)
-            m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
-            m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower.Trim, row)
-          Next
-        Else
-          Dim drow As DataRow = CType(m_SupplierCollection(Key), DataRow)
-          If Not Sync(drow) Then
-            Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
-            For Each row As DataRow In dt.Rows
-              Dim drh As New DataRowHelper(row)
-              m_SupplierCollection(drh.GetValue(Of Integer)("supplier_id")) = row
-              m_SupplierCollection(drh.GetValue(Of String)("supplier_code").ToLower.Trim) = row
-            Next
-          End If
-        End If
-      End If
-    End Sub
+                Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
+                For Each row As DataRow In dt.Rows
+                    Dim drh As New DataRowHelper(row)
+                    If Not m_SupplierCollection.Contains(drh.GetValue(Of Integer)("supplier_id")) Then
+                        m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
+                        m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower.Trim, row)
+                    End If
+                Next
+            Else
+                If Not m_SupplierCollection.Contains(Key) Then
+                    Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
+                    For Each row As DataRow In dt.Rows
+                        Dim drh As New DataRowHelper(row)
+                        m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
+                        m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower.Trim, row)
+                    Next
+                Else
+                    Dim drow As DataRow = CType(m_SupplierCollection(Key), DataRow)
+                    If Not Sync(drow) Or ForceRefresh Then
+                        Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
+                        For Each row As DataRow In dt.Rows
+                            Dim drh As New DataRowHelper(row)
+                            m_SupplierCollection(drh.GetValue(Of Integer)("supplier_id")) = row
+                            m_SupplierCollection(drh.GetValue(Of String)("supplier_code").ToLower.Trim) = row
+                        Next
+                    End If
+                End If
+            End If
+        End Sub
     Public Shared Function RefreshSupplier(ByVal Key As Object, ByVal includeInvisible As Boolean) As DataTable
       Dim id As Object
       Dim code As Object
@@ -670,7 +670,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "Insert" & Me.TableName & "Image", sqlparams)
           'End If
 
-          trans.Commit()
+                    trans.Commit()
+                    RefreshSupplierCollection(Id, True, True)
           'Try
           '  RefreshInfoList()
           '  m_infolistNeedsRefreshing = True

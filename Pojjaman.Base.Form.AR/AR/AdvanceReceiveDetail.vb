@@ -1442,7 +1442,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim myVatitem As VatItem
         myVatitem = Me.m_entity.Vat.ItemCollection(0)
         myVatitem.PrintAddress = Me.m_entity.Customer.BillingAddress
-        myVatitem.PrintName = Me.m_entity.Customer.Name
+                myVatitem.PrintName = Me.m_entity.Customer.Name
+                myVatitem.TaxId = Me.m_entity.Customer.TaxId
+                myVatitem.BranchId = Me.m_entity.Customer.BranchId
       End If
     End Sub
     Private Sub ibtnShowCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCostCenterDialog.Click
