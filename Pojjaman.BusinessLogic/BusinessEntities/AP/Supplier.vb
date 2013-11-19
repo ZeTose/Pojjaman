@@ -93,7 +93,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'Me.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Supplier).Account
       m_contactCollection = New SupplierContactCollection(Me)
             'm_SupplierLCICostLink = New SupplierLCICostLink
-            Me.m_branchId = 0
+            Me.m_branchId = -1
         End Sub
         Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
             MyBase.Construct(dr, aliasPrefix)

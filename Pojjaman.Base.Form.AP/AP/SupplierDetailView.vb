@@ -1719,7 +1719,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If CBool(checkString.Substring(0, 1)) AndAlso m_entity.Originated Then
           btnLock.Enabled = True
           btnLock.Visible = True
-        End If
+                End If
+
+                If Me.m_entity.TaxId.Length = 0 Then
+                    Me.txtBranch.Enabled = False
+                Else
+                    Me.txtBranch.Enabled = True
+                End If
+
       End If
       Me.FixedGroupBox1.Enabled = True
       Me.txtDCACcount.Enabled = True
@@ -2073,6 +2080,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
 
         Private txtbranchchanged As Boolean = False
+        Private txtsetting As Boolean = False
         Public Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
             If Not m_isInitialized Then
                 Return
@@ -2187,12 +2195,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           dirtyFlag = True
 
-        Case "txttaxid"
-          If Not IsNumeric(txtTaxID.Text) Then
-            txtTaxID.Text = ""
-          End If
-          Me.m_entity.TaxId = txtTaxID.Text
-          dirtyFlag = True
+                Case "txttaxid"
+                    If Not IsNumeric(txtTaxID.Text) And txtTaxID.Text <> "" Then
+                        txtTaxID.Text = ""
+                    Else
+                        Me.m_entity.TaxId = txtTaxID.Text.Trim
+
+                        If Me.m_entity.TaxId.Length = 0 Then
+                            txtsetting = True
+                            Me.m_entity.BranchId = -1
+                            txtBranch.Text = Configuration.BranchString(Me.m_entity.BranchId)
+                            txtsetting = False
+                        Else
+                            txtsetting = True
+                            Me.m_entity.BranchId = 0
+                            txtBranch.Text = Configuration.BranchString(Me.m_entity.BranchId)
+                            txtsetting = False
+                        End If
+
+                        dirtyFlag = True
+                    End If
+
 
         Case "txtidno"
           If Not IsNumeric(txtIdNo.Text) Then

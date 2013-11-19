@@ -1101,7 +1101,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         For Each ctrl As Control In primaryDetailGroupBox.Controls
           ctrl.Enabled = True
-        Next
+                Next
+
+                If Me.m_entity.TaxId.Length = 0 Then
+                    Me.txtBranch.Enabled = False
+                Else
+                    Me.txtBranch.Enabled = True
+                End If
+
         otherDetailGroupBox.Enabled = True
       End If
       Dim CanEditAccountEntity As Boolean = Convert.ToBoolean(Configuration.GetConfig("CanEditAccountEntity"))
@@ -1233,8 +1240,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
 
         Private txtbranchchanged As Boolean = False
+        Private txtsetting As Boolean = False
         Public Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
             If Not m_isInitialized Then
+                Return
+            End If
+            If txtsetting Then
                 Return
             End If
             Select Case CType(sender, Control).Name.ToLower
@@ -1315,9 +1326,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           dirtyFlag = True
 
-        Case "txttaxid"
-          Me.m_entity.TaxId = txtTaxID.Text
-          dirtyFlag = True
+                Case "txttaxid"
+
+                    If Not IsNumeric(txtTaxID.Text) And txtTaxID.Text <> "" Then
+                        txtTaxID.Text = ""
+                    Else
+                        Me.m_entity.TaxId = txtTaxID.Text.Trim
+
+                        If Me.m_entity.TaxId.Length = 0 Then
+                            txtsetting = True
+                            Me.m_entity.BranchId = -1
+                            txtBranch.Text = Configuration.BranchString(Me.m_entity.BranchId)
+                            txtsetting = False
+                        Else
+                            txtsetting = True
+                            Me.m_entity.BranchId = 0
+                            txtBranch.Text = Configuration.BranchString(Me.m_entity.BranchId)
+                            txtsetting = False
+                        End If
+
+                        dirtyFlag = True
+                    End If
+
 
         Case "rdjuris", "rdindividual"
           If rdJuris.Checked Then
@@ -1348,9 +1378,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                             dirtyFlag = True
                         End If
 
-                        Me.m_isInitialized = False
+                        txtsetting = True
                         txtBranch.Text = Configuration.BranchString(Me.m_entity.BranchId)
-                        Me.m_isInitialized = True
+                        txtsetting = False
 
                     End If
 

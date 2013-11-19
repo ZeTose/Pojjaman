@@ -172,25 +172,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim SumTaxAmount As Decimal = 0
             Dim SumAfterTax As Decimal = 0
 
-            ''===ทำ relate doc ของ 226 ใน code
-            'Dim paysId As Integer = -1
-            'Dim relatedoc As New Dictionary(Of Integer, String)
-            'Dim docs As New List(Of String)
-            'For Each relaterow As DataRow In dt2.Rows
-            '  Dim drh As New DataRowHelper(relaterow)
-            '  If paysId = drh.GetValue(Of Integer)("paysi_pays") Then
-            '    docs.Add(drh.GetValue(Of String)("stock_code"))
-            '  ElseIf paysId > 0 Then
-            '    relatedoc.Add(paysId, String.Join(",", docs))
-            '    paysId = drh.GetValue(Of Integer)("paysi_pays")
-            '    docs.Add(drh.GetValue(Of String)("stock_code"))
-            '  ElseIf paysId = -1 Then
-            '    paysId = drh.GetValue(Of Integer)("paysi_pays")
-            '    docs.Add(drh.GetValue(Of String)("stock_code"))
-            '  End If
-            'Next
-
-            '' แทนการต่อสตริง
             Dim RelateDic As New DictionaryOfJoinStringbyInteger(dt2, "paysi_pays", "stock_code", ",")
 
             Dim DocId As Integer
