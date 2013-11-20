@@ -645,13 +645,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If Me.StockQty <> 0 Then
           Dim tmpCost As Decimal = 0
-          Dim tmpRealGrossNoVat As Decimal = 0
+                    'Dim tmpRealGrossNoVat As Decimal = 0
 
-          tmpRealGrossNoVat = Me.VO.RealGross
+                    'tmpRealGrossNoVat = Me.VO.RealGross
 
-          If tmpRealGrossNoVat = 0 Then
-            Return 0
-          End If
+                    'If tmpRealGrossNoVat = 0 Then
+                    '  Return 0
+                    'End If
 
           tmpCost = Me.AmountWithDefaultUnit
 
