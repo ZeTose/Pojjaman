@@ -935,7 +935,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '  End If
       Else
         If doc Is Nothing Then
-          doc = New VatItem
+                    doc = New VatItem
+                    If TypeOf (Me.m_vat.RefDoc.Person) Is Supplier Then
+
+                        doc.PrintName = CType(Me.m_vat.RefDoc.Person, Supplier).Name
+                        doc.PrintAddress = CType(Me.m_vat.RefDoc.Person, Supplier).BillingAddress
+                        doc.TaxId = CType(Me.m_vat.RefDoc.Person, Supplier).TaxId
+                        doc.BranchId = CType(Me.m_vat.RefDoc.Person, Supplier).BranchId
+
+                    ElseIf TypeOf (Me.m_vat.RefDoc.Person) Is Customer Then
+
+                        doc.PrintName = CType(Me.m_vat.RefDoc.Person, Customer).Name
+                        doc.PrintAddress = CType(Me.m_vat.RefDoc.Person, Customer).BillingAddress
+                        doc.TaxId = CType(Me.m_vat.RefDoc.Person, Customer).TaxId
+                        doc.BranchId = CType(Me.m_vat.RefDoc.Person, Customer).BranchId
+
+                    Else
+
+                        doc.PrintName = Me.m_vat.RefDoc.Person.Name
+                        doc.PrintAddress = Me.m_vat.RefDoc.Person.BillingAddress
+
+                    End If
           Me.m_vat.ItemCollection.Add(doc)
           Me.m_treeManager.SelectedRow.Tag = doc
         End If
@@ -972,8 +992,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
                         doc.PrintName = CStr(e.ProposedValue)
 
-                    Case "vati_taxId"
-                        If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
+                    Case "vati_taxid"
+                        If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing OrElse Not (IsNumeric(e.ProposedValue)) Then
                             e.ProposedValue = ""
                         End If
                         If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
@@ -981,7 +1001,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                         End If
                         doc.TaxId = CStr(e.ProposedValue)
 
-                    Case "vati_branchId"
+                    Case "vati_branchid"
                         If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing OrElse Not (IsNumeric(e.ProposedValue)) Then
                             e.ProposedValue = -1
                         End If

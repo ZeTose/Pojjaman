@@ -1388,6 +1388,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 vitem.PrintName = Me.RefDoc.Person.Name
                 vitem.PrintAddress = Me.RefDoc.Person.BillingAddress
 
+                If TypeOf (Me.RefDoc.Person) Is Supplier Then
+                    vitem.TaxId = CType(Me.RefDoc.Person, Supplier).TaxId
+                    vitem.BranchId = CType(Me.RefDoc.Person, Supplier).BranchId
+                ElseIf TypeOf (Me.RefDoc.Person) Is Customer Then
+                    vitem.TaxId = CType(Me.RefDoc.Person, Customer).TaxId
+                    vitem.BranchId = CType(Me.RefDoc.Person, Customer).BranchId
+                End If
+
 
                 vitem.TaxBase = Me.RefDoc.TaxBase * Me.GetCurrencyConversion()
 
@@ -3205,6 +3213,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     Me.DocDate = Me.Vat.RefDoc.Date
                     Me.PrintName = Me.Vat.Entity.Name
                     Me.PrintAddress = Me.Vat.Entity.BillingAddress
+                    If TypeOf (Me.Vat.Entity) Is Supplier Then
+                        Me.TaxId = CType(Me.Vat.Entity, Supplier).TaxId
+                        Me.BranchId = CType(Me.Vat.Entity, Supplier).BranchId
+                    ElseIf TypeOf (Me.Vat.Entity) Is Customer Then
+                        Me.TaxId = CType(Me.Vat.Entity, Customer).TaxId
+                        Me.BranchId = CType(Me.Vat.Entity, Customer).BranchId
+                    End If
                     Me.SubmitalDate = Me.Vat.SubmitalDate
                     Me.VatGroup = Me.Vat.VatGroup
                 End If

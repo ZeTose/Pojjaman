@@ -3021,7 +3021,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'End If
             m_oldInvoiceCode = Me.txtInvoiceCode.Text
             Me.chkAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
-            Me.UpdateVatAutogenStatus()
+            'Me.UpdateVatAutogenStatus()
 
             txtCustomerCode.Text = m_entity.Customer.Code
             txtCustomerName.Text = m_entity.Customer.Name
@@ -3043,9 +3043,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.DataTable = m_treeManager.Treetable
             '********************************************************************
 
-            m_docCollInitialized = False
             RefreshDocs()
-            m_docCollInitialized = True
+
 
             UpdateAmount()
 
@@ -3327,20 +3326,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
             txtDiff.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
 
             m_isInitialized = True
-            'SetVatInputAfterAmountChange()
-            SetVatToOneDoc()
+            SetVatInputAfterAmountChange()
+            'SetVatToOneDoc()
             RefreshWBS()
         End Sub
         Private Sub SetVatInputAfterAmountChange()
+            Dim temp As Boolean = m_isInitialized
+            Me.m_isInitialized = False
             If Me.m_entity.TaxType.Value = 0 Then
                 'ไม่มี Vat
                 'SetVatToNoDoc()
                 Me.VatInputEnabled(False)
-                Me.m_isInitialized = False
+
                 Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
                 Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
                 Me.dtpInvoiceDate.Value = Now
-                Me.m_isInitialized = True
+
             ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
                 'ไม่มี Vatitem
                 Me.m_entity.Vat.ItemCollection().Add(New VatItem)
@@ -3349,6 +3350,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 'มี Vatitem ใบเดียว
                 Me.VatInputEnabled(True)
             End If
+            Me.m_isInitialized = temp
         End Sub
         Public Sub SetStatus()
             MyBase.SetStatusBarMessage()
@@ -3494,9 +3496,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
         End Sub
         Private Sub chkAutoRunVat_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoRunVat.CheckedChanged
-
-            'SetVatToOneDoc()
-            UpdateVatAutogenStatus()
+            If m_isInitialized Then
+                'SetVatToOneDoc()
+                UpdateVatAutogenStatus()
+            End If
         End Sub
         Private Sub UpdateVatAutogenStatus()
             If Me.m_entity.Vat Is Nothing Then

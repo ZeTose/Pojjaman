@@ -532,6 +532,28 @@ Namespace Longkong.AdobeForm
                                 data = ""
                             End If
                         End If
+                    ElseIf data.ToLower = "companytaxbranchnohead" Then
+                        data = "companytaxbranchid"
+                        Dim config As Object = Configuration.GetConfig(data)
+                        If Not config Is Nothing Then
+                            data = config.ToString
+                            If CInt(data) = 0 Then
+                                data = ""
+                            Else
+                                data = "X"
+                            End If
+                        End If
+                    ElseIf data.ToLower = "companytaxbranchidnohead " Then
+                        data = "companytaxbranchid"
+                        Dim config As Object = Configuration.GetConfig(data)
+                        If Not config Is Nothing Then
+                            data = config.ToString
+                            If CInt(data) = 0 Then
+                                data = ""
+                            Else
+                                data = Configuration.BranchString(CInt(config))
+                            End If
+                        End If
                     ElseIf data.ToLower = "companytaxbranchid" Then
                         Dim config As Object = Configuration.GetConfig(data)
                         If Not config Is Nothing Then
