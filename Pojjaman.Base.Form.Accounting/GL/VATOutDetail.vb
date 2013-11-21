@@ -944,102 +944,104 @@ Namespace Longkong.Pojjaman.Gui.Panels
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
     Private m_tmpsubmitalDate As Date = Now
 
-    Public Overrides Sub UpdateEntityProperties()
-      m_isInitialized = False
-      ClearDetail()
-      If m_vat Is Nothing Then
-        Return
-      End If
-      Dim vi As VatItem
-      'If Me.m_vat.ItemCollection.Count <= 0 Then
-      '  vi = New VatItem
-      '  Me.m_vat.ItemCollection.Add(vi)
-      'End If
-      If TypeOf Me.m_entity Is IHasVat Then
-        If Not CType(Me.m_entity, IHasVat).Taxtype Is Nothing AndAlso CType(Me.m_entity, IHasVat).Taxtype.Value = 0 Then
-          Me.m_vat.ItemCollection = New VatItemCollection()
-        End If
-      End If
+        Public Overrides Sub UpdateEntityProperties()
 
-      Me.SetNoVatRequire()
-      If Me.m_vat.ItemCollection.Count > 0 Then
-        vi = Me.m_vat.ItemCollection(0)
-        txtCode.Text = vi.Code
+            m_isInitialized = False
+            ClearDetail()
+            If m_vat Is Nothing Then
+                m_isInitialized = True
+                Return
+            End If
+            Dim vi As VatItem
+            'If Me.m_vat.ItemCollection.Count <= 0 Then
+            '  vi = New VatItem
+            '  Me.m_vat.ItemCollection.Add(vi)
+            'End If
+            If TypeOf Me.m_entity Is IHasVat Then
+                If Not CType(Me.m_entity, IHasVat).Taxtype Is Nothing AndAlso CType(Me.m_entity, IHasVat).Taxtype.Value = 0 Then
+                    Me.m_vat.ItemCollection = New VatItemCollection()
+                End If
+            End If
 
-        Me.txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
-        Me.txtVatGroupName.Text = Me.m_vat.VatGroup.Name
+            Me.SetNoVatRequire()
+            If Me.m_vat.ItemCollection.Count > 0 Then
+                vi = Me.m_vat.ItemCollection(0)
+                txtCode.Text = vi.Code
 
-        Me.txtDocDate.Text = MinDateToNull(vi.DocDate, "")
+                Me.txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
+                Me.txtVatGroupName.Text = Me.m_vat.VatGroup.Name
 
-        'Trace.WriteLine(vi.DocDate)
+                Me.txtDocDate.Text = MinDateToNull(vi.DocDate, "")
 
-        Me.dtpDocDate.Value = MinDateToNow(vi.DocDate) ' MinDateToNow(vi.DocDate)
-        m_oldCode = vi.Code
-        If TypeOf Me.m_entity Is IHasVat Then
-          Dim refdoc As IHasVat = CType(Me.m_entity, IHasVat)
-          If (vi.TaxRate <> refdoc.Taxrate) Then
-            vi.TaxRate = refdoc.Taxrate
-          End If
-        End If
-        Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
-        Me.txtPrintAddress.Text = vi.PrintAddress
-        Me.txtPrintName.Text = vi.PrintName
-        Me.txtNote.Text = vi.Note
+                'Trace.WriteLine(vi.DocDate)
+
+                Me.dtpDocDate.Value = MinDateToNow(vi.DocDate) ' MinDateToNow(vi.DocDate)
+                m_oldCode = vi.Code
+                If TypeOf Me.m_entity Is IHasVat Then
+                    Dim refdoc As IHasVat = CType(Me.m_entity, IHasVat)
+                    If (vi.TaxRate <> refdoc.Taxrate) Then
+                        vi.TaxRate = refdoc.Taxrate
+                    End If
+                End If
+                Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
+                Me.txtPrintAddress.Text = vi.PrintAddress
+                Me.txtPrintName.Text = vi.PrintName
+                Me.txtNote.Text = vi.Note
                 Me.txtTaxID.Text = vi.TaxId
                 Me.txtBranch.Text = Configuration.BranchString(vi.BranchId)
 
-        Me.chkAutorun.Checked = Me.m_vat.AutoGen
+                Me.chkAutorun.Checked = Me.m_vat.AutoGen
                 'Me.UpdateAutogenStatus()
 
-        AddHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
+                AddHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
 
-        UpdateAmount()
-        UpdateRefDoc()
-        m_tmpsubmitalDate = Me.m_vat.SubmitalDate
-        txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
-        dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
-      Else
-        'SetNoVatRequire(True)
-      End If
+                UpdateAmount()
+                UpdateRefDoc()
+                m_tmpsubmitalDate = Me.m_vat.SubmitalDate
+                txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
+                dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
+            Else
+                'SetNoVatRequire(True)
+            End If
 
-      SetStatus()
-      'SetLabelText()
-      CheckFormEnable()
+            SetStatus()
+            'SetLabelText()
+            CheckFormEnable()
 
-      'If allowBlankInvoice Then
-      '  Me.txtDocDate.Text = IIf(vi.Code Is Nothing OrElse vi.Code.Length = 0, "", MinDateToNull(vi.DocDate, ""))
-      'Else
-      '  Me.txtDocDate.Text = MinDateToNull(vi.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      'End If
-      'Trace.WriteLine(txtCode.Text)
-      'Trace.WriteLine(Me.m_vat.ItemCollection.Count)
-      'Trace.WriteLine(Me.m_vat.ItemCollection(0).AutoGen)
+            'If allowBlankInvoice Then
+            '  Me.txtDocDate.Text = IIf(vi.Code Is Nothing OrElse vi.Code.Length = 0, "", MinDateToNull(vi.DocDate, ""))
+            'Else
+            '  Me.txtDocDate.Text = MinDateToNull(vi.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+            'End If
+            'Trace.WriteLine(txtCode.Text)
+            'Trace.WriteLine(Me.m_vat.ItemCollection.Count)
+            'Trace.WriteLine(Me.m_vat.ItemCollection(0).AutoGen)
 
-      'Me.txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
-      'Me.txtVatGroupName.Text = Me.m_vat.VatGroup.Name
+            'Me.txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
+            'Me.txtVatGroupName.Text = Me.m_vat.VatGroup.Name
 
-      'Me.dtpDocDate.Value = MinDateToNow(vi.DocDate)
-      'm_oldCode = vi.Code
-      'Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
-      'Me.txtPrintAddress.Text = vi.PrintAddress
-      'Me.txtPrintName.Text = vi.PrintName
-      'Me.txtNote.Text = vi.Note
+            'Me.dtpDocDate.Value = MinDateToNow(vi.DocDate)
+            'm_oldCode = vi.Code
+            'Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
+            'Me.txtPrintAddress.Text = vi.PrintAddress
+            'Me.txtPrintName.Text = vi.PrintName
+            'Me.txtNote.Text = vi.Note
 
-      'Me.chkAutorun.Checked = Me.m_vat.AutoGen
-      'Me.UpdateAutogenStatus()
+            'Me.chkAutorun.Checked = Me.m_vat.AutoGen
+            'Me.UpdateAutogenStatus()
 
-      'AddHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
+            'AddHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
 
-      'UpdateAmount()
-      'UpdateRefDoc()
-      'm_tmpsubmitalDate = Me.m_vat.SubmitalDate
-      'txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
-      'dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
-      'SetStatus()
-      'SetLabelText()
-      'CheckFormEnable()
-      m_isInitialized = True
-    End Sub
+            'UpdateAmount()
+            'UpdateRefDoc()
+            'm_tmpsubmitalDate = Me.m_vat.SubmitalDate
+            'txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
+            'dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
+            'SetStatus()
+            'SetLabelText()
+            'CheckFormEnable()
+            m_isInitialized = True
+        End Sub
     Private Sub UpdateRefDoc()
       Me.txtRefDocCode.Text = Me.m_vat.RefDoc.Code
       Me.txtRefDocDate.Text = MinDateToNull(Me.m_vat.RefDoc.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))

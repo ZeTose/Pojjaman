@@ -3001,7 +3001,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetBeforeTax() As Decimal Implements IVatable.GetBeforeTax
       Return Me.BeforeTax
     End Function
-    Private m_novat As Boolean = False
+        Private m_novat As Boolean ' = False
     'Private m_RealNoVat As Nullable(Of Boolean)
     'Public Property RealNoVat As Boolean
     '  Get
