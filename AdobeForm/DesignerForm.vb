@@ -543,7 +543,7 @@ Namespace Longkong.AdobeForm
                                 data = "X"
                             End If
                         End If
-                    ElseIf data.ToLower = "companytaxbranchidnohead " Then
+                    ElseIf data.ToLower = "companytaxbranchidnohead" Then
                         data = "companytaxbranchid"
                         Dim config As Object = Configuration.GetConfig(data)
                         If Not config Is Nothing Then
