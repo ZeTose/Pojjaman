@@ -117,7 +117,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_receive = New Receive(Me)
         .m_receive.DocDate = Me.m_docDate
         '----------------------------End Tab Entities-----------------------------------------
-        .AutoCodeFormat = New AutoCodeFormat(Me)
+                .AutoCodeFormat = New AutoCodeFormat(Me)
+                ' SetNoVat(True)
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -205,7 +206,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je = New JournalEntry(Me)
 
       End With
-      Me.AutoCodeFormat = New AutoCodeFormat(Me)
+            Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+            SetNoVat()
+
     End Sub
 #End Region
 
@@ -1108,7 +1112,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetBeforeTax() As Decimal Implements IVatable.GetBeforeTax
       Return Me.BeforeTax
     End Function
-    Private m_novat As Boolean = False
+        Private m_novat As Boolean '= False
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
         Return Me.TaxType.Value = 0 OrElse m_novat 'OrElse RealNoVat

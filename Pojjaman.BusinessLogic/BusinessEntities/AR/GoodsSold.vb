@@ -119,7 +119,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '----------------------------End Tab Entities-----------------------------------------
 
         .m_advanceReceiveItemColl = New AdvanceReceiveItemCollection(Me)
-        .AutoCodeFormat = New AutoCodeFormat(Me)
+                .AutoCodeFormat = New AutoCodeFormat(Me)
+                ' SetNoVat(True)
       End With
       m_itemCollection = New GoodsSoldItemCollection(Me, True)
     End Sub

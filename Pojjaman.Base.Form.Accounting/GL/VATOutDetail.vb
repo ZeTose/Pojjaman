@@ -964,7 +964,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
 
             Me.SetNoVatRequire()
-            If Me.m_vat.ItemCollection.Count > 0 Then
+            If Me.m_vat.ItemCollection.Count > 0 AndAlso Not (CType(Me.m_entity, IVatable).NoVat) Then
                 vi = Me.m_vat.ItemCollection(0)
                 txtCode.Text = vi.Code
 
@@ -983,12 +983,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
                         vi.TaxRate = refdoc.Taxrate
                     End If
                 End If
+
                 Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
                 Me.txtPrintAddress.Text = vi.PrintAddress
                 Me.txtPrintName.Text = vi.PrintName
                 Me.txtNote.Text = vi.Note
                 Me.txtTaxID.Text = vi.TaxId
                 Me.txtBranch.Text = Configuration.BranchString(vi.BranchId)
+
+
 
                 Me.chkAutorun.Checked = Me.m_vat.AutoGen
                 'Me.UpdateAutogenStatus()
@@ -1059,10 +1062,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    Me.txtAmount.Text = Configuration.FormatToString(Me.m_vat.Amount, DigitConfig.Price)
       '    Me.txtTaxBase.Text = Configuration.FormatToString(Me.m_vat.TaxBase, DigitConfig.Price)
       '  End If
-      'Else
-      Me.txtAmount.Text = Configuration.FormatToString(Me.m_vat.Amount, DigitConfig.Price)
-      Me.txtTaxBase.Text = Configuration.FormatToString(Me.m_vat.TaxBase, DigitConfig.Price)
-      'End If
+            'Else
+            If Not (CType(Me.m_entity, IVatable).NoVat) Then
+                Me.txtAmount.Text = Configuration.FormatToString(Me.m_vat.Amount, DigitConfig.Price)
+                Me.txtTaxBase.Text = Configuration.FormatToString(Me.m_vat.TaxBase, DigitConfig.Price)
+            End If
+            'End If
 
       'Trace.WriteLine(Me.m_vat.Amount.ToString)
       'Trace.WriteLine(Me.m_vat.TaxBase.ToString)

@@ -2962,6 +2962,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_isInitialized = False
             ClearDetail()
             If m_entity Is Nothing Then
+                m_isInitialized = True
                 Return
             End If
 
