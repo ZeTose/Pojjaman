@@ -261,7 +261,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.tgWBS.AllowNew = False
             Me.tgWBS.AllowSorting = False
             Me.tgWBS.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.tgWBS.AutoColumnResize = True
             Me.tgWBS.CaptionVisible = False
             Me.tgWBS.Cellchanged = False
@@ -776,7 +776,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetMaxValue(Me.txtTaxRate, "")
             Me.Validator.SetMinValue(Me.txtTaxRate, "")
             Me.txtTaxRate.Name = "txtTaxRate"
-            Me.txtTaxRate.ReadOnly = False
             Me.Validator.SetRegularExpression(Me.txtTaxRate, "")
             Me.Validator.SetRequired(Me.txtTaxRate, True)
             Me.txtTaxRate.Size = New System.Drawing.Size(32, 21)
@@ -934,7 +933,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.tgRefDoc.AllowNew = False
             Me.tgRefDoc.AllowSorting = False
             Me.tgRefDoc.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.tgRefDoc.AutoColumnResize = True
             Me.tgRefDoc.CaptionVisible = False
             Me.tgRefDoc.Cellchanged = False
@@ -1063,8 +1062,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.tgItem.AllowNew = False
             Me.tgItem.AllowSorting = False
             Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.tgItem.AutoColumnResize = False
             Me.tgItem.CaptionVisible = False
             Me.tgItem.Cellchanged = False
@@ -3065,6 +3064,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtInvoiceCode.Enabled = enable
             Me.txtInvoiceDate.Enabled = enable
             Me.dtpInvoiceDate.Enabled = enable
+            Me.chkAutoRunVat.Enabled = enable
             If enable Then
                 Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
                 Me.Validator.SetRequired(Me.txtInvoiceCode, False)
@@ -3346,9 +3346,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
                 'ไม่มี Vatitem
                 Me.m_entity.Vat.ItemCollection().Add(New VatItem)
+                Dim myVatitem As VatItem
+                myVatitem = Me.m_entity.Vat.ItemCollection(0)
+                myVatitem.TaxBase = Me.m_entity.Vat.RefDoc.TaxBase * Me.m_entity.Vat.GetCurrencyConversion()
                 Me.VatInputEnabled(True)
             Else
                 'มี Vatitem ใบเดียว
+                Dim myVatitem As VatItem
+                myVatitem = Me.m_entity.Vat.ItemCollection(0)
+                myVatitem.TaxBase = Me.m_entity.Vat.RefDoc.TaxBase * Me.m_entity.Vat.GetCurrencyConversion()
                 Me.VatInputEnabled(True)
             End If
             Me.m_isInitialized = temp
@@ -3885,6 +3891,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.WorkbenchWindow.ViewContent.IsDirty = _
                 Me.WorkbenchWindow.ViewContent.IsDirty _
                 Or Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+            VatInputEnabled(True)
             For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
                 vitem.PrintName = Me.m_entity.Customer.Name
                 vitem.PrintAddress = Me.m_entity.Customer.BillingAddress
