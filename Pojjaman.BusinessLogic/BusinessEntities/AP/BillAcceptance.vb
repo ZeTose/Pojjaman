@@ -904,6 +904,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
+            'Retention
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Retention"
+            dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetRetentionDeducted, DigitConfig.Price)
+            dpi.DataType = "System.Decimal"
+            dpiColl.Add(dpi)
+
+            'PlusRetention
+            dpi = New DocPrintingItem
+            dpi.Mapping = "PlusRetention"
+            dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetPlusRetention, DigitConfig.Price)
+            dpi.DataType = "System.Decimal"
+            dpiColl.Add(dpi)
+
       If ItemCollection IsNot Nothing Then
         'Amount
         dpi = New DocPrintingItem
@@ -2007,7 +2021,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreditPeriod", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueDate", "System.DateTime"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.Decimal"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.Decimal"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Retention", "System.Decimal"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PlusRetention", "System.Decimal"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount", "System.Decimal"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxAmount", "System.Decimal"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.Decimal"))
