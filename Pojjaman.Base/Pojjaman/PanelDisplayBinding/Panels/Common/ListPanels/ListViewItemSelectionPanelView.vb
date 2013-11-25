@@ -359,36 +359,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
             If theEntities Is Nothing And m_otherFilters Is Nothing Then
                 m_filterSubPanel = myEntityPanelService.GetFilterSubPanel(m_entity)
+            ElseIf theEntities Is Nothing Then
+                m_filterSubPanel = myEntityPanelService.GetFilterSubPanel(m_entity)
             ElseIf m_otherFilters Is Nothing Then
                 m_filterSubPanel = myEntityPanelService.GetFilterSubPanel(m_entity, theEntities)
             Else
                 m_filterSubPanel = myEntityPanelService.GetFilterSubPanel(m_entity, m_otherFilters, theEntities)
             End If
-      Dim filterControl As UserControl = CType(Me.m_filterSubPanel, UserControl)
-      Me.pnlFilter.Controls.Add(filterControl)
-      Me.pnlFilter.Height = filterControl.Height
-      AddHandler Me.m_filterSubPanel.SearchButton.Click, AddressOf btnSearch_Click
+            Dim filterControl As UserControl = CType(Me.m_filterSubPanel, UserControl)
+            Me.pnlFilter.Controls.Add(filterControl)
+            Me.pnlFilter.Height = filterControl.Height
+            AddHandler Me.m_filterSubPanel.SearchButton.Click, AddressOf btnSearch_Click
 
-      Select Case m_selectionMode
-        Case Selection.None, Selection.SingleSelect
-          Me.lvItem.CheckBoxes = False
-          Me.lvItem.StateImageList = m_imagelist
-        Case Else
-          Me.dlg = theBasket
-          Me.lvItem.CheckBoxes = True
-      End Select
-      If Me.lvItem.CheckBoxes = True Then
-        Me.ibtnAll.Visible = True
-        Me.ibtnNone.Visible = True
-      Else
-        Me.ibtnAll.Visible = False
-        Me.ibtnNone.Visible = False
-        Me.pnlFilter3.Height = 0
-      End If
+            Select Case m_selectionMode
+                Case Selection.None, Selection.SingleSelect
+                    Me.lvItem.CheckBoxes = False
+                    Me.lvItem.StateImageList = m_imagelist
+                Case Else
+                    Me.dlg = theBasket
+                    Me.lvItem.CheckBoxes = True
+            End Select
+            If Me.lvItem.CheckBoxes = True Then
+                Me.ibtnAll.Visible = True
+                Me.ibtnNone.Visible = True
+            Else
+                Me.ibtnAll.Visible = False
+                Me.ibtnNone.Visible = False
+                Me.pnlFilter3.Height = 0
+            End If
 
-      If Not TypeOf Me.m_entity Is LCIForList Then
-        Me.RefreshData("")
-      End If
+            If Not TypeOf Me.m_entity Is LCIForList Then
+                Me.RefreshData("")
+            End If
     End Sub
 #End Region
 
