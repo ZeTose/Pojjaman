@@ -55,7 +55,18 @@ Namespace Longkong.Pojjaman.Services
         Return Nothing
       End If
       Return CType(o, Gui.Panels.IReportFilterSubPanel)
-    End Function
+        End Function
+        Public Overloads Function GetFilterSubPanel(ByVal entity As BusinessLogic.ISimpleEntity, ByVal filters() As Filter, ByVal entities As System.Collections.ArrayList) As Gui.Panels.IFilterSubPanel Implements IEntityPanelService.GetFilterSubPanel
+            Dim addInTreePath As String = "/Pojjaman/Workbench/EntityFilterPanels"
+            Dim o As Object = AddInTreeSingleton.AddInTree.GetTreeNode(addInTreePath).BuildChildItem(entity.ClassName.ToLower, Nothing)
+            If o Is Nothing Then
+                Return New Gui.Panels.DefaultFilterSubPanel
+            End If
+            CType(o, Gui.Panels.IFilterSubPanel).OtherFilters = filters
+            CType(o, Gui.Panels.IFilterSubPanel).Entities = entities
+            CType(o, Gui.Panels.IFilterSubPanel).ReInitialize()
+            Return CType(o, Gui.Panels.IFilterSubPanel)
+        End Function
     Public Overloads Function GetFilterSubPanel(ByVal entity As BusinessLogic.ISimpleEntity, ByVal entities As System.Collections.ArrayList) As Gui.Panels.IFilterSubPanel Implements IEntityPanelService.GetFilterSubPanel
       Dim addInTreePath As String = "/Pojjaman/Workbench/EntityFilterPanels"
       Dim o As Object = AddInTreeSingleton.AddInTree.GetTreeNode(addInTreePath).BuildChildItem(entity.ClassName.ToLower, Nothing)

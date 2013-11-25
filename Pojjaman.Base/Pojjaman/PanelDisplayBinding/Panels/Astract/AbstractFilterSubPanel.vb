@@ -44,43 +44,52 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IFilterSubPanel"
-    Public Overridable Property Entities() As System.Collections.ArrayList Implements IFilterSubPanel.Entities
-      Get
-        Return m_entities
-      End Get
-      Set(ByVal Value As System.Collections.ArrayList)
-        m_entities = Value
-      End Set
-    End Property
-    Public Property Entity() As BusinessLogic.IListable Implements IFilterSubPanel.Entity
-      Get
-        Return m_entity
-      End Get
-      Set(ByVal Value As BusinessLogic.IListable)
-        m_entity = Value
-      End Set
-    End Property
-    Public Overridable Function GetFilterString() As String Implements IFilterSubPanel.GetFilterString
-      Dim s As String = ""
-      For Each f As Filter In Me.GetFilterArray
-        s &= f.Name & ":" & f.Value.ToString & vbCrLf
-      Next
-      Return s
-    End Function
-    Public Overridable Function GetFilterArray() As Filter() Implements IFilterSubPanel.GetFilterArray
+        Private m_otherfilter As Filter()
+        Public Overridable Property OtherFilters() As Filter() Implements IFilterSubPanel.OtherFilters
+            Get
+                Return m_otherfilter
+            End Get
+            Set(ByVal Value As Filter())
+                m_otherfilter = Value
+            End Set
+        End Property
+        Public Overridable Property Entities() As System.Collections.ArrayList Implements IFilterSubPanel.Entities
+            Get
+                Return m_entities
+            End Get
+            Set(ByVal Value As System.Collections.ArrayList)
+                m_entities = Value
+            End Set
+        End Property
+        Public Property Entity() As BusinessLogic.IListable Implements IFilterSubPanel.Entity
+            Get
+                Return m_entity
+            End Get
+            Set(ByVal Value As BusinessLogic.IListable)
+                m_entity = Value
+            End Set
+        End Property
+        Public Overridable Function GetFilterString() As String Implements IFilterSubPanel.GetFilterString
+            Dim s As String = ""
+            For Each f As Filter In Me.GetFilterArray
+                s &= f.Name & ":" & f.Value.ToString & vbCrLf
+            Next
+            Return s
+        End Function
+        Public Overridable Function GetFilterArray() As Filter() Implements IFilterSubPanel.GetFilterArray
 
-    End Function
-    Public Overridable ReadOnly Property SearchButton() As System.Windows.Forms.Button Implements IFilterSubPanel.SearchButton
-      Get
+        End Function
+        Public Overridable ReadOnly Property SearchButton() As System.Windows.Forms.Button Implements IFilterSubPanel.SearchButton
+            Get
 
-      End Get
-    End Property
+            End Get
+        End Property
 
-    Public Event SearchHandler(ByVal sender As Object, ByVal e As System.EventArgs) Implements IFilterSubPanel.SearchHandler
+        Public Event SearchHandler(ByVal sender As Object, ByVal e As System.EventArgs) Implements IFilterSubPanel.SearchHandler
 
-    Protected Sub OnSearch(ByVal e As EventArgs)
-      RaiseEvent SearchHandler(Me, e)
-    End Sub
+        Protected Sub OnSearch(ByVal e As EventArgs)
+            RaiseEvent SearchHandler(Me, e)
+        End Sub
 #End Region
 
 #Region "Constructors"
@@ -103,79 +112,82 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Methods"
-    Public Sub SetDefaultStatusBar()
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Me.StatusColor = Color.FromArgb(0, Color.White)
-      Me.StatusDescription = "" 'myStringParserService.Parse("${res:Global.Already}")
-      Me.StatusBarService.SetMessage(Me.StatusDescription)
-      Me.StatusBarService.SetStatusMessage(Me.StatusMessage, Me.StatusColor)
-    End Sub
-    Public Sub LoopSecurity(ByVal thisCtrl As Control)
-      For Each ctrl As Control In thisCtrl.Controls
-        Dim rows As DataRow() = m_accessTale.Select("form_controlname='" & ctrl.Name & "'")
-        If rows.Length = 1 Then
-          Dim row As DataRow = rows(0)
-          Dim accessId As Integer = CInt(row("form_accessID"))
-          Dim requiredLevel As Integer = CInt(row("form_requiredlevel"))
-          Dim action As FailAction = CType([Enum].Parse(GetType(FailAction), row("form_failaction").ToString), FailAction)
-          Me.FormSecurityValidator.SetAccessId(ctrl, accessId)
-          Me.FormSecurityValidator.SetFailAction(ctrl, action)
-          Me.FormSecurityValidator.SetRequiredLevel(ctrl, requiredLevel)
-        End If
-        LoopSecurity(ctrl)
-      Next
-    End Sub
-    Public Sub LoopControl(ByVal thisCtr As Control)
-      Dim ctr As Control
-      For Each ctr In thisCtr.Controls
-        If TypeOf ctr Is TextBox Then
-          RemoveHandler ctr.GotFocus, AddressOf ControlFocus
-          AddHandler ctr.GotFocus, AddressOf ControlFocus
-        End If
-        If Not TypeOf ctr Is DataGrid Then
-          LoopControl(ctr)
-        End If
-      Next
-    End Sub
-    Private Sub ControlFocus(ByVal sender As Object, ByVal e As EventArgs)
-      'WorkbenchSingleton.Workbench.RedrawEditComponents()
-    End Sub
-    Public Function ValidIdOrDBNull(ByVal entity As SimpleBusinessEntityBase) As Object
-      If entity Is Nothing OrElse Not entity.Valid Then
-        Return DBNull.Value
-      End If
-      Return entity.Id
-    End Function
-    Public Function ValidCodeOrDBNull(ByVal entity As SimpleBusinessEntityBase) As Object
-      If entity Is Nothing OrElse Not entity.Valid Then
-        Return DBNull.Value
-      End If
-      Return entity.Code
-    End Function
-    Public Function ValidDateOrDBNull(ByVal myDate As Date) As Object
-      If myDate.Equals(Date.MinValue) Then
-        Return DBNull.Value
-      End If
-      Return myDate
-    End Function
-    Public Function MinDateToNull(ByVal dt As Date, ByVal nullString As String) As String
-      If dt.Equals(Date.MinValue) Then
-        Return nullString
-      End If
-      Return dt.ToShortDateString
-    End Function
-    Public Function MinDateToNow(ByVal dt As Date) As Date
-      If dt.Equals(Date.MinValue) Then
-        dt = Now
-      End If
-      Return dt
-    End Function
-    Public Function MaxDtpDate(ByVal dt As Date) As Date
-      If dt.CompareTo(DateTimePicker.MaxDateTime) >= 0 Then
-        Return DateTimePicker.MaxDateTime
-      End If
-      Return dt
-    End Function
+        Public Overridable Sub ReInitialize() Implements IFilterSubPanel.ReInitialize
+
+        End Sub
+        Public Sub SetDefaultStatusBar()
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Me.StatusColor = Color.FromArgb(0, Color.White)
+            Me.StatusDescription = "" 'myStringParserService.Parse("${res:Global.Already}")
+            Me.StatusBarService.SetMessage(Me.StatusDescription)
+            Me.StatusBarService.SetStatusMessage(Me.StatusMessage, Me.StatusColor)
+        End Sub
+        Public Sub LoopSecurity(ByVal thisCtrl As Control)
+            For Each ctrl As Control In thisCtrl.Controls
+                Dim rows As DataRow() = m_accessTale.Select("form_controlname='" & ctrl.Name & "'")
+                If rows.Length = 1 Then
+                    Dim row As DataRow = rows(0)
+                    Dim accessId As Integer = CInt(row("form_accessID"))
+                    Dim requiredLevel As Integer = CInt(row("form_requiredlevel"))
+                    Dim action As FailAction = CType([Enum].Parse(GetType(FailAction), row("form_failaction").ToString), FailAction)
+                    Me.FormSecurityValidator.SetAccessId(ctrl, accessId)
+                    Me.FormSecurityValidator.SetFailAction(ctrl, action)
+                    Me.FormSecurityValidator.SetRequiredLevel(ctrl, requiredLevel)
+                End If
+                LoopSecurity(ctrl)
+            Next
+        End Sub
+        Public Sub LoopControl(ByVal thisCtr As Control)
+            Dim ctr As Control
+            For Each ctr In thisCtr.Controls
+                If TypeOf ctr Is TextBox Then
+                    RemoveHandler ctr.GotFocus, AddressOf ControlFocus
+                    AddHandler ctr.GotFocus, AddressOf ControlFocus
+                End If
+                If Not TypeOf ctr Is DataGrid Then
+                    LoopControl(ctr)
+                End If
+            Next
+        End Sub
+        Private Sub ControlFocus(ByVal sender As Object, ByVal e As EventArgs)
+            'WorkbenchSingleton.Workbench.RedrawEditComponents()
+        End Sub
+        Public Function ValidIdOrDBNull(ByVal entity As SimpleBusinessEntityBase) As Object
+            If entity Is Nothing OrElse Not entity.Valid Then
+                Return DBNull.Value
+            End If
+            Return entity.Id
+        End Function
+        Public Function ValidCodeOrDBNull(ByVal entity As SimpleBusinessEntityBase) As Object
+            If entity Is Nothing OrElse Not entity.Valid Then
+                Return DBNull.Value
+            End If
+            Return entity.Code
+        End Function
+        Public Function ValidDateOrDBNull(ByVal myDate As Date) As Object
+            If myDate.Equals(Date.MinValue) Then
+                Return DBNull.Value
+            End If
+            Return myDate
+        End Function
+        Public Function MinDateToNull(ByVal dt As Date, ByVal nullString As String) As String
+            If dt.Equals(Date.MinValue) Then
+                Return nullString
+            End If
+            Return dt.ToShortDateString
+        End Function
+        Public Function MinDateToNow(ByVal dt As Date) As Date
+            If dt.Equals(Date.MinValue) Then
+                dt = Now
+            End If
+            Return dt
+        End Function
+        Public Function MaxDtpDate(ByVal dt As Date) As Date
+            If dt.CompareTo(DateTimePicker.MaxDateTime) >= 0 Then
+                Return DateTimePicker.MaxDateTime
+            End If
+            Return dt
+        End Function
 #End Region
 
 #Region "Properties"

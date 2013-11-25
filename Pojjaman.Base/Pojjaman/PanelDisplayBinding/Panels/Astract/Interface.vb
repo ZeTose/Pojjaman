@@ -47,12 +47,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
   Public Interface IFilterSubPanel
     Inherits IClipboardHandler
-    Property Entity() As BusinessLogic.IListable
-    Property Entities() As ArrayList
+        Property Entity() As BusinessLogic.IListable
+        Property OtherFilters() As Filter()
+        Property Entities() As ArrayList
     Function GetFilterString() As String
     Function GetFilterArray() As Filter()
     ReadOnly Property SearchButton() As Button
-    Event SearchHandler As EventHandler
+        Event SearchHandler As EventHandler
+        Sub ReInitialize()
   End Interface
 
   Public Interface IReportFilterSubPanel

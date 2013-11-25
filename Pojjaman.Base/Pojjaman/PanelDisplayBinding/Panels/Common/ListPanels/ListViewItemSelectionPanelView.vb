@@ -357,11 +357,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Create the Filter Panel
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      If theEntities Is Nothing Then
-        m_filterSubPanel = myEntityPanelService.GetFilterSubPanel(m_entity)
-      Else
-        m_filterSubPanel = myEntityPanelService.GetFilterSubPanel(m_entity, theEntities)
-      End If
+            If theEntities Is Nothing And m_otherFilters Is Nothing Then
+                m_filterSubPanel = myEntityPanelService.GetFilterSubPanel(m_entity)
+            ElseIf m_otherFilters Is Nothing Then
+                m_filterSubPanel = myEntityPanelService.GetFilterSubPanel(m_entity, theEntities)
+            Else
+                m_filterSubPanel = myEntityPanelService.GetFilterSubPanel(m_entity, m_otherFilters, theEntities)
+            End If
       Dim filterControl As UserControl = CType(Me.m_filterSubPanel, UserControl)
       Me.pnlFilter.Controls.Add(filterControl)
       Me.pnlFilter.Height = filterControl.Height

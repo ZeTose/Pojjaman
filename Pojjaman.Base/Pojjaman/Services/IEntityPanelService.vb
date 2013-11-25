@@ -9,6 +9,7 @@ Namespace Longkong.Pojjaman.Services
     Public Interface IEntityPanelService
 
         ' Methods
+        Function GetFilterSubPanel(ByVal entity As ISimpleEntity, ByVal filters() As Filter, ByVal entities As ArrayList) As IFilterSubPanel
         Function GetFilterSubPanel(ByVal entity As ISimpleEntity, ByVal entities As ArrayList) As IFilterSubPanel
         Function GetFilterSubPanel(ByVal entity As ISimpleEntity) As IFilterSubPanel
         Function GetReportFilterSubPanel(ByVal entity As ISimpleEntity) As IReportFilterSubPanel
