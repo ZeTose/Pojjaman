@@ -1304,9 +1304,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property DepreOpening() As Decimal 'ค่าเสื่อมยกมา
       Get
-        'If m_writeoffamt > 0 Then
-        '  Return 0
-        'End If
+                If Me.BuyPrice = WriteOffAmnt Then
+                    Return 0
+                End If
         Return m_depreopening
       End Get
       Set(ByVal Value As Decimal)
@@ -1319,16 +1319,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_buyPrice = Value
-        m_Deprebase = m_buyPrice
+                m_Deprebase = m_buyPrice
       End Set
     End Property
     Public Property Salvage() As Decimal 'ราคาซาก
-      Get
-        Return m_salvage
-      End Get
+            Get
+                If Me.BuyPrice = WriteOffAmnt Then
+                    Return 0
+                End If
+                Return m_salvage
+            End Get
       Set(ByVal Value As Decimal)
         'ราคาซาก >=1
-        'เปลี่ยนตามข้อกำหนดสรรพากรใหม่ ให้เป็น 0 ได้
+                'เปลี่ยนตามข้อกำหนดสรรพากรใหม่ ให้เป็น 0 ได้
         If Value >= 0 Then
           m_salvage = Value
         End If
@@ -1343,13 +1346,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public ReadOnly Property RemainValue() As Decimal 'มูลค่าคงเหลือยกมา
-      Get
-        If DepreOpening > 0 Then 'ค่าเสื่อมยกมา รวมค่าเสื่อมเบื้องต้นไปแล้ว คิดมาแล้ว
-          Return Math.Max(Me.DepreBase - Me.DepreOpening, 0)
-        End If
-        'มูลค่าคงเหลือยกมา = ราคาซื้อ - ค่าเสื่อมเบื้องต้น  - ค่าเสื่อมยกมา
-        Return Math.Max(Me.DepreBase - Me.StartCalcAmt - Me.DepreOpening - Me.WriteOffAmnt, 0)
-      End Get
+            Get
+                If Me.BuyPrice = WriteOffAmnt Then
+                    Return 0
+                End If
+                If DepreOpening > 0 Then 'ค่าเสื่อมยกมา รวมค่าเสื่อมเบื้องต้นไปแล้ว คิดมาแล้ว
+                    Return Math.Max(Me.DepreBase - Me.DepreOpening, 0)
+                End If
+                'มูลค่าคงเหลือยกมา = ราคาซื้อ - ค่าเสื่อมเบื้องต้น  - ค่าเสื่อมยกมา
+                Return Math.Max(Me.DepreBase - Me.StartCalcAmt - Me.DepreOpening - Me.WriteOffAmnt, 0)
+            End Get
     End Property
     Public ReadOnly Property CalculatingValue() As Decimal 'มูลค่าคำนวณค่าเสื่อม
       Get
@@ -1444,16 +1450,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public ReadOnly Property SystemDepreAmount As Decimal
       Get
-        'If m_writeoffamt > 0 Then
-        '  Return 0
-        'End If
+                If Me.BuyPrice = WriteOffAmnt Then
+                    Return 0
+                End If
         Return GetDepreAmntfromDB()
       End Get
     End Property
     Public ReadOnly Property DepreAmnt As Decimal
-      Get
-        Return Me.GetDepreAmntfromDB + Me.DepreOpening
-      End Get
+            Get
+                If Me.BuyPrice = WriteOffAmnt Then
+                    Return 0
+                End If
+                Return Me.GetDepreAmntfromDB + Me.DepreOpening
+            End Get
     End Property
 
     Public ReadOnly Property WriteOffAmnt As Decimal
@@ -1473,21 +1482,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
     Public ReadOnly Property AssetRemainValue As Decimal
-      Get
-        m_assetremainvalue = DeprebaseBal - Me.DepreAmnt
-        Return m_assetremainvalue
-      End Get
+            Get
+                If Me.BuyPrice = WriteOffAmnt Then
+                    Return 0
+                End If
+                m_assetremainvalue = DeprebaseBal - Me.DepreAmnt
+                Return m_assetremainvalue
+            End Get
     End Property
 
     Public ReadOnly Property DeprebaseBal As Decimal
-      Get
-        'มูลค่าคงเหลือยกมา = ราคาซื้อ -  ค่าwriteoff (บางส่วน)
-        If m_buyPrice > 0 Then
-          Return Math.Max((Me.DepreBase * (1 - (m_writeoffamt / m_buyPrice))) - WriteOffDepreAmount, 0)
-        Else
-          Return 0
-        End If
-      End Get
+            Get
+                If Me.BuyPrice = WriteOffAmnt Then
+                    Return 0
+                End If
+                'มูลค่าคงเหลือยกมา = ราคาซื้อ -  ค่าwriteoff (บางส่วน)
+                If m_buyPrice > 0 Then
+                    Return Math.Max((Me.DepreBase * (1 - (m_writeoffamt / m_buyPrice))) - WriteOffDepreAmount, 0)
+                Else
+                    Return 0
+                End If
+            End Get
     End Property
 
     Public ReadOnly Property Eqt As EquipmentTool
