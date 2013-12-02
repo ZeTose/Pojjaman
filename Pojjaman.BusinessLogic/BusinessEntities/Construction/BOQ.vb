@@ -4167,7 +4167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dtWbs.Rows.Add(drWbs)
               Dim oldParId As Integer = rootWbs.Id
               rootWbs.Id = CInt(drWbs("wbs_id"))
-              Me.WBSCollection.UpdateParentId(oldParId, rootWbs.Id)
+                            'Me.WBSCollection.UpdateParentId(oldParId, rootWbs.Id)
               Me.ItemCollection.UpdateWbsId(oldParId, rootWbs.Id)
             End If
             Dim collForRoot As WBSCollection = rootWbs.Childs
@@ -4688,7 +4688,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dtWbs.Rows.Add(drWbs)
           Dim oldParId As Integer = myWbs.Id
           myWbs.Id = CInt(drWbs("wbs_id"))
-          myWbs.Childs.UpdateParentId(oldParId, myWbs.Id)
+                    'myWbs.Childs.UpdateParentId(oldParId, myWbs.Id)
           myWbs.Boqitems.UpdateWbsId(oldParId, myWbs.Id)
           'Me.WBSCollection.UpdateParentId(oldParId, myWbs.Id)
           'Me.ItemCollection.UpdateWbsId(oldParId, myWbs.Id)
