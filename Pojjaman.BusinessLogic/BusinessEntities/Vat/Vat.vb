@@ -1190,8 +1190,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vati.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
             vati.Code = code
             vati.DocDate = [date]
-            vati.PrintAddress = Me.RefDoc.Person.BillingAddress
-            vati.PrintName = Me.RefDoc.Person.Name
+            'vati.PrintAddress = Me.RefDoc.Person.BillingAddress
+            'vati.PrintName = Me.RefDoc.Person.Name
+
+            If TypeOf (Me.RefDoc.Person) Is Supplier Then
+
+                vati.PrintName = CType(Me.RefDoc.Person, Supplier).Name
+                vati.PrintAddress = CType(Me.RefDoc.Person, Supplier).BillingAddress
+                vati.TaxId = CType(Me.RefDoc.Person, Supplier).TaxId
+                vati.BranchId = CType(Me.RefDoc.Person, Supplier).BranchId
+
+            ElseIf TypeOf (Me.RefDoc.Person) Is Customer Then
+
+                vati.PrintName = CType(Me.RefDoc.Person, Customer).Name
+                vati.PrintAddress = CType(Me.RefDoc.Person, Customer).BillingAddress
+                vati.TaxId = CType(Me.RefDoc.Person, Customer).TaxId
+                vati.BranchId = CType(Me.RefDoc.Person, Customer).BranchId
+
+            Else
+
+                vati.PrintName = Me.RefDoc.Person.Name
+                vati.PrintAddress = Me.RefDoc.Person.BillingAddress
+
+            End If
+
             Me.ItemCollection.Add(vati)
         End Sub
         Public Sub RefreshVatTaxBase()

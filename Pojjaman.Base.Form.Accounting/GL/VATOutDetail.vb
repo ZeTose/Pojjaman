@@ -83,6 +83,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.components = New System.ComponentModel.Container()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(VATOutDetail))
             Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.txtTaxID = New System.Windows.Forms.TextBox()
+            Me.lblTaxID = New System.Windows.Forms.Label()
+            Me.txtBranch = New System.Windows.Forms.TextBox()
+            Me.lblBranch = New System.Windows.Forms.Label()
             Me.grbSubmit = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
             Me.lblSubmitalDate = New System.Windows.Forms.Label()
             Me.txtSubmitalDate = New System.Windows.Forms.TextBox()
@@ -128,10 +132,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
             Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-            Me.txtBranch = New System.Windows.Forms.TextBox()
-            Me.lblBranch = New System.Windows.Forms.Label()
-            Me.txtTaxID = New System.Windows.Forms.TextBox()
-            Me.lblTaxID = New System.Windows.Forms.Label()
             Me.grbDetail.SuspendLayout()
             Me.grbSubmit.SuspendLayout()
             Me.grbRefDoc.SuspendLayout()
@@ -174,10 +174,66 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.grbDetail.Location = New System.Drawing.Point(0, 8)
             Me.grbDetail.Name = "grbDetail"
-            Me.grbDetail.Size = New System.Drawing.Size(650, 416)
+            Me.grbDetail.Size = New System.Drawing.Size(604, 403)
             Me.grbDetail.TabIndex = 198
             Me.grbDetail.TabStop = False
             Me.grbDetail.Text = "ใบกำกับภาษีมูลค่าเพิ่ม"
+            '
+            'txtTaxID
+            '
+            Me.Validator.SetDataType(Me.txtTaxID, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtTaxID, "")
+            Me.txtTaxID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Validator.SetGotFocusBackColor(Me.txtTaxID, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtTaxID, System.Drawing.Color.Empty)
+            Me.txtTaxID.Location = New System.Drawing.Point(136, 204)
+            Me.txtTaxID.MaxLength = 20
+            Me.Validator.SetMaxValue(Me.txtTaxID, "")
+            Me.Validator.SetMinValue(Me.txtTaxID, "")
+            Me.txtTaxID.Name = "txtTaxID"
+            Me.Validator.SetRegularExpression(Me.txtTaxID, "")
+            Me.Validator.SetRequired(Me.txtTaxID, False)
+            Me.txtTaxID.Size = New System.Drawing.Size(264, 21)
+            Me.txtTaxID.TabIndex = 350
+            '
+            'lblTaxID
+            '
+            Me.lblTaxID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblTaxID.ForeColor = System.Drawing.Color.Black
+            Me.lblTaxID.Location = New System.Drawing.Point(16, 204)
+            Me.lblTaxID.Name = "lblTaxID"
+            Me.lblTaxID.Size = New System.Drawing.Size(120, 18)
+            Me.lblTaxID.TabIndex = 349
+            Me.lblTaxID.Text = "เลขประจำตัวผู้เสียภาษี:"
+            Me.lblTaxID.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtBranch
+            '
+            Me.Validator.SetDataType(Me.txtBranch, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int32Type)
+            Me.Validator.SetDisplayName(Me.txtBranch, "")
+            Me.txtBranch.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Validator.SetGotFocusBackColor(Me.txtBranch, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtBranch, System.Drawing.Color.Empty)
+            Me.txtBranch.Location = New System.Drawing.Point(136, 227)
+            Me.txtBranch.MaxLength = 5
+            Me.Validator.SetMaxValue(Me.txtBranch, "")
+            Me.Validator.SetMinValue(Me.txtBranch, "")
+            Me.txtBranch.Name = "txtBranch"
+            Me.Validator.SetRegularExpression(Me.txtBranch, "")
+            Me.Validator.SetRequired(Me.txtBranch, False)
+            Me.txtBranch.Size = New System.Drawing.Size(111, 21)
+            Me.txtBranch.TabIndex = 348
+            '
+            'lblBranch
+            '
+            Me.lblBranch.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblBranch.ForeColor = System.Drawing.Color.Black
+            Me.lblBranch.Location = New System.Drawing.Point(48, 227)
+            Me.lblBranch.Name = "lblBranch"
+            Me.lblBranch.Size = New System.Drawing.Size(88, 18)
+            Me.lblBranch.TabIndex = 347
+            Me.lblBranch.Text = "สาขาที่:"
+            Me.lblBranch.TextAlign = System.Drawing.ContentAlignment.MiddleRight
             '
             'grbSubmit
             '
@@ -762,67 +818,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.HasNewRow = False
             Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
             '
-            'txtBranch
-            '
-            Me.Validator.SetDataType(Me.txtBranch, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int32Type)
-            Me.Validator.SetDisplayName(Me.txtBranch, "")
-            Me.txtBranch.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtBranch, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtBranch, System.Drawing.Color.Empty)
-            Me.txtBranch.Location = New System.Drawing.Point(136, 227)
-            Me.txtBranch.MaxLength = 5
-            Me.Validator.SetMaxValue(Me.txtBranch, "")
-            Me.Validator.SetMinValue(Me.txtBranch, "")
-            Me.txtBranch.Name = "txtBranch"
-            Me.Validator.SetRegularExpression(Me.txtBranch, "")
-            Me.Validator.SetRequired(Me.txtBranch, False)
-            Me.txtBranch.Size = New System.Drawing.Size(111, 21)
-            Me.txtBranch.TabIndex = 348
-            '
-            'lblBranch
-            '
-            Me.lblBranch.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblBranch.ForeColor = System.Drawing.Color.Black
-            Me.lblBranch.Location = New System.Drawing.Point(48, 227)
-            Me.lblBranch.Name = "lblBranch"
-            Me.lblBranch.Size = New System.Drawing.Size(88, 18)
-            Me.lblBranch.TabIndex = 347
-            Me.lblBranch.Text = "สาขาที่:"
-            Me.lblBranch.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'txtTaxID
-            '
-            Me.Validator.SetDataType(Me.txtTaxID, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtTaxID, "")
-            Me.txtTaxID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtTaxID, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtTaxID, System.Drawing.Color.Empty)
-            Me.txtTaxID.Location = New System.Drawing.Point(136, 204)
-            Me.txtTaxID.MaxLength = 20
-            Me.Validator.SetMaxValue(Me.txtTaxID, "")
-            Me.Validator.SetMinValue(Me.txtTaxID, "")
-            Me.txtTaxID.Name = "txtTaxID"
-            Me.Validator.SetRegularExpression(Me.txtTaxID, "")
-            Me.Validator.SetRequired(Me.txtTaxID, False)
-            Me.txtTaxID.Size = New System.Drawing.Size(264, 21)
-            Me.txtTaxID.TabIndex = 350
-            '
-            'lblTaxID
-            '
-            Me.lblTaxID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblTaxID.ForeColor = System.Drawing.Color.Black
-            Me.lblTaxID.Location = New System.Drawing.Point(16, 204)
-            Me.lblTaxID.Name = "lblTaxID"
-            Me.lblTaxID.Size = New System.Drawing.Size(120, 18)
-            Me.lblTaxID.TabIndex = 349
-            Me.lblTaxID.Text = "เลขประจำตัวผู้เสียภาษี:"
-            Me.lblTaxID.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
             'VATOutDetail
             '
             Me.Controls.Add(Me.grbDetail)
             Me.Name = "VATOutDetail"
-            Me.Size = New System.Drawing.Size(568, 424)
+            Me.Size = New System.Drawing.Size(614, 424)
             Me.grbDetail.ResumeLayout(False)
             Me.grbDetail.PerformLayout()
             Me.grbSubmit.ResumeLayout(False)

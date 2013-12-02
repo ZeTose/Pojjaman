@@ -127,8 +127,8 @@
   <data name="btnVatGroupDialog.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEQAA
-        CxEBf2RfkQAABE1JREFUSEullGlMXFUUxx/LkII6bMUQPgAGiCSkWAwR2mpoUhIChpYYLU1JNKH6rSoa
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
+        CxABrSO9dQAABE1JREFUSEullGlMXFUUxx/LkII6bMUQPgAGiCSkWAwR2mpoUhIChpYYLU1JNKH6rSoa
         PvULOwUNCkawiCa2zFDAhpYCjbQM+zKsM2xDYaDsMMMyzMBYkMH5e96bMn3AVKGe5Pfeveee+z/nLrkM
         gAM4OztbRUVFHYuPj3ckhOfOhR+zFHcYDjjOhp09npaecbG65kHPozqJur6+UVV5v0qanJJyITg42Hl/
         /H9hbnh4eDgW/lyUX3m/BpL6RlTcrURV9QOIxLchKilFZVU1GhqbjTk532W5uLjY80X+De7j6ur66q1i
@@ -152,8 +152,8 @@
   <data name="btnVatGroup.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEQAA
-        CxEBf2RfkQAAAkxJREFUOE91kclPU1EYxYsx0TgksGLhH+HGRBNdmpiY6MawcOOwMGrEOBAWRomGEBKD
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
+        CxABrSO9dQAAAkxJREFUOE91kclPU1EYxYsx0TgksGLhH+HGRBNdmpiY6MawcOOwMGrEOBAWRomGEBKD
         qLgQwYiCVRxABBxKFAcQjYFWkdJSOjDUlkoptIW+BwX683uPUEqrLzkv993c7/fOOdcA6Kq2xJQGu0qz
         Q+XlgEqTXaHRptDQH+N6V4RrnWGnIeVZnksunloVNtWu17WlMgd/lKQiswnudUcoaQ8lIRmA59YY5917
         uBU/qgOqekhKnU/oqvw6RZEpqEMyAPW90xzq2UmBf99/AWo8QUVHiMKWgDMJ0CwfNu/iQOc28rq3k9e7
@@ -169,8 +169,8 @@
   <data name="chkAutorun.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
-        Cw4BQL7hQQAAAxhJREFUOE9t039M1HUcx/HXiYiVYMKa4hCWRv9orM1NmLq1dBhRy00QoZaBRA40oTwQ
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDQAA
+        Cw0B7QfALAAAAxhJREFUOE9t039M1HUcx/HXiYiVYMKa4hCWRv9orM1NmLq1dBhRy00QoZaBRA40oTwQ
         PGxKaKBsLCRlA/yBl0ila0QIDBIMTuEIFQ2qITAkoQ7JFGVId69eX8pZm+/tsdu+u+fn+959v4d/hiYc
         6HsWmQNrYendhcy+L5B+oxup/X/g/Uv1iPkmA6FFS/XFmTJNTEY1NV7HJneEVv81+tJXD1zLKpz0O0EG
         lpO2YbL02iSxb5TIGibM111I6upBZE0RVuavUvqkmBBcNu4oaicL7eT2c2REFfliBTmzmEShkzj4gM8f

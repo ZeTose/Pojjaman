@@ -629,7 +629,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If ds.Tables(0).Rows.Count > 0 Then
                   dupcode = CStr(ds.Tables(0).Rows(0)(0))
                 End If
-                                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SupplierDupplicateTaxIdBranchId}"), New String() {Me.TaxId.ToString, Me.BranchId.ToString, dupcode})
+                                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SupplierDupplicateTaxIdBranchId}"), New String() {Me.TaxId.ToString, Configuration.BranchString(Me.BranchId), dupcode})
               Case -13
                 trans.Rollback()
                 Me.ResetID(oldid)
