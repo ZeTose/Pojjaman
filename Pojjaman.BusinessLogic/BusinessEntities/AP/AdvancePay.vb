@@ -1555,7 +1555,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
         ' Hack :
-        Return Not Me.IsReferenced() AndAlso Not Me.Closed AndAlso Not Me.Status.Value = 0 'True
+                Return Not Me.IsReferenced() AndAlso Not Me.Closed ' AndAlso Not Me.Status.Value = 0 'True
       End Get
     End Property
     Public Overrides Function Delete() As SaveErrorException
