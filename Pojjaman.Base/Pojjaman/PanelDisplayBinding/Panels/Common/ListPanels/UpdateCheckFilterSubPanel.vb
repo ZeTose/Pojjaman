@@ -287,13 +287,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
         End Sub
         Private Sub ClearCriterias()
-            For Each grbCtrl As Control In grbDetail.Controls
-                If TypeOf grbCtrl Is Longkong.Pojjaman.Gui.Components.FixedGroupBox Then
-                    For Each Ctrl As Control In grbCtrl.Controls
-                        If TypeOf Ctrl Is TextBox Then
-                            Ctrl.Text = ""
-                        End If
-                    Next
+            'For Each grbCtrl As Control In grbDetail.Controls
+            '    If TypeOf grbCtrl Is Longkong.Pojjaman.Gui.Components.FixedGroupBox Then
+            '    For Each Ctrl As Control In grbCtrl.Controls
+            '        If TypeOf Ctrl Is TextBox Then
+            '            Ctrl.Text = ""
+            '        End If
+            '    Next
+            '    End If
+            'Next
+
+            For Each Ctrl As Control In grbDetail.Controls
+                If TypeOf Ctrl Is TextBox Then
+                    Ctrl.Text = ""
                 End If
             Next
 
