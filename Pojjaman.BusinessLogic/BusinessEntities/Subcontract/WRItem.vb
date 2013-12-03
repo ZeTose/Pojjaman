@@ -100,6 +100,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 For Each wbsRow As DataRow In ds.Tables(1).Select("wriw_sequence=" & Me.Sequence)
                     Dim wbsd As New WBSDistribute(wbsRow, "")
                     m_WBSDistributeCollection.Add(wbsd)
+
+
+
                 Next
             End If
         End Sub
@@ -2019,6 +2022,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     For Each wbsRow As DataRow In ds.Tables(1).Select("wriw_sequence=" & item.Sequence)
                         Dim wbsd As New WBSDistribute(wbsRow, "")
                         wbsdColl.Add(wbsd)
+
+                        '--Budget Remain =========================================================
+                        Dim budgetRow() As DataRow = ds.Tables(2).Select("wbs_id=" & wbsd.WBS.Id)
+                        If budgetRow.Length > 0 Then
+                            Dim drh As New DataRowHelper(budgetRow(0))
+                            If wbsd.IsMarkup Then
+                                wbsd.BudgetRemain = drh.GetValue(Of Decimal)("totalactual")
+                            Else
+                                Select Case item.ItemType.Value
+                                    Case 88, 289, 291
+                                        wbsd.BudgetRemain = drh.GetValue(Of Decimal)("labactual")
+                                        'wbsd.WBS.GetTotalLabFromDB()
+                                        wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_ulcbudget")
+
+                                        'wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_umcbudget") 'wbsd.WBS.OwnerLabBudgetAmount
+                                    Case 89
+                                        wbsd.BudgetRemain = drh.GetValue(Of Decimal)("eqactual")
+                                        'wbsd.WBS.GetTotalEQFromDB()
+                                        wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_uecbudget")
+
+                                        'wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_ulcbudget") 'wbsd.WBS.OwnerEqBudgetAmount
+                                    Case Else
+                                        wbsd.BudgetRemain = drh.GetValue(Of Decimal)("matactual")
+                                        'wbsd.WBS.GetTotalMatFromDB()
+                                        wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_umcbudget")
+
+                                        'wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_uecbudget") 'wbsd.WBS.OwnerMatBudgetAmount
+                                End Select
+                                'Trace.WriteLine(wbsd.WBS.Code & ":" & Configuration.FormatToString(wbsd.BudgetRemain, 2))
+                            End If
+                        End If
+
+                        '--Qty Budget Remain =====================================================
+                        Dim qtyRow() As DataRow = ds.Tables(3).Select("boqi_wbs=" & wbsd.WBS.Id)
+                        If qtyRow.Length > 0 Then
+                            Dim qtydrh As New DataRowHelper(qtyRow(0))
+                            If wbsd.IsMarkup Then
+                                wbsd.QtyRemain = 0
+                            Else
+                                If item.ItemType.Value = 88 OrElse item.ItemType.Value = 89 Then
+                                    wbsd.QtyRemain = 0
+                                Else
+                                    wbsd.QtyRemain = qtydrh.GetValue(Of Decimal)("qtybudgetremain")
+                                End If
+                            End If
+                        End If
+
+
                     Next
                 End If
             Next
