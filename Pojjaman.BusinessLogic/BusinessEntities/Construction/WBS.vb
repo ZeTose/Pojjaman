@@ -1097,7 +1097,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As Exception
       End Try
       Return 0
-    End Function
+        End Function
+        Public Shared Function GetThisDocActualFromDB(ByVal docType As Integer, ByVal docId As Integer) As Decimal            Try
+                Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                        ConnectionString _
+                        , CommandType.StoredProcedure _
+                        , "GetThisDocActualFromDB" _
+                        , New SqlParameter("@docType", docType) _
+                        , New SqlParameter("@docId", docId) _
+                        )
+
+                Return CDec(ds.Tables(0).Rows(0)(0))
+
+            Catch ex As Exception
+            End Try
+            Return 0
+        End Function
     Public Function GetThisDocActualFromDB(ByVal docType As Integer, ByVal docId As Integer, ByVal ccId As Integer) As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 ConnectionString _
