@@ -786,12 +786,61 @@ Public Class MatWithdrawItemCollection
         For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=0")
           Dim wbsd As New WBSDistribute(wbsRow, "")
           inWbsdColl.Add(wbsd)
-        Next
+                Next
+
         Dim outWbsdColl As WBSDistributeCollection = New WBSDistributeCollection
         item.OutWbsdColl = outWbsdColl
         For Each wbsRow As DataRow In ds.Tables(1).Select("stockiw_sequence=" & row("stocki_sequence").ToString & "and stockiw_direction=1")
           Dim wbsd As New WBSDistribute(wbsRow, "")
-          outWbsdColl.Add(wbsd)
+                    outWbsdColl.Add(wbsd)
+
+                    '--Budget Remain =========================================================
+                    Dim budgetRow() As DataRow = ds.Tables(3).Select("wbs_id=" & wbsd.WBS.Id)
+                    If budgetRow.Length > 0 Then
+                        Dim drh As New DataRowHelper(budgetRow(0))
+                        If wbsd.IsMarkup Then
+                            wbsd.BudgetRemain = drh.GetValue(Of Decimal)("totalactual")
+                        Else
+                            'Select Case item.ItemType.Value
+                            '    Case 88, 289, 291
+                            '        wbsd.BudgetRemain = drh.GetValue(Of Decimal)("labactual")
+                            '        'wbsd.WBS.GetTotalLabFromDB()
+                            '        wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_ulcbudget")
+
+                            '        'wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_umcbudget") 'wbsd.WBS.OwnerLabBudgetAmount
+                            '    Case 89
+                            '        wbsd.BudgetRemain = drh.GetValue(Of Decimal)("eqactual")
+                            '        'wbsd.WBS.GetTotalEQFromDB()
+                            '        wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_uecbudget")
+
+                            '        'wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_ulcbudget") 'wbsd.WBS.OwnerEqBudgetAmount
+                            '    Case Else
+                            wbsd.BudgetRemain = drh.GetValue(Of Decimal)("matactual")
+                            '        'wbsd.WBS.GetTotalMatFromDB()
+                            wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_umcbudget")
+
+                            '        'wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_uecbudget") 'wbsd.WBS.OwnerMatBudgetAmount
+                            'End Select
+                            ''Trace.WriteLine(wbsd.WBS.Code & ":" & Configuration.FormatToString(wbsd.BudgetRemain, 2))
+                        End If
+                    End If
+
+                    '--Qty Budget Remain =====================================================
+                    Dim qtyRow() As DataRow = ds.Tables(4).Select("boqi_wbs=" & wbsd.WBS.Id)
+                    If qtyRow.Length > 0 Then
+                        Dim qtydrh As New DataRowHelper(qtyRow(0))
+                        If wbsd.IsMarkup Then
+                            wbsd.QtyRemain = 0
+                        Else
+                            'If item.ItemType.Value = 88 OrElse item.ItemType.Value = 89 Then
+                            '    wbsd.QtyRemain = 0
+                            'Else
+                            wbsd.QtyRemain = qtydrh.GetValue(Of Decimal)("qtybudgetremain")
+                            'End If
+                        End If
+                    End If
+
+
         Next
 
         Dim icCol As StockCostItemCollection = New StockCostItemCollection

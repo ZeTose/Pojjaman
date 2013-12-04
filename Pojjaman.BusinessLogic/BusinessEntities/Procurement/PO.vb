@@ -1177,7 +1177,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dsParentBudget = WBS.GetParentsBudgetList(Me.EntityId, idList)
       Dim currwbsId As Integer
       Dim dt As New DataTable
-
+            Dim DBActual As Decimal = WBS.GetThisDocActualFromDB(Me.EntityId, Me.Id)
       If Not onlyCC Then
         For Each item As POItem In Me.ItemCollection
           If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
@@ -1195,7 +1195,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
               'สำหรับ WBS ตัวมันเอง =====>>
               If wbsd.BudgetRemain - totalCurrent < 0 Then
-                Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
+                                Return New SaveErrorException(wbsd.WBS.Code & ":" & wbsd.WBS.Name)
               End If
               'สำหรับ WBS ตัวมันเอง =====<<
 
