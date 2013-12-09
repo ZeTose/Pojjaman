@@ -130,13 +130,34 @@ Public Class RefDialog
     Try
       Dim kv As KeyValuePair(Of Integer, String) = CType(e.Row.Tag, Global.System.Collections.Generic.KeyValuePair(Of Integer, String))
       Dim theId As Integer = kv.Key
-      Dim theType As String = kv.Value
-      Dim theEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(theType, theId)
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenDetailPanel(theEntity)
-      Me.Close()
-    Catch ex As Exception
+            Dim theType As String = kv.Value
 
+            Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+            Dim strSrv As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Dim accessID As Integer = 0
+            Dim accessCode As String = "N/A"
+            accessID = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(theType)
+            accessCode = secSrv.GetAccessCode(accessID)
+            Dim level As Integer = secSrv.GetAccess(accessID)
+            Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+            checkString = BinaryHelper.RevertString(checkString)
+
+            If CBool(checkString.Substring(0, 1)) Then
+
+                Dim theEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(theType, theId)
+                Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+                myEntityPanelService.OpenDetailPanel(theEntity)
+                Me.Close()
+
+            Else
+
+                MessageBox.Show(String.Format(strSrv.Parse("${res:Global.Access.ViewDetail.Error}"), New String() {accessCode}))
+
+            End If
+
+
+    Catch ex As Exception
+            'MessageBox.Show(ex.Message)
     End Try
   End Sub
 

@@ -287,7 +287,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Else
         Return 0
       End If
-    End Function
+        End Function
+        Public Shared Function GetAccessIdFromEntityId(ByVal id As Integer) As Integer
+            Dim o As Object = GetData(id, "entity_access")
+            If Not IsDBNull(o) Then
+                Return CInt(GetData(id, "entity_access"))
+            Else
+                Return 0
+            End If
+        End Function
     Public Shared Function GetAutoCodeFormat(ByVal id As Integer) As String
       Return CStr(GetData(id, "entity_autocodeFormat"))
     End Function

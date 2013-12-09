@@ -255,7 +255,25 @@ Namespace Longkong.Pojjaman.Services
         End If
       End If
       Return 0
-    End Function
+        End Function
+
+        Public Function GetAccessCode(ByVal accessId As Integer) As String
+
+            If Me.m_accessTable Is Nothing Then
+                Return ""
+            End If
+
+            Dim rows As DataRow() = m_accessTable.Select("useraccess_access=" & accessId)
+
+            If rows.Length = 1 Then
+                If Not rows(0).IsNull("access_code") Then
+                    Return CStr(rows(0)("access_code"))
+                End If
+            End If
+            Return ""
+
+        End Function
+
 #End Region
 
 #Region "Properties"
