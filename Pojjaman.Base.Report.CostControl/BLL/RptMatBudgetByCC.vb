@@ -189,7 +189,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
       Dim i As Integer = 0
-      Dim total As Decimal = 0
+            Dim total As Decimal = 0
+            Dim totalMC As Decimal = 0
+            Dim totalLC As Decimal = 0
+            Dim totalEC As Decimal = 0
+
       For Each itemRow As DataRow In Me.DataSet.Tables(0).Rows
         'col0
         dpi = New DocPrintingItem
@@ -259,7 +263,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
-        dpiColl.Add(dpi)
+                dpiColl.Add(dpi)
+
+
+                'col7
+                dpi = New DocPrintingItem
+                dpi.Mapping = "col7"
+                If IsNumeric(itemRow("AMOUNT_MC")) Then
+                    totalMC += Configuration.Format(CDec(itemRow("AMOUNT_MC")), DigitConfig.Price)
+                    dpi.Value = Configuration.FormatToString(CDec(itemRow("AMOUNT_MC")), DigitConfig.Price)
+                End If
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'col8
+                dpi = New DocPrintingItem
+                dpi.Mapping = "col8"
+                If IsNumeric(itemRow("AMOUNT_LC")) Then
+                    totalLC += Configuration.Format(CDec(itemRow("AMOUNT_LC")), DigitConfig.Price)
+                    dpi.Value = Configuration.FormatToString(CDec(itemRow("AMOUNT_LC")), DigitConfig.Price)
+                End If
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'col9
+                dpi = New DocPrintingItem
+                dpi.Mapping = "col9"
+                If IsNumeric(itemRow("AMOUNT_EC")) Then
+                    totalEC += Configuration.Format(CDec(itemRow("AMOUNT_EC")), DigitConfig.Price)
+                    dpi.Value = Configuration.FormatToString(CDec(itemRow("AMOUNT_EC")), DigitConfig.Price)
+                End If
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+
         i += 1
       Next
 
@@ -282,6 +325,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.Row = i + 1
       dpi.Table = "Item"
       dpiColl.Add(dpi)
+
+            'col7
+            dpi = New DocPrintingItem
+            dpi.Font = New Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            dpi.Mapping = "col7"
+            dpi.Value = Configuration.FormatToString(totalMC, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'col8
+            dpi = New DocPrintingItem
+            dpi.Font = New Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            dpi.Mapping = "col8"
+            dpi.Value = Configuration.FormatToString(totalLC, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'col9
+            dpi = New DocPrintingItem
+            dpi.Font = New Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            dpi.Mapping = "col9"
+            dpi.Value = Configuration.FormatToString(totalEC, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
 
       Return dpiColl
     End Function
