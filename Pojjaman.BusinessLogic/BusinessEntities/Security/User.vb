@@ -611,121 +611,130 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
-    End Sub
-    Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-      With Me
-        Dim AllDocType0 As Boolean
-        Dim AllDocType1 As Boolean
-        Dim AllDocType2 As Boolean
+        End Sub
+        Private NotSaveImage As Boolean
+        Public Function SaveNoImage(ByVal currentUserId As Integer) As SaveErrorException
+            NotSaveImage = True
+            Return Save(currentUserId)
+        End Function
+        Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+            With Me
+                Dim AllDocType0 As Boolean
+                Dim AllDocType1 As Boolean
+                Dim AllDocType2 As Boolean
 
-        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-        returnVal.ParameterName = "RETURN_VALUE"
-        returnVal.DbType = DbType.Int32
-        returnVal.Direction = ParameterDirection.ReturnValue
-        returnVal.SourceVersion = DataRowVersion.Current
-        Dim paramArrayList As New ArrayList
+                Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+                returnVal.ParameterName = "RETURN_VALUE"
+                returnVal.DbType = DbType.Int32
+                returnVal.Direction = ParameterDirection.ReturnValue
+                returnVal.SourceVersion = DataRowVersion.Current
+                Dim paramArrayList As New ArrayList
 
-        paramArrayList.Add(returnVal)
-        If Me.Originated Then
-          paramArrayList.Add(New SqlParameter("@user_id", Me.Id))
-        End If
+                paramArrayList.Add(returnVal)
+                If Me.Originated Then
+                    paramArrayList.Add(New SqlParameter("@user_id", Me.Id))
+                End If
 
-        Dim theTime As Date = Now
-        Dim theUser As New User(currentUserId)
+                Dim theTime As Date = Now
+                Dim theUser As New User(currentUserId)
 
-        paramArrayList.Add(New SqlParameter("@user_code", Me.Code))
-        paramArrayList.Add(New SqlParameter("@user_password", Me.Password))
-        paramArrayList.Add(New SqlParameter("@user_name", Me.Name))
+                paramArrayList.Add(New SqlParameter("@user_code", Me.Code))
+                paramArrayList.Add(New SqlParameter("@user_password", Me.Password))
+                paramArrayList.Add(New SqlParameter("@user_name", Me.Name))
 
-        'ถ้าไม่ใช่ Customize ทุกคนต้องสามารถเห็นเอกสารได้หมด (ตามสิทธิ์ CostCenter) ==============
-        AllDocType1 = False
-        AllDocType2 = False
-        AllDocType0 = True
+                'ถ้าไม่ใช่ Customize ทุกคนต้องสามารถเห็นเอกสารได้หมด (ตามสิทธิ์ CostCenter) ==============
+                AllDocType1 = False
+                AllDocType2 = False
+                AllDocType0 = True
 
-        Dim isCustomize As Boolean = ConfigurationUserControl.GetConfig(0, ConfigType.AddIns, "Pojjaman.Base.Form.VArch")
-        If isCustomize Then
-          AllDocType1 = Me.CanSeeAllDocType1
-          AllDocType2 = Me.CanSeeAllDocType2
-          AllDocType0 = Me.CanSeeAllDocType0
-        End If
-        '===========================================================================
+                Dim isCustomize As Boolean = ConfigurationUserControl.GetConfig(0, ConfigType.AddIns, "Pojjaman.Base.Form.VArch")
+                If isCustomize Then
+                    AllDocType1 = Me.CanSeeAllDocType1
+                    AllDocType2 = Me.CanSeeAllDocType2
+                    AllDocType0 = Me.CanSeeAllDocType0
+                End If
+                '===========================================================================
 
-        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType1", AllDocType1))
-        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType2", AllDocType2))
-        paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType0", AllDocType0))
-        paramArrayList.Add(New SqlParameter("@user_canceled", Me.Canceled))
+                paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType1", AllDocType1))
+                paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType2", AllDocType2))
+                paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType0", AllDocType0))
+                paramArrayList.Add(New SqlParameter("@user_canceled", Me.Canceled))
 
 
-        'SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime) '********* Todo: Revise
+                'SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime) '********* Todo: Revise
 
-        ' สร้าง SqlParameter จาก ArrayList ...
-        Dim sqlparams() As SqlParameter
-        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-        Dim trans As SqlTransaction
-        Dim conn As New SqlConnection(Me.ConnectionString)
-        conn.Open()
-        trans = conn.BeginTransaction()
+                ' สร้าง SqlParameter จาก ArrayList ...
+                Dim sqlparams() As SqlParameter
+                sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+                Dim trans As SqlTransaction
+                Dim conn As New SqlConnection(Me.ConnectionString)
+                conn.Open()
+                trans = conn.BeginTransaction()
 
-        Dim oldid As Integer = Me.Id
+                Dim oldid As Integer = Me.Id
 
-        Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2
-                trans.Rollback()
-                Me.ResetID(oldid)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-            trans.Rollback()
-            Me.ResetID(oldid)
-            Return New SaveErrorException(returnVal.Value.ToString)
-          End If
+                Try
+                    Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+                    If IsNumeric(returnVal.Value) Then
+                        Select Case CInt(returnVal.Value)
+                            Case -1, -2
+                                trans.Rollback()
+                                Me.ResetID(oldid)
+                                Return New SaveErrorException(returnVal.Value.ToString)
+                            Case Else
+                        End Select
+                    ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+                        trans.Rollback()
+                        Me.ResetID(oldid)
+                        Return New SaveErrorException(returnVal.Value.ToString)
+                    End If
 
-          If Not Me.AccessCollection Is Nothing Then
-            SaveDetail(Me.Id, conn, trans)
-          End If
+                    If Not Me.AccessCollection Is Nothing Then
+                        SaveDetail(Me.Id, conn, trans)
+                    End If
 
-          Dim saveerror As SaveErrorException
-          If Not Me.m_costCenterUserAccessCollection Is Nothing AndAlso Me.m_costCenterUserAccessCollection.Count >= 0 Then
-            saveerror = Me.m_costCenterUserAccessCollection.Save(Me)
-            If Not IsNumeric(saveerror.Message) Then
-              Throw New Exception(saveerror.Message)
-            End If
-          End If
-          If Not Me.m_approvalDocLevelCollection Is Nothing AndAlso Me.m_approvalDocLevelCollection.Count >= 0 Then
-            saveerror = Me.m_approvalDocLevelCollection.Save(Me)
-            If Not IsNumeric(saveerror.Message) Then
-              Throw New Exception(saveerror.Message)
-            End If
-          End If
+                    Dim saveerror As SaveErrorException
+                    If Not Me.m_costCenterUserAccessCollection Is Nothing AndAlso Me.m_costCenterUserAccessCollection.Count >= 0 Then
+                        saveerror = Me.m_costCenterUserAccessCollection.Save(Me)
+                        If Not IsNumeric(saveerror.Message) Then
+                            Throw New Exception(saveerror.Message)
+                        End If
+                    End If
+                    If Not Me.m_approvalDocLevelCollection Is Nothing AndAlso Me.m_approvalDocLevelCollection.Count >= 0 Then
+                        saveerror = Me.m_approvalDocLevelCollection.Save(Me)
+                        If Not IsNumeric(saveerror.Message) Then
+                            Throw New Exception(saveerror.Message)
+                        End If
+                    End If
 
-          ' Update UserImage & UserSignature ...
-          If Me.Originated Then
-            paramArrayList = New ArrayList
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_signature", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Signature)))
-            Dim imageparams() As SqlParameter
-            imageparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUserImage", imageparams)
-          End If
+                    ' Update UserImage & UserSignature ...
+                    If Me.Originated Then
+                        If Not (NotSaveImage) Then
+                            paramArrayList = New ArrayList
+                            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+                            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_signature", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(Me.Signature)))
+                            Dim imageparams() As SqlParameter
+                            imageparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+                            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUserImage", imageparams)
+                        End If
 
-          trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          Return New SaveErrorException(ex.ToString)
-        Catch ex As Exception
-          trans.Rollback()
-          Return New SaveErrorException(ex.ToString)
-        Finally
-          RefreshUserTable()
-          conn.Close()
-        End Try
-      End With
-    End Function
+                    End If
+
+                    trans.Commit()
+                    Return New SaveErrorException(returnVal.Value.ToString)
+                Catch ex As SqlException
+                    trans.Rollback()
+                    Return New SaveErrorException(ex.ToString)
+                Catch ex As Exception
+                    trans.Rollback()
+                    Return New SaveErrorException(ex.ToString)
+                Finally
+                    NotSaveImage = False
+                    RefreshUserTable()
+                    conn.Close()
+                End Try
+            End With
+        End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Integer
 
       Dim da As New SqlDataAdapter("Select * from useraccess where useraccess_user=" & Me.Id, conn)

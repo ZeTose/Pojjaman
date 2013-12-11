@@ -201,7 +201,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
                 MessageBox.Show("new password not match!")
             Else
                 m_user.Password = m_user.GeneratePassword(Me.txtNewPassword.Text)
-                Dim msg As String = m_user.Save(m_user.Id).Message
+                Dim msg As String = m_user.SaveNoImage(m_user.Id).Message
                 If IsNumeric(msg) Then
                     MessageBox.Show("Password has been changed!")
                     Me.DialogResult = DialogResult.OK
