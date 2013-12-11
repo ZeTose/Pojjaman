@@ -5,6 +5,7 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Configuration
 Imports System.Reflection
+Imports System.Collections.Generic
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
@@ -1042,64 +1043,101 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("ItemReceivingDate", GetType(Date)))
 
-      Dim inValidIds As ArrayList = GetPRIdWithOnlyNoteItem(dt)
-      For Each tableRow As DataRow In dt.Rows
-        If Not inValidIds.Contains(CInt(tableRow("pri_pr"))) Then
-          Dim trh As New DataRowHelper(tableRow)
+            Dim inValidIds As ArrayList = GetPRIdWithOnlyNoteItem(dt)
+            Dim CCList As New Dictionary(Of Integer, CostCenter)
+            Dim cc As CostCenter
+            Dim ccid As Integer
+            Dim trh As DataRowHelper
+            Dim newId As Integer
+            Dim newLine As Integer
+            Dim pri As New PRItem
+            Dim row As TreeRow
+            Dim prId As Integer
+            Dim prCode As String
+            Dim entityText As String
 
-          Dim newId As Integer = CInt(tableRow("pri_pr"))
-          Dim newLine As Integer = CInt(tableRow("pri_linenumber"))
-          'Dim pri As New PRItem(newId, newLine)
-          Dim pri As New PRItem(tableRow, "")
-
-          Dim cc As New CostCenter(trh.GetValue(Of Integer)("cc_id"))
-
-          Dim row As TreeRow = myDatatable.Childs.Add
-          row("Selected") = False
-          row("Code") = tableRow("pr_code")
-          row("m_pr") = tableRow("pri_pr")
+            Dim PRList As New Dictionary(Of Integer, PR)
 
 
-          Dim prId As Integer
-          If Not row.IsNull("m_pr") Then
-            prId = CInt(row("m_pr"))
-          End If
-          Dim prCode As String
-          If Not row.IsNull("Code") Then
-            prCode = CStr(row("Code"))
-          End If
+            For Each tableRow As DataRow In dt.Rows
+                If Not inValidIds.Contains(CInt(tableRow("pri_pr"))) Then
+                    trh = New DataRowHelper(tableRow)
+
+                    'newId = CInt(tableRow("pri_pr"))
+                    'newLine = CInt(tableRow("pri_linenumber"))
+
+                    pri = New PRItem(tableRow, "")
+
+                    ccid = trh.GetValue(Of Integer)("cc_id")
+                    If CCList.ContainsKey(ccid) Then
+                        cc = CCList(ccid)
+                    Else
+                        cc = New CostCenter(ccid)
+                        CCList(ccid) = cc
+                    End If
 
 
-          row("Linenumber") = tableRow("pri_linenumber")
-          row("Date") = tableRow("pr_docdate")
-          row("ReceivingDate") = tableRow("pr_receivingdate")
 
-          Dim entityText As String = ""
-          If Not pri.ItemType Is Nothing Then
-            entityText &= pri.ItemType.Description & ":"
-          End If
-          If Not pri.Entity.Code Is Nothing AndAlso pri.Entity.Code.Length > 0 Then
-            entityText &= pri.Entity.Code & ":"
-          End If
-          If Not pri.Entity.Name Is Nothing AndAlso pri.Entity.Name.Length > 0 Then
-            entityText &= pri.Entity.Name
-          End If
-          row("Entity") = entityText
-          row("Qty") = pri.Qty
-          row("OrderedQty") = pri.OrderedQty
-          row("Requestor") = tableRow("requestorinfo")
-          row("CostCenter") = tableRow("ccinfo")
-          row("ItemReceivingDate") = tableRow("pri_receivingdate")
-          row.State = RowExpandState.None
+                    row = myDatatable.Childs.Add
+                    row("Selected") = False
+                    row("Code") = tableRow("pr_code")
+                    row("m_pr") = tableRow("pri_pr")
 
-          pri.Pr = New PR
-          pri.Pr.Id = prId
-          pri.Pr.Code = prCode
-          pri.Pr.CostCenter = cc
-          pri.Pr.FromCostCenter = cc
-          row.Tag = pri
-        End If
-      Next
+
+
+                    If Not row.IsNull("m_pr") Then
+                        prId = CInt(row("m_pr"))
+                    End If
+
+                    If Not row.IsNull("Code") Then
+                        prCode = CStr(row("Code"))
+                    End If
+
+
+                    row("Linenumber") = tableRow("pri_linenumber")
+                    row("Date") = tableRow("pr_docdate")
+                    row("ReceivingDate") = tableRow("pr_receivingdate")
+
+                    entityText = ""
+                    If Not pri.ItemType Is Nothing Then
+                        entityText &= pri.ItemType.Description & ":"
+                    End If
+                    If Not pri.Entity.Code Is Nothing AndAlso pri.Entity.Code.Length > 0 Then
+                        entityText &= pri.Entity.Code & ":"
+                    End If
+                    If Not pri.Entity.Name Is Nothing AndAlso pri.Entity.Name.Length > 0 Then
+                        entityText &= pri.Entity.Name
+                    End If
+
+                    row("Entity") = entityText
+                    row("Qty") = pri.Qty
+                    row("OrderedQty") = pri.OrderedQty
+                    row("Requestor") = tableRow("requestorinfo")
+                    row("CostCenter") = tableRow("ccinfo")
+                    row("ItemReceivingDate") = tableRow("pri_receivingdate")
+                    row.State = RowExpandState.None
+
+
+                    If PRList.ContainsKey(prId) Then
+
+                        pri.Pr = PRList(prId)
+
+                    Else
+
+                        pri.Pr = New PR
+                        pri.Pr.Id = prId
+                        pri.Pr.Code = prCode
+                        pri.Pr.CostCenter = cc
+                        pri.Pr.FromCostCenter = cc
+                        PRList(prId) = pri.Pr
+
+                    End If
+
+                    row.Tag = pri
+
+                End If
+
+            Next
       Return myDatatable
     End Function
     Public Shared Function GetListDatatableForMatWithDraw(ByVal procName As String, ByVal ParamArray filters() As Filter) As DataSet
