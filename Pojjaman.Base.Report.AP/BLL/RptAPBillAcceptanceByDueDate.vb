@@ -68,13 +68,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.limitDate}")          '"วันที่ครบกำหนด"
       m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.BillAcceptance}")     '"ใบรับวางบิล"
       m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.Date}")               '"วันที่"
-      m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.SupplierName}")       '"ชื่อผู้ขาย"
+            m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.SupplierName}")       '"ชื่อผู้ขาย"
       m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.AllBillAcceptanceTotal}") '"ยอดรับวางบิลทั้งหมด"
       m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.AllPaymentRemainingTotal}")      '"ยอดค้างชำระทั้งหมด"
       m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.Note}")               '"หมายเหตุ"
 
       m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.DocID}") '"รหัสเอกสาร"
-      m_grid(1, 3).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.DocDate}")  '"วันที่เอกสาร"
+            m_grid(1, 3).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.DocDate}")  '"วันที่เอกสาร"
+
+            m_grid(1, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.CostCenter}")       '"CostCenter"
+
       m_grid(1, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.BillAcceptanceTotal}")  '"ยอดรับวางบิล"
       m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.PaymentRemaining}")  '"ยอดค้างชำระ"
       m_grid(1, 8).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPBillAcceptanceByDueDate.DocType}")  '"ประเภทเอกสาร"
@@ -88,7 +91,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+
+            m_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+
       m_grid(1, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -154,12 +160,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(currDocIndex, 1).CellValue = ""
           If Not row.IsNull("BillCode") Then
             m_grid(currDocIndex, 2).CellValue = indent & row("BillCode").ToString
-          End If
+                    End If
+
           If Not row.IsNull("BillDate") Then
             If IsDate(row("BillDate")) Then
               m_grid(currDocIndex, 3).CellValue = indent & CDate(row("BillDate")).ToShortDateString
             End If
-          End If
+                    End If
+
+                    If Not row.IsNull("CCCode") Then
+                        m_grid(currDocIndex, 4).CellValue = indent & row("CCCode").ToString
+                    End If
+
           If IsNumeric(row("BillAmount")) Then
             m_grid(currDocIndex, 5).CellValue = Configuration.FormatToString(CDec(row("BillAmount")), DigitConfig.Price)
             If CInt(row("StockType")) = 46 Then
