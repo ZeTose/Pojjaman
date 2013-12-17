@@ -1110,6 +1110,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Hack
           Dim gr As New GoodsReceipt(item.Id)
 
+                    'Item.DeliveryDocCode
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "Item.DeliveryDocCode"
+                    dpi.Value = gr.DeliveryDocCode
+                    dpi.DataType = "System.String"
+                    dpi.Row = n + 1
+                    dpi.Table = "Item"
+                    dpiColl.Add(dpi)
+
           'Item.POCode
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.POCode"
@@ -1160,11 +1169,77 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "Item"
-          dpiColl.Add(dpi)
-        End If
+                    dpiColl.Add(dpi)
 
-        n += 1
-      Next
+                ElseIf item.EntityId = 292 Then
+
+                    Dim gr As New PA(item.Id)
+
+                    'Item.DeliveryDocCode
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "Item.DeliveryDocCode"
+                    dpi.Value = gr.OtherDocCode
+                    dpi.DataType = "System.String"
+                    dpi.Row = n + 1
+                    dpi.Table = "Item"
+                    dpiColl.Add(dpi)
+
+                    'Item.POCode
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "Item.POCode"
+                    If Not gr.Sc Is Nothing Then
+                        dpi.Value = gr.Sc.Code
+                    Else
+                        dpi.Value = ""
+                    End If
+                    dpi.DataType = "System.String"
+                    dpi.Row = n + 1
+                    dpi.Table = "Item"
+                    dpiColl.Add(dpi)
+
+                    'Item.PODueDate
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "Item.PODueDate"
+                    If Not gr.Sc Is Nothing AndAlso gr.Sc.Code.Length > 0 Then
+                        dpi.Value = gr.Sc.DueDate
+                    Else
+                        dpi.Value = ""
+                    End If
+                    dpi.DataType = "System.DateTime"
+                    dpi.Row = n + 1
+                    dpi.Table = "Item"
+                    dpiColl.Add(dpi)
+
+                    'Item.VatCode
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "Item.Vatcode"
+                    If Not gr.Vat Is Nothing Then
+                        dpi.Value = gr.Vat.GetVatItemCodes
+                    Else
+                        dpi.Value = ""
+                    End If
+                    dpi.DataType = "System.String"
+                    dpi.Row = n + 1
+                    dpi.Table = "Item"
+                    dpiColl.Add(dpi)
+
+                    'Item.VatDocDate
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "Item.VatDocDate"
+                    If Not gr.Vat Is Nothing Then
+                        dpi.Value = gr.Vat.GetVatItemDates
+                    Else
+                        dpi.Value = ""
+                    End If
+                    dpi.DataType = "System.String"
+                    dpi.Row = n + 1
+                    dpi.Table = "Item"
+                    dpiColl.Add(dpi)
+
+                End If
+
+                n += 1
+            Next
 
       'CostCenter ของเอกสารที่อ้างอิงในรายการ
       dpi = New DocPrintingItem
@@ -2042,7 +2117,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AmountBaht", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AmountSatang", "System.String", "Item"))
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DeliveryDocCode", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.POCode", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.PODueDate", "System.DateTime", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Vatcode", "System.String", "Item"))
