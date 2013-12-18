@@ -86,138 +86,300 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dsh As New DataSetHelper
       Dim dt As DataTable = Me.DataSet.Tables(0)
       Dim ShowSumEachAcct As Boolean = CBool(Me.DataSet.Tables(2).Rows(0).Item("ShowSumEachAcct"))
-      Dim ComputeDrCr As Boolean = CBool(Me.DataSet.Tables(3).Rows(0).Item("ComputeDrCr"))
+            Dim ComputeDrCr As Boolean = CBool(Me.DataSet.Tables(3).Rows(0).Item("ComputeDrCr"))
+            Dim ExcludeControlGroup As Boolean = CBool(Me.DataSet.Tables(4).Rows(0).Item("ExcludeControlGroup"))
       Dim currentAccountCode As String = ""
       Dim currentDoc As String = ""
       Dim currentLine As String = ""
 
-      Dim accountTr As TreeRow
-      Dim docTr As TreeRow
-      Dim totalBalance As Decimal
+            'Dim accountTr As TreeRow
+            'Dim docTr As TreeRow
+            'Dim totalBalance As Decimal
 
-      Dim i As Integer = 0
-      For Each row As DataRow In dt.Rows
-        Dim rowTag As Integer = CInt(row("acct_id"))
-        Dim rowCode As String = CStr(row("acct_code"))
-        Dim rowName As String = CStr(row("acct_name"))
-        Dim rowLevel As Integer = CInt(row("acct_level"))
-        Dim parentNodes As ITreeParent
-        If IsDBNull(row("acct_parid")) OrElse CInt(row("acct_parid")) = CInt(row("acct_id")) Then
-          parentNodes = Me.m_treemanager.Treetable
-        Else
-          Dim parnode As TreeRow = SearchTag(CInt(row("acct_parid")))
-          If parnode Is Nothing Then
-            parentNodes = Me.m_treemanager.Treetable
-          Else
-            parentNodes = parnode
-          End If
-        End If
-        If Me.DataSet.Tables.Count > 1 Then
-          Dim b4debit As Decimal = 0
-          Dim b4credit As Decimal = 0
-          Dim debit As Decimal = 0
-          Dim credit As Decimal = 0
-          Dim afterdebit As Decimal = 0
-          Dim aftercredit As Decimal = 0
-          For Each myRow As DataRow In Me.DataSet.Tables(1).Select("acct_id = " & CInt(row("acct_id")))
-            If Not myRow.IsNull("b4debit") Then b4debit += CDec(myRow("b4debit"))
-            If Not myRow.IsNull("b4credit") Then b4credit += CDec(myRow("b4credit"))
+            Dim i As Integer = 0
 
-            If Not myRow.IsNull("debit") Then debit += CDec(myRow("debit"))
-            If Not myRow.IsNull("credit") Then credit += CDec(myRow("credit"))
+            Dim rowTag As Integer
+            Dim rowCode As String
+            Dim rowName As String
+            Dim rowLevel As Integer
 
-            If Not myRow.IsNull("afterdebit") Then afterdebit += CDec(myRow("afterdebit"))
-            If Not myRow.IsNull("aftercredit") Then aftercredit += CDec(myRow("aftercredit"))
-          Next
+            Dim parentNodes As ITreeParent
+            Dim parnode As TreeRow
 
-          Dim theRow As TreeRow = parentNodes.Childs.Add
-          theRow("col0") = rowCode
-          theRow("col1") = Space(rowLevel * 3) & rowName
+            Dim b4debit As Decimal
+            Dim b4credit As Decimal
+            Dim debit As Decimal
+            Dim credit As Decimal
+            Dim afterdebit As Decimal
+            Dim aftercredit As Decimal
 
-          theRow("acct_id") = rowTag
-          theRow("acct_parid") = row("acct_parid")
-          theRow.Tag = rowTag
+            Dim theRow As TreeRow
 
-          Dim debitString As String = ""
-          Dim creditString As String = ""
-          'If ComputeDrCr Then
-          If b4debit > b4credit Then
-            debitString = Configuration.FormatToString(b4debit - b4credit, DigitConfig.Price)
-          ElseIf b4credit > b4debit Then
-            creditString = Configuration.FormatToString(b4credit - b4debit, DigitConfig.Price)
-          End If
-          'Else
-          'debitString = CStr(IIf(b4debit > 0, Configuration.FormatToString(b4debit, DigitConfig.Price), ""))
-          'creditString = CStr(IIf(b4credit > 0, Configuration.FormatToString(b4credit, DigitConfig.Price), ""))
-          'End If
-          theRow("col2") = debitString
-          theRow("col3") = creditString
+            Dim debitString As String
+            Dim creditString As String
 
-          debitString = ""
-          creditString = ""
-          If ComputeDrCr Then
-            If debit > credit Then
-              debitString = Configuration.FormatToString(debit - credit, DigitConfig.Price)
-            ElseIf credit > debit Then
-              creditString = Configuration.FormatToString(credit - debit, DigitConfig.Price)
+            Dim HasDetail As Boolean
+
+            If Not (ExcludeControlGroup) Then
+
+                For Each row As DataRow In dt.Rows
+
+                    rowTag = CInt(row("acct_id"))
+                    rowCode = CStr(row("acct_code"))
+                    rowName = CStr(row("acct_name"))
+                    rowLevel = CInt(row("acct_level"))
+
+                    If IsDBNull(row("acct_parid")) OrElse CInt(row("acct_parid")) = CInt(row("acct_id")) Then
+                        parentNodes = Me.m_treemanager.Treetable
+                    Else
+                        parnode = SearchTag(CInt(row("acct_parid")))
+                        If parnode Is Nothing Then
+                            parentNodes = Me.m_treemanager.Treetable
+                        Else
+                            parentNodes = parnode
+                        End If
+                    End If
+                    If Me.DataSet.Tables.Count > 1 Then
+                        b4debit = 0
+                        b4credit = 0
+                        debit = 0
+                        credit = 0
+                        afterdebit = 0
+                        aftercredit = 0
+
+                        For Each myRow As DataRow In Me.DataSet.Tables(1).Select("acct_id = " & CInt(row("acct_id")))
+                            If Not myRow.IsNull("b4debit") Then b4debit += CDec(myRow("b4debit"))
+                            If Not myRow.IsNull("b4credit") Then b4credit += CDec(myRow("b4credit"))
+
+                            If Not myRow.IsNull("debit") Then debit += CDec(myRow("debit"))
+                            If Not myRow.IsNull("credit") Then credit += CDec(myRow("credit"))
+
+                            If Not myRow.IsNull("afterdebit") Then afterdebit += CDec(myRow("afterdebit"))
+                            If Not myRow.IsNull("aftercredit") Then aftercredit += CDec(myRow("aftercredit"))
+                        Next
+
+                        theRow = parentNodes.Childs.Add
+                        theRow("col0") = rowCode
+                        theRow("col1") = Space(rowLevel * 3) & rowName
+
+                        theRow("acct_id") = rowTag
+                        theRow("acct_parid") = row("acct_parid")
+                        theRow.Tag = rowTag
+
+                        debitString = ""
+                        creditString = ""
+
+                        If b4debit > b4credit Then
+                            debitString = Configuration.FormatToString(b4debit - b4credit, DigitConfig.Price)
+                        ElseIf b4credit > b4debit Then
+                            creditString = Configuration.FormatToString(b4credit - b4debit, DigitConfig.Price)
+                        End If
+
+                        theRow("col2") = debitString
+                        theRow("col3") = creditString
+
+                        debitString = ""
+                        creditString = ""
+                        If ComputeDrCr Then
+                            If debit > credit Then
+                                debitString = Configuration.FormatToString(debit - credit, DigitConfig.Price)
+                            ElseIf credit > debit Then
+                                creditString = Configuration.FormatToString(credit - debit, DigitConfig.Price)
+                            End If
+                        Else
+                            debitString = CStr(IIf(debit > 0, Configuration.FormatToString(debit, DigitConfig.Price), ""))
+                            creditString = CStr(IIf(credit > 0, Configuration.FormatToString(credit, DigitConfig.Price), ""))
+                        End If
+                        theRow("col4") = debitString
+                        theRow("col5") = creditString
+
+                        debitString = ""
+                        creditString = ""
+
+                        If afterdebit > aftercredit Then
+                            debitString = Configuration.FormatToString(afterdebit - aftercredit, DigitConfig.Price)
+                        ElseIf aftercredit > afterdebit Then
+                            creditString = Configuration.FormatToString(aftercredit - afterdebit, DigitConfig.Price)
+                        End If
+
+                        theRow("col6") = debitString
+                        theRow("col7") = creditString
+                        theRow.EnsureVisible()
+
+                    End If
+                Next
+
+            Else
+
+                For Each row As DataRow In dt.Rows
+
+                    rowTag = CInt(row("acct_id"))
+                    rowCode = CStr(row("acct_code"))
+                    rowName = CStr(row("acct_name"))
+                    rowLevel = CInt(row("acct_level"))
+
+                    'If IsDBNull(row("acct_parid")) OrElse CInt(row("acct_parid")) = CInt(row("acct_id")) Then
+                    '    parentNodes = Me.m_treemanager.Treetable
+                    'Else
+                    '    parnode = SearchTag(CInt(row("acct_parid")))
+                    '    If parnode Is Nothing Then
+                    '        parentNodes = Me.m_treemanager.Treetable
+                    '    Else
+                    '        parentNodes = parnode
+                    '    End If
+                    'End If
+
+                    parentNodes = Me.m_treemanager.Treetable
+
+                    If Me.DataSet.Tables.Count > 1 Then
+                        b4debit = 0
+                        b4credit = 0
+                        debit = 0
+                        credit = 0
+                        afterdebit = 0
+                        aftercredit = 0
+
+                        HasDetail = False
+
+                        For Each myRow As DataRow In Me.DataSet.Tables(1).Select("acct_id = " & CInt(row("acct_id")))
+
+                            HasDetail = True
+
+                            If Not myRow.IsNull("b4debit") Then b4debit += CDec(myRow("b4debit"))
+                            If Not myRow.IsNull("b4credit") Then b4credit += CDec(myRow("b4credit"))
+
+                            If Not myRow.IsNull("debit") Then debit += CDec(myRow("debit"))
+                            If Not myRow.IsNull("credit") Then credit += CDec(myRow("credit"))
+
+                            If Not myRow.IsNull("afterdebit") Then afterdebit += CDec(myRow("afterdebit"))
+                            If Not myRow.IsNull("aftercredit") Then aftercredit += CDec(myRow("aftercredit"))
+
+                        Next
+
+                        If HasDetail Then
+
+                            theRow = parentNodes.Childs.Add
+                            theRow("col0") = rowCode
+                            theRow("col1") = rowName 'Space(rowLevel * 3) & rowName
+
+                            theRow("acct_id") = rowTag
+                            theRow("acct_parid") = row("acct_parid")
+                            theRow.Tag = rowTag
+
+                            debitString = ""
+                            creditString = ""
+
+                            If b4debit > b4credit Then
+                                debitString = Configuration.FormatToString(b4debit - b4credit, DigitConfig.Price)
+                            ElseIf b4credit > b4debit Then
+                                creditString = Configuration.FormatToString(b4credit - b4debit, DigitConfig.Price)
+                            End If
+
+                            theRow("col2") = debitString
+                            theRow("col3") = creditString
+
+                            debitString = ""
+                            creditString = ""
+                            If ComputeDrCr Then
+                                If debit > credit Then
+                                    debitString = Configuration.FormatToString(debit - credit, DigitConfig.Price)
+                                ElseIf credit > debit Then
+                                    creditString = Configuration.FormatToString(credit - debit, DigitConfig.Price)
+                                End If
+                            Else
+                                debitString = CStr(IIf(debit > 0, Configuration.FormatToString(debit, DigitConfig.Price), ""))
+                                creditString = CStr(IIf(credit > 0, Configuration.FormatToString(credit, DigitConfig.Price), ""))
+                            End If
+                            theRow("col4") = debitString
+                            theRow("col5") = creditString
+
+                            debitString = ""
+                            creditString = ""
+
+                            If afterdebit > aftercredit Then
+                                debitString = Configuration.FormatToString(afterdebit - aftercredit, DigitConfig.Price)
+                            ElseIf aftercredit > afterdebit Then
+                                creditString = Configuration.FormatToString(aftercredit - afterdebit, DigitConfig.Price)
+                            End If
+
+                            theRow("col6") = debitString
+                            theRow("col7") = creditString
+                            theRow.EnsureVisible()
+
+                        End If
+
+
+                    End If
+                Next
+
+
             End If
-          Else
-            debitString = CStr(IIf(debit > 0, Configuration.FormatToString(debit, DigitConfig.Price), ""))
-            creditString = CStr(IIf(credit > 0, Configuration.FormatToString(credit, DigitConfig.Price), ""))
-          End If
-          theRow("col4") = debitString
-          theRow("col5") = creditString
 
-          debitString = ""
-          creditString = ""
-          'If ComputeDrCr Then
-          If afterdebit > aftercredit Then
-            debitString = Configuration.FormatToString(afterdebit - aftercredit, DigitConfig.Price)
-          ElseIf aftercredit > afterdebit Then
-            creditString = Configuration.FormatToString(aftercredit - afterdebit, DigitConfig.Price)
-          End If
-          'Else
-          'debitString = CStr(IIf(afterdebit > 0, Configuration.FormatToString(afterdebit, DigitConfig.Price), ""))
-          'creditString = CStr(IIf(aftercredit > 0, Configuration.FormatToString(aftercredit, DigitConfig.Price), ""))
-          ''End If
-          theRow("col6") = debitString
-          theRow("col7") = creditString
-          theRow.EnsureVisible()
-        End If
-      Next
+            ' Summary Zone
+            If Not (ExcludeControlGroup) Then
+                For Each row As DataRow In dt.Rows
+                    parnode = SearchTag(CInt(row("acct_id")))
+                    If Not parnode Is Nothing AndAlso parnode.Childs.Count > 0 AndAlso (ShowSumEachAcct OrElse CInt(row("acct_id")) = 0) Then
+                        b4debit = 0
+                        b4credit = 0
+                        debit = 0
+                        credit = 0
+                        afterdebit = 0
+                        aftercredit = 0
 
-      ' Summary Zone
-      For Each row As DataRow In dt.Rows
-        Dim parnode As TreeRow = SearchTag(CInt(row("acct_id")))
-        If Not parnode Is Nothing AndAlso parnode.Childs.Count > 0 AndAlso (ShowSumEachAcct OrElse CInt(row("acct_id")) = 0) Then
-          Dim b4debit As Decimal = 0
-          Dim b4credit As Decimal = 0
-          Dim debit As Decimal = 0
-          Dim credit As Decimal = 0
-          Dim afterdebit As Decimal = 0
-          Dim aftercredit As Decimal = 0
+                        theRow = parnode.Childs.Add
+                        theRow("col1") = "รวมยอด:" & Trim(CStr(parnode("col1")))
 
-          Dim theRow As TreeRow = parnode.Childs.Add
-          theRow("col1") = "รวมยอด:" & Trim(CStr(parnode("col1")))
+                        b4debit = SumChilds(b4debit, parnode, "col2")
+                        b4credit = SumChilds(b4credit, parnode, "col3")
+                        theRow("col2") = Configuration.FormatToString(b4debit, DigitConfig.Price)
+                        theRow("col3") = Configuration.FormatToString(b4credit, DigitConfig.Price)
 
-          b4debit = SumChilds(b4debit, parnode, "col2")
-          b4credit = SumChilds(b4credit, parnode, "col3")
-          theRow("col2") = Configuration.FormatToString(b4debit, DigitConfig.Price)
-          theRow("col3") = Configuration.FormatToString(b4credit, DigitConfig.Price)
+                        debit = SumChilds(debit, parnode, "col4")
+                        credit = SumChilds(credit, parnode, "col5")
+                        theRow("col4") = Configuration.FormatToString(debit, DigitConfig.Price)
+                        theRow("col5") = Configuration.FormatToString(credit, DigitConfig.Price)
 
-          debit = SumChilds(debit, parnode, "col4")
-          credit = SumChilds(credit, parnode, "col5")
-          theRow("col4") = Configuration.FormatToString(debit, DigitConfig.Price)
-          theRow("col5") = Configuration.FormatToString(credit, DigitConfig.Price)
+                        afterdebit = SumChilds(afterdebit, parnode, "col6")
+                        aftercredit = SumChilds(aftercredit, parnode, "col7")
+                        theRow("col6") = Configuration.FormatToString(afterdebit, DigitConfig.Price)
+                        theRow("col7") = Configuration.FormatToString(aftercredit, DigitConfig.Price)
 
-          afterdebit = SumChilds(afterdebit, parnode, "col6")
-          aftercredit = SumChilds(aftercredit, parnode, "col7")
-          theRow("col6") = Configuration.FormatToString(afterdebit, DigitConfig.Price)
-          theRow("col7") = Configuration.FormatToString(aftercredit, DigitConfig.Price)
+                        theRow.Tag = "summary"
+                    End If
+                Next
+            Else
+                b4debit = 0
+                b4credit = 0
+                debit = 0
+                credit = 0
+                afterdebit = 0
+                aftercredit = 0
 
-          theRow.Tag = "summary"
-        End If
-      Next
+
+                theRow = Me.m_treemanager.Treetable.Childs.Add
+                theRow("col1") = "รวม"
+
+                b4debit = SumChilds(b4debit, Me.m_treemanager.Treetable, "col2")
+                b4credit = SumChilds(b4credit, Me.m_treemanager.Treetable, "col3")
+                theRow("col2") = Configuration.FormatToString(b4debit, DigitConfig.Price)
+                theRow("col3") = Configuration.FormatToString(b4credit, DigitConfig.Price)
+
+                debit = SumChilds(debit, Me.m_treemanager.Treetable, "col4")
+                credit = SumChilds(credit, Me.m_treemanager.Treetable, "col5")
+                theRow("col4") = Configuration.FormatToString(debit, DigitConfig.Price)
+                theRow("col5") = Configuration.FormatToString(credit, DigitConfig.Price)
+
+                afterdebit = SumChilds(afterdebit, Me.m_treemanager.Treetable, "col6")
+                aftercredit = SumChilds(aftercredit, Me.m_treemanager.Treetable, "col7")
+                theRow("col6") = Configuration.FormatToString(afterdebit, DigitConfig.Price)
+                theRow("col7") = Configuration.FormatToString(aftercredit, DigitConfig.Price)
+
+                theRow.Tag = "summary"
+            End If
+
+
+
       Me.m_treemanager.Treetable.AcceptChanges()
     End Sub
     Private Function SumChilds(ByRef result As Decimal, ByVal parent As TreeRow, ByVal columnName As String) As Decimal
@@ -230,7 +392,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
       Return result
-    End Function
+        End Function
+        Private Function SumChilds(ByRef result As Decimal, ByVal parent As TreeTable, ByVal columnName As String) As Decimal
+            If parent.Childs.Count > 0 Then
+                For Each child As TreeRow In parent.Childs
+                    If IsNumeric(child(columnName)) Then
+                        result += Configuration.Format(CDec(child(columnName)), DigitConfig.Price)
+                    End If
+                    If child.Childs.Count > 0 Then SumChilds(result, child, columnName)
+                Next
+            End If
+            Return result
+        End Function
     Private Function SearchTag(ByVal id As Integer) As TreeRow
       If Me.m_treemanager Is Nothing Then
         Return Nothing
