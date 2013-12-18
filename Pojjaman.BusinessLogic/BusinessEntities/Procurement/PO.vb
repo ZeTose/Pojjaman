@@ -167,8 +167,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         ' Receiving Date
         If Not dr.IsNull(aliasPrefix & "po_receivingDate") Then
-          .m_receivingDate = CDate(dr(aliasPrefix & "po_receivingDate"))
-        End If
+                    .m_receivingDate = CDate(dr(aliasPrefix & "po_receivingDate"))
+                Else
+                    .m_receivingDate = Date.MinValue
+                End If
         ' Approved Date
         If Not dr.IsNull(aliasPrefix & "po_approveDate") Then
           .m_approveDate = CDate(dr(aliasPrefix & "po_approveDate"))

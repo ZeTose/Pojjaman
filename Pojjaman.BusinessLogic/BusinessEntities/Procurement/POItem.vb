@@ -66,6 +66,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     myPR.DocDate = drh.GetValue(Of Date)(aliasPrefix & "pr_docDate")
                     myPR.CostCenter = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)(aliasPrefix & "pr_cc"))
                     myPR.Requestor = Employee.GetEmployeeById(drh.GetValue(Of Integer)(aliasPrefix & "pr_requestor"))
+                    myPR.ReceivingDate = drh.GetValue(Of Date)(aliasPrefix & "pr_receivingDate")
 
                     Me.m_pritem.Pr = myPR
                 End If
